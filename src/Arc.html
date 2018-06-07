@@ -1,0 +1,77 @@
+<svg>
+  <defs>
+    <path
+      id={id}
+      d="
+        M {pMStartX} {pMStartY}
+        A {pMRadius} {pMRadius} 0 {arcSweep} 1 {pMEndX} {pMEndY}
+      "
+    />
+  </defs>
+  <path
+    fill={fill} opacity={opacity} stroke={stroke} stroke-width={strokeWidth} stroke-linecap="square"
+    d="
+      M {p1x} {p1y}
+      A {innerRadius} {innerRadius} 0 {arcSweep} 1 {p2x} {p2y}
+      L {p3x} {p3y}
+      A {outerRadius} {outerRadius} 1 {arcSweep} 0 {p4x} {p4y}
+      L {p1x} {p1y}
+    "
+  />
+  <text font-size={fontSize}>
+    <textPath xlink:href="#{id}" alignment-baseline="middle" text-anchor="middle" startOffset="50%" fill={fontColor}>
+      {label}
+    </textPath>
+  </text>
+</svg>
+
+<script>
+
+  export default {
+    data() {
+      return {
+        id: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8)
+            return v.toString(16)
+        }),
+        fontSize: 3,
+        fontColor: "black",
+        strokeWidth: .3,
+        stroke: "#333333",
+        fill: "orange",
+        opacity: 1,
+        innerRadius: 10,
+        outerRadius: 43,
+        centerX: 50,
+        centerY: 50,
+        startRadians: 0,  // 0 is top dead center unlike the math convention
+        endRadians: Math.PI / 4,  // Clockwise from startRadians
+        label: "",
+      }
+    },
+
+    computed: {
+      // junk: (s) => {
+      //   console.log(s.id)
+      // },
+      // For the actual arc area
+      p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),
+      p1y: ({innerRadius, centerY, startRadians}) => centerY - (innerRadius * Math.cos(startRadians)),
+      p2x: ({innerRadius, centerX, endRadians}) => centerX + (innerRadius * Math.sin(endRadians)),
+      p2y: ({innerRadius, centerY, endRadians}) => centerY - (innerRadius * Math.cos(endRadians)),
+      p3x: ({outerRadius, centerX, endRadians}) => centerX + (outerRadius * Math.sin(endRadians)),
+      p3y: ({outerRadius, centerY, endRadians}) => centerY - (outerRadius * Math.cos(endRadians)),
+      p4x: ({outerRadius, centerX, startRadians}) => centerX + (outerRadius * Math.sin(startRadians)),
+      p4y: ({outerRadius, centerY, startRadians}) => centerY - (outerRadius * Math.cos(startRadians)),
+      arcSweep: ({endRadians, startRadians}) => (endRadians - startRadians <= Math.PI) ? "0" : "1",
+
+      // For the line to draw the Label
+      pMRadius: ({innerRadius, outerRadius}) => (innerRadius + outerRadius) / 2,
+      pMStartX: ({pMRadius, centerX, startRadians}) => centerX + (pMRadius * Math.sin(startRadians)),
+      pMStartY: ({pMRadius, centerY, startRadians}) => centerY - (pMRadius * Math.cos(startRadians)),
+      pMEndX: ({pMRadius, centerX, endRadians}) => centerX + (pMRadius * Math.sin(endRadians)),
+      pMEndY: ({pMRadius, centerY, endRadians}) => centerY - (pMRadius * Math.cos(endRadians)),
+
+    }
+  }
+</script>
