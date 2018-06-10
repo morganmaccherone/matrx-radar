@@ -1,20 +1,29 @@
 {
   "name": "matrx-radar",
   "version": "0.1.0",
+  "repository": "https://github.com/morganmaccherone/matrx-radar",
+  "license": "MIT",
   "svelte": "src/Radar.html",
   "module": "matrx-radar.mjs",
   "main": "matrx-radar.js",
   "scripts": {
     "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "live-server --open=\"public\"",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "live-server": "^1.2.0",
     "rollup": "^0.60.1",
     "rollup-plugin-svelte": "^4.1.0",
     "svelte": "^2.7.2"
   },
   "keywords": [
-    "svelte"
+    "svelte",
+    "radar",
+    "chart",
+    "visualization",
+    "matrx"
   ],
   "files": [
     "src",
