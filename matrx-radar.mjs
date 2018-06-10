@@ -442,8 +442,8 @@ function create_main_fragment$1(component, ctx) {
 	var arc_initial_data = {
 	 	startRadians: ctx.startRadians,
 	 	endRadians: ctx.endRadians,
-	 	outerRadius: ctx.outerRadius,
 	 	innerRadius: ctx.dataOuterRadius,
+	 	outerRadius: ctx.outerRadius,
 	 	label: ctx.label,
 	 	fontColor: ctx.fontColor,
 	 	strokeWidth: ctx.strokeWidth,
@@ -466,8 +466,8 @@ function create_main_fragment$1(component, ctx) {
 	var arc_1_initial_data = {
 	 	startRadians: ctx.startRadians,
 	 	endRadians: ctx.endRadians,
-	 	outerRadius: ctx.dataOuterRadius,
 	 	innerRadius: ctx.innerRadius,
+	 	outerRadius: ctx.dataOuterRadius,
 	 	strokeWidth: ctx.strokeWidth,
 	 	fill: "none",
 	 	stroke: ctx.stroke
@@ -506,8 +506,8 @@ function create_main_fragment$1(component, ctx) {
 			var arc_changes = {};
 			if (changed.startRadians) arc_changes.startRadians = ctx.startRadians;
 			if (changed.endRadians) arc_changes.endRadians = ctx.endRadians;
-			if (changed.outerRadius) arc_changes.outerRadius = ctx.outerRadius;
 			if (changed.dataOuterRadius) arc_changes.innerRadius = ctx.dataOuterRadius;
+			if (changed.outerRadius) arc_changes.outerRadius = ctx.outerRadius;
 			if (changed.label) arc_changes.label = ctx.label;
 			if (changed.fontColor) arc_changes.fontColor = ctx.fontColor;
 			if (changed.strokeWidth) arc_changes.strokeWidth = ctx.strokeWidth;
@@ -538,8 +538,8 @@ function create_main_fragment$1(component, ctx) {
 			var arc_1_changes = {};
 			if (changed.startRadians) arc_1_changes.startRadians = ctx.startRadians;
 			if (changed.endRadians) arc_1_changes.endRadians = ctx.endRadians;
-			if (changed.dataOuterRadius) arc_1_changes.outerRadius = ctx.dataOuterRadius;
 			if (changed.innerRadius) arc_1_changes.innerRadius = ctx.innerRadius;
+			if (changed.dataOuterRadius) arc_1_changes.outerRadius = ctx.dataOuterRadius;
 			if (changed.strokeWidth) arc_1_changes.strokeWidth = ctx.strokeWidth;
 			if (changed.stroke) arc_1_changes.stroke = ctx.stroke;
 			arc_1._set(arc_1_changes);
