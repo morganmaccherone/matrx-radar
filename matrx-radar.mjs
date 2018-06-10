@@ -218,17 +218,11 @@ function data() {
         return v.toString(16)
     }),
     fontSize: 3,
-    fontColor: "black",
     strokeWidth: .3,
     stroke: "#333333",
-    fill: "orange",
     opacity: 1,
-    innerRadius: 10,
-    outerRadius: 43,
     centerX: 50,
     centerY: 50,
-    startRadians: 0,  // 0 is top dead center unlike the math convention
-    endRadians: Math.PI / 4,  // Clockwise from startRadians
     label: "",
   }
 }
@@ -439,19 +433,7 @@ function data$1() {
     strokeWidth: 0.15,
     baseColor: "#2E8468",
     fontColor: "#22644E",
-    innerRadius: 10,
-    outerRadius: 43,
-    startRadians: 0,  // 0 is top dead center unlike the math convention
-    endRadians: Math.PI / 4,  // Clockwise from startRadians
-    label: "Label",
     labelBandHeight: 5,
-    levels: [
-      {portion: 4},
-      {portion: 2},
-      {portion: 2},
-      {portion: 1},
-      {portion: 1},
-    ]
   }
 }
 function create_main_fragment$1(component, ctx) {
@@ -801,7 +783,7 @@ function create_main_fragment$2(component, ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.disciplinesAnnotated || changed.outerRadius || changed.disciplineBandHeight || changed.strokeWidth || changed.disciplineStroke || changed.diciplineFontColor || changed.innerRadius) {
+			if (changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.strokeWidth || changed.disciplineStroke || changed.diciplineFontColor) {
 				each_value = ctx.disciplinesAnnotated;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -897,7 +879,7 @@ function create_each_block$1(component, ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.disciplinesAnnotated || changed.outerRadius || changed.disciplineBandHeight) {
+			if (changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight) {
 				each_value_1 = ctx.discipline.practices;
 
 				for (var i = 0; i < each_value_1.length; i += 1) {
@@ -958,6 +940,7 @@ function create_each_block_1(component, ctx) {
 	var slice_initial_data = {
 	 	startRadians: ctx.practice.startRadians,
 	 	endRadians: ctx.practice.endRadians,
+	 	innerRadius: ctx.innerRadius,
 	 	outerRadius: ctx.outerRadius-ctx.disciplineBandHeight,
 	 	levels: ctx.practice.levels,
 	 	label: ctx.practice.practice
@@ -980,6 +963,7 @@ function create_each_block_1(component, ctx) {
 			var slice_changes = {};
 			if (changed.disciplinesAnnotated) slice_changes.startRadians = ctx.practice.startRadians;
 			if (changed.disciplinesAnnotated) slice_changes.endRadians = ctx.practice.endRadians;
+			if (changed.innerRadius) slice_changes.innerRadius = ctx.innerRadius;
 			if (changed.outerRadius || changed.disciplineBandHeight) slice_changes.outerRadius = ctx.outerRadius-ctx.disciplineBandHeight;
 			if (changed.disciplinesAnnotated) slice_changes.levels = ctx.practice.levels;
 			if (changed.disciplinesAnnotated) slice_changes.label = ctx.practice.practice;
