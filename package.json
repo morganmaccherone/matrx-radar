@@ -8,12 +8,11 @@
   "main": "matrx-radar.js",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "start": "live-server --open=\"public\"",
+    "dev": "aliv --pathIndex ./public & rollup -c -w",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "live-server": "^1.2.0",
+    "aliv": "^1.11.0",
     "rollup": "^0.60.1",
     "rollup-plugin-svelte": "^4.1.0",
     "svelte": "^2.7.2"
