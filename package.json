@@ -1,22 +1,24 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
-  "devDependencies": {
-    "rollup": "^0.56.4",
-    "rollup-plugin-buble": "^0.19.2",
-    "rollup-plugin-commonjs": "^8.4.0",
-    "rollup-plugin-node-resolve": "^3.0.3",
-    "rollup-plugin-svelte": "^4.1.0",
-    "rollup-plugin-uglify": "^3.0.0",
-    "serve": "^6.5.1",
-    "svelte": "^2.7.0"
-  },
+  "name": "matrx-radar",
+  "version": "0.1.0",
+  "svelte": "src/Radar.html",
+  "module": "matrx-radar.mjs",
+  "main": "matrx-radar.js",
   "scripts": {
     "build": "rollup -c",
-    "dev": "serve public & rollup -c -w",
-    "start": "serve public"
+    "prepublishOnly": "npm run build"
   },
-  "dependencies": {
-    "d3-scale": "latest"
-  }
+  "devDependencies": {
+    "rollup": "^0.60.1",
+    "rollup-plugin-svelte": "^4.1.0",
+    "svelte": "^2.7.2"
+  },
+  "keywords": [
+    "svelte"
+  ],
+  "files": [
+    "src",
+    "index.mjs",
+    "index.js"
+  ]
 }

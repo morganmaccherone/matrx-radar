@@ -4,13 +4,22 @@
 	<meta charset='utf8'>
 	<meta name='viewport' content='width=device-width'>
 
-	<title>Svelte app</title>
+	<title>MatrX-Radar example</title>
 
 	<link rel='stylesheet' href='global.css'>
-	<link rel='stylesheet' href='bundle.css'>
 </head>
 
 <body>
-	<script src='bundle.js'></script>
+	<script src='../matrx-radar.js'></script>
+	<script>
+		var radar = new MatrxRadar({
+			target: document.body,
+			data: {
+				Slices: [
+					{startAngle: 0, endAngle: Math.Pi / 4}
+				]
+			}
+		});
+	</script>
 </body>
 </html>
