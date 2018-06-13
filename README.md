@@ -1,70 +1,73 @@
-*Psst — looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# MatrX-Radar
 
----
+## What is it?
 
-# svelte app
+MatrX-Radar is a radar visualization component.
 
-This is a project template for [Svelte](https://svelte.technology) apps. It lives at https://github.com/sveltejs/template.
+![](radar-snapshot.png)
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+## How to use
 
-```bash
-npm install -g degit # you only need to do this once
+For the chart that is shown above, here is data that was used:
 
-degit sveltejs/template svelte-app
-cd svelte-app
-```
+    disciplines: [
+      {
+        discipline: "Artisanship",
+        practices: [
+          {practice: "Yellow belt", description: "100% of group members... Yellow Belt training", levels: [
+            {portion: 4},
+            {portion: 2},
+            {portion: 2},
+            {portion: 1},
+            {portion: 1},
+          ]},
+          {practice: "Green belt", description: "At least one Green Belt...", levels: [
+            {portion: 0},
+            {portion: 0},
+            {portion: 0},
+            {portion: 2},
+            {portion: 7},
+          ]},
+        ]
+      },
+      {
+        discipline: "Architecture & Design",
+        practices: [
+          {practice: "Threat modeling", description: "blah blah", levels: [
+            {portion: 4},
+            {portion: 2},
+            {portion: 2},
+            {portion: 1},
+            {portion: 1},
+          ]},
+        ]
+      },
+      {
+        discipline: "DevSecOps Tools",
+        practices: [
+          {practice: "PCA in pipeline", description: "blah, blah", levels: [
+            {portion: 2},
+            {portion: 2},
+            {portion: 4},
+            {portion: 1},
+            {portion: 1},
+          ]},
+          {practice: "SCA in pipeline", description: "blah, blah", levels: [
+            {portion: 7},
+            {portion: 0},
+            {portion: 1},
+            {portion: 1},
+            {portion: 1},
+          ]},
+          {practice: "Working agreements", description: "blah, blah", levels: [
+            {portion: 2},
+            {portion: 2},
+            {portion: 1},
+            {portion: 3},
+            {portion: 0},
+          ]},
+        ]
+      },
+    ]
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
-
-## Get started
-
-Install the dependencies...
-
-```bash
-cd svelte-app
-npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
-npm run dev
-```
-
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-
-## Deploying to the web
-
-### With [now](https://zeit.co/now)
-
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-now
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public
-```
+The discipline is the outermost layer and groups together different practices. Each practice has a label and a description, although description is not currently used for anything. Each practice also has any number of layers, and each layer has a portion which represents the size of the corresponding arc. Portions may be given in percentages or in numbers and are later calculated to be a proportion of sum of the portions. The first level/portion listed is represented by the dark green color. As the levels/portions progress, the transparency of the levels increase and the last portion will be represented by a white arc.

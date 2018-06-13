@@ -227,25 +227,31 @@ function data() {
   }
 }
 function create_main_fragment(component, ctx) {
-	var svg, defs, path, path_d_value, path_1, path_1_d_value, text, textPath, text_1, textPath_xlink_href_value;
+	var svg, defs, path, path_d_value, text, textPath, text_1, textPath_xlink_href_value;
+
+	function select_block_type(ctx) {
+		if ((ctx.startRadians > ctx.Math.PI / 2) && (ctx.endRadians < 3 * ctx.Math.PI / 2)) return create_if_block;
+		return create_if_block_1;
+	}
+
+	var current_block_type = select_block_type(ctx);
+	var if_block = current_block_type(component, ctx);
 
 	return {
 		c() {
 			svg = createSvgElement("svg");
 			defs = createSvgElement("defs");
+			if_block.c();
 			path = createSvgElement("path");
-			path_1 = createSvgElement("path");
 			text = createSvgElement("text");
 			textPath = createSvgElement("textPath");
 			text_1 = createText(ctx.label);
-			setAttribute(path, "id", ctx.id);
-			setAttribute(path, "d", path_d_value = "\n        M " + ctx.pMStartX + " " + ctx.pMStartY + "\n        A " + ctx.pMRadius + " " + ctx.pMRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.pMEndX + " " + ctx.pMEndY + "\n      ");
-			setAttribute(path_1, "fill", ctx.fill);
-			setAttribute(path_1, "opacity", ctx.opacity);
-			setAttribute(path_1, "stroke", ctx.stroke);
-			setAttribute(path_1, "stroke-width", ctx.strokeWidth);
-			setAttribute(path_1, "stroke-linecap", "square");
-			setAttribute(path_1, "d", path_1_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.innerRadius + " " + ctx.innerRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      L " + ctx.p3x + " " + ctx.p3y + "\n      A " + ctx.outerRadius + " " + ctx.outerRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p4x + " " + ctx.p4y + "\n      L " + ctx.p1x + " " + ctx.p1y + "\n    ");
+			setAttribute(path, "fill", ctx.fill);
+			setAttribute(path, "opacity", ctx.opacity);
+			setAttribute(path, "stroke", ctx.stroke);
+			setAttribute(path, "stroke-width", ctx.strokeWidth);
+			setAttribute(path, "stroke-linecap", "square");
+			setAttribute(path, "d", path_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.innerRadius + " " + ctx.innerRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      L " + ctx.p3x + " " + ctx.p3y + "\n      A " + ctx.outerRadius + " " + ctx.outerRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p4x + " " + ctx.p4y + "\n      L " + ctx.p1x + " " + ctx.p1y + "\n    ");
 			setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value = "#" + ctx.id);
 			setAttribute(textPath, "alignment-baseline", "middle");
 			setAttribute(textPath, "text-anchor", "middle");
@@ -257,40 +263,41 @@ function create_main_fragment(component, ctx) {
 		m(target, anchor) {
 			insertNode(svg, target, anchor);
 			appendNode(defs, svg);
-			appendNode(path, defs);
-			appendNode(path_1, svg);
+			if_block.m(defs, null);
+			appendNode(path, svg);
 			appendNode(text, svg);
 			appendNode(textPath, text);
 			appendNode(text_1, textPath);
 		},
 
 		p(changed, ctx) {
-			if (changed.id) {
-				setAttribute(path, "id", ctx.id);
-			}
-
-			if ((changed.pMStartX || changed.pMStartY || changed.pMRadius || changed.arcSweep || changed.pMEndX || changed.pMEndY) && path_d_value !== (path_d_value = "\n        M " + ctx.pMStartX + " " + ctx.pMStartY + "\n        A " + ctx.pMRadius + " " + ctx.pMRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.pMEndX + " " + ctx.pMEndY + "\n      ")) {
-				setAttribute(path, "d", path_d_value);
+			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+				if_block.p(changed, ctx);
+			} else {
+				if_block.d(1);
+				if_block = current_block_type(component, ctx);
+				if_block.c();
+				if_block.m(defs, null);
 			}
 
 			if (changed.fill) {
-				setAttribute(path_1, "fill", ctx.fill);
+				setAttribute(path, "fill", ctx.fill);
 			}
 
 			if (changed.opacity) {
-				setAttribute(path_1, "opacity", ctx.opacity);
+				setAttribute(path, "opacity", ctx.opacity);
 			}
 
 			if (changed.stroke) {
-				setAttribute(path_1, "stroke", ctx.stroke);
+				setAttribute(path, "stroke", ctx.stroke);
 			}
 
 			if (changed.strokeWidth) {
-				setAttribute(path_1, "stroke-width", ctx.strokeWidth);
+				setAttribute(path, "stroke-width", ctx.strokeWidth);
 			}
 
-			if ((changed.p1x || changed.p1y || changed.innerRadius || changed.arcSweep || changed.p2x || changed.p2y || changed.p3x || changed.p3y || changed.outerRadius || changed.p4x || changed.p4y) && path_1_d_value !== (path_1_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.innerRadius + " " + ctx.innerRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      L " + ctx.p3x + " " + ctx.p3y + "\n      A " + ctx.outerRadius + " " + ctx.outerRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p4x + " " + ctx.p4y + "\n      L " + ctx.p1x + " " + ctx.p1y + "\n    ")) {
-				setAttribute(path_1, "d", path_1_d_value);
+			if ((changed.p1x || changed.p1y || changed.innerRadius || changed.arcSweep || changed.p2x || changed.p2y || changed.p3x || changed.p3y || changed.outerRadius || changed.p4x || changed.p4y) && path_d_value !== (path_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.innerRadius + " " + ctx.innerRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      L " + ctx.p3x + " " + ctx.p3y + "\n      A " + ctx.outerRadius + " " + ctx.outerRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p4x + " " + ctx.p4y + "\n      L " + ctx.p1x + " " + ctx.p1y + "\n    ")) {
+				setAttribute(path, "d", path_d_value);
 			}
 
 			if (changed.label) {
@@ -314,13 +321,81 @@ function create_main_fragment(component, ctx) {
 			if (detach) {
 				detachNode(svg);
 			}
+
+			if_block.d();
+		}
+	};
+}
+
+// (3:4) {#if (startRadians > Math.PI / 2) && (endRadians < 3 * Math.PI / 2)}
+function create_if_block(component, ctx) {
+	var path, path_d_value;
+
+	return {
+		c() {
+			path = createSvgElement("path");
+			setAttribute(path, "id", ctx.id);
+			setAttribute(path, "d", path_d_value = "\n          M " + ctx.pMEndX + " " + ctx.pMEndY + "\n          A " + ctx.pMRadius + " " + ctx.pMRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.pMStartX + " " + ctx.pMStartY + "\n        ");
+		},
+
+		m(target, anchor) {
+			insertNode(path, target, anchor);
+		},
+
+		p(changed, ctx) {
+			if (changed.id) {
+				setAttribute(path, "id", ctx.id);
+			}
+
+			if ((changed.pMEndX || changed.pMEndY || changed.pMRadius || changed.arcSweep || changed.pMStartX || changed.pMStartY) && path_d_value !== (path_d_value = "\n          M " + ctx.pMEndX + " " + ctx.pMEndY + "\n          A " + ctx.pMRadius + " " + ctx.pMRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.pMStartX + " " + ctx.pMStartY + "\n        ")) {
+				setAttribute(path, "d", path_d_value);
+			}
+		},
+
+		d(detach) {
+			if (detach) {
+				detachNode(path);
+			}
+		}
+	};
+}
+
+// (11:4) {:else}
+function create_if_block_1(component, ctx) {
+	var path, path_d_value;
+
+	return {
+		c() {
+			path = createSvgElement("path");
+			setAttribute(path, "id", ctx.id);
+			setAttribute(path, "d", path_d_value = "\n          M " + ctx.pMStartX + " " + ctx.pMStartY + "\n          A " + ctx.pMRadius + " " + ctx.pMRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.pMEndX + " " + ctx.pMEndY + "\n        ");
+		},
+
+		m(target, anchor) {
+			insertNode(path, target, anchor);
+		},
+
+		p(changed, ctx) {
+			if (changed.id) {
+				setAttribute(path, "id", ctx.id);
+			}
+
+			if ((changed.pMStartX || changed.pMStartY || changed.pMRadius || changed.arcSweep || changed.pMEndX || changed.pMEndY) && path_d_value !== (path_d_value = "\n          M " + ctx.pMStartX + " " + ctx.pMStartY + "\n          A " + ctx.pMRadius + " " + ctx.pMRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.pMEndX + " " + ctx.pMEndY + "\n        ")) {
+				setAttribute(path, "d", path_d_value);
+			}
+		},
+
+		d(detach) {
+			if (detach) {
+				detachNode(path);
+			}
 		}
 	};
 }
 
 function Arc(options) {
 	init(this, options);
-	this._state = assign(data(), options.data);
+	this._state = assign(assign({ Math : Math }, data()), options.data);
 	this._recompute({ innerRadius: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, outerRadius: 1, pMRadius: 1 }, this._state);
 	this._intro = true;
 

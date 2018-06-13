@@ -1,12 +1,23 @@
 <svg>
   <defs>
-    <path
-      id={id}
-      d="
-        M {pMStartX} {pMStartY}
-        A {pMRadius} {pMRadius} 0 {arcSweep} 1 {pMEndX} {pMEndY}
-      "
-    />
+    {#if (startRadians > Math.PI / 2) && (endRadians < 3 * Math.PI / 2)}
+      <path
+        id={id}
+        d="
+          M {pMEndX} {pMEndY}
+          A {pMRadius} {pMRadius} 1 {arcSweep} 0 {pMStartX} {pMStartY}
+        "
+      />
+    {:else}
+      <path
+        id={id}
+        d="
+          M {pMStartX} {pMStartY}
+          A {pMRadius} {pMRadius} 0 {arcSweep} 1 {pMEndX} {pMEndY}
+        "
+      />
+    {/if}
+
   </defs>
   <path
     fill={fill} opacity={opacity} stroke={stroke} stroke-width={strokeWidth} stroke-linecap="square"
