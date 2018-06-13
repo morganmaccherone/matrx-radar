@@ -434,7 +434,6 @@
 
 	function data$1() {
 	  return {
-	    strokeWidth: 0,
 	    stroke: "#999999",
 	    strokeWidth: 0.15,
 	    baseColor: "#2E8468",
