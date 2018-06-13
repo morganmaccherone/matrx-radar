@@ -223,12 +223,7 @@
 	        var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8);
 	        return v.toString(16)
 	    }),
-	    fontSize: 3,
-	    strokeWidth: .3,
-	    stroke: "#333333",
 	    opacity: 1,
-	    centerX: 50,
-	    centerY: 50,
 	    label: "",
 	  }
 	}
@@ -509,11 +504,6 @@
 
 	function data$1() {
 	  return {
-	    stroke: "#999999",
-	    strokeWidth: 0.15,
-	    baseColor: "#2E8468",
-	    fontColor: "#22644E",
-	    labelBandHeight: 5,
 	  }
 	}
 	function create_main_fragment$1(component, ctx) {
@@ -526,6 +516,7 @@
 		 	outerRadius: ctx.outerRadius,
 		 	label: ctx.label,
 		 	fontColor: ctx.fontColor,
+		 	fontSize: ctx.fontSize,
 		 	strokeWidth: ctx.strokeWidth,
 		 	fill: "none",
 		 	stroke: ctx.stroke
@@ -590,6 +581,7 @@
 				if (changed.outerRadius) arc_changes.outerRadius = ctx.outerRadius;
 				if (changed.label) arc_changes.label = ctx.label;
 				if (changed.fontColor) arc_changes.fontColor = ctx.fontColor;
+				if (changed.fontSize) arc_changes.fontSize = ctx.fontSize;
 				if (changed.strokeWidth) arc_changes.strokeWidth = ctx.strokeWidth;
 				if (changed.stroke) arc_changes.stroke = ctx.stroke;
 				arc._set(arc_changes);
@@ -762,73 +754,11 @@
 	    strokeWidth: 0.15,
 	    baseColor: "#2E8468",
 	    fontColor: "#22644E",
+	    fontSize: 3,
 	    diciplineFontColor: "#184738",
 	    innerRadius: 10,
 	    outerRadius: 49,
-
-	    label: "Label",
-	    labelBandHeight: 5,
 	    disciplineBandHeight: 7,
-	    disciplines: [
-	      {
-	        discipline: "Artisanship",
-	        practices: [
-	          {practice: "Yellow belt", description: "100% of group members... Yellow Belt training", levels: [
-	            {portion: 4},
-	            {portion: 2},
-	            {portion: 2},
-	            {portion: 1},
-	            {portion: 1},
-	          ]},
-	          {practice: "Green belt", description: "At least one Green Belt...", levels: [
-	            {portion: 0},
-	            {portion: 0},
-	            {portion: 0},
-	            {portion: 2},
-	            {portion: 7},
-	          ]},
-	        ]
-	      },
-	      {
-	        discipline: "Architecture & Design",
-	        practices: [
-	          {practice: "Threat modeling", description: "blah blah", levels: [
-	            {portion: 4},
-	            {portion: 2},
-	            {portion: 2},
-	            {portion: 1},
-	            {portion: 1},
-	          ]},
-	        ]
-	      },
-	      {
-	        discipline: "DevSecOps Tools",
-	        practices: [
-	          {practice: "PCA in pipeline", description: "blah, blah", levels: [
-	            {portion: 2},
-	            {portion: 2},
-	            {portion: 4},
-	            {portion: 1},
-	            {portion: 1},
-	          ]},
-	          {practice: "SCA in pipeline", description: "blah, blah", levels: [
-	            {portion: 7},
-	            {portion: 0},
-	            {portion: 1},
-	            {portion: 1},
-	            {portion: 1},
-	          ]},
-	          {practice: "Working agreements", description: "blah, blah", levels: [
-	            {portion: 2},
-	            {portion: 2},
-	            {portion: 1},
-	            {portion: 3},
-	            {portion: 0},
-	          ]},
-	        ]
-	      },
-
-	    ]
 	  }
 	}
 	function create_main_fragment$2(component, ctx) {
@@ -863,7 +793,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.strokeWidth || changed.disciplineStroke || changed.diciplineFontColor) {
+				if (changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.labelBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.disciplineStroke || changed.diciplineFontColor) {
 					each_value = ctx.disciplinesAnnotated;
 
 					for (var i = 0; i < each_value.length; i += 1) {
@@ -895,7 +825,7 @@
 		};
 	}
 
-	// (2:2) {#each disciplinesAnnotated as discipline}
+	// (3:2) {#each disciplinesAnnotated as discipline}
 	function create_each_block$1(component, ctx) {
 		var each_anchor;
 
@@ -959,7 +889,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight) {
+				if (changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.labelBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor) {
 					each_value_1 = ctx.discipline.practices;
 
 					for (var i = 0; i < each_value_1.length; i += 1) {
@@ -1014,7 +944,7 @@
 		};
 	}
 
-	// (3:4) {#each discipline.practices as practice}
+	// (5:4) {#each discipline.practices as practice}
 	function create_each_block_1(component, ctx) {
 
 		var slice_initial_data = {
@@ -1023,7 +953,12 @@
 		 	innerRadius: ctx.innerRadius,
 		 	outerRadius: ctx.outerRadius-ctx.disciplineBandHeight,
 		 	levels: ctx.practice.levels,
-		 	label: ctx.practice.practice
+		 	label: ctx.practice.practice,
+		 	labelBandHeight: ctx.labelBandHeight,
+		 	stroke: ctx.practiceStroke,
+		 	strokeWidth: ctx.strokeWidth,
+		 	baseColor: ctx.baseColor,
+		 	fontColor: ctx.fontColor
 		 };
 		var slice = new Slice({
 			root: component.root,
@@ -1047,6 +982,11 @@
 				if (changed.outerRadius || changed.disciplineBandHeight) slice_changes.outerRadius = ctx.outerRadius-ctx.disciplineBandHeight;
 				if (changed.disciplinesAnnotated) slice_changes.levels = ctx.practice.levels;
 				if (changed.disciplinesAnnotated) slice_changes.label = ctx.practice.practice;
+				if (changed.labelBandHeight) slice_changes.labelBandHeight = ctx.labelBandHeight;
+				if (changed.practiceStroke) slice_changes.stroke = ctx.practiceStroke;
+				if (changed.strokeWidth) slice_changes.strokeWidth = ctx.strokeWidth;
+				if (changed.baseColor) slice_changes.baseColor = ctx.baseColor;
+				if (changed.fontColor) slice_changes.fontColor = ctx.fontColor;
 				slice._set(slice_changes);
 			},
 

@@ -1,13 +1,21 @@
 <svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet">
+
   {#each disciplinesAnnotated as discipline}
+
     {#each discipline.practices as practice}
+      <!-- Slices -->
       <Slice
         startRadians={practice.startRadians}
         endRadians={practice.endRadians}
-        innerRadius={innerRadius}
+        {innerRadius}
         outerRadius={outerRadius-disciplineBandHeight}
         levels={practice.levels}
         label={practice.practice}
+        {labelBandHeight}
+        stroke={practiceStroke}
+        {strokeWidth}
+        {baseColor}
+        {fontColor}
       />
     {/each}
 
@@ -41,73 +49,11 @@
         strokeWidth: 0.15,
         baseColor: "#2E8468",
         fontColor: "#22644E",
+        fontSize: 3,
         diciplineFontColor: "#184738",
         innerRadius: 10,
         outerRadius: 49,
-
-        label: "Label",
-        labelBandHeight: 5,
         disciplineBandHeight: 7,
-        disciplines: [
-          {
-            discipline: "Artisanship",
-            practices: [
-              {practice: "Yellow belt", description: "100% of group members... Yellow Belt training", levels: [
-                {portion: 4},
-                {portion: 2},
-                {portion: 2},
-                {portion: 1},
-                {portion: 1},
-              ]},
-              {practice: "Green belt", description: "At least one Green Belt...", levels: [
-                {portion: 0},
-                {portion: 0},
-                {portion: 0},
-                {portion: 2},
-                {portion: 7},
-              ]},
-            ]
-          },
-          {
-            discipline: "Architecture & Design",
-            practices: [
-              {practice: "Threat modeling", description: "blah blah", levels: [
-                {portion: 4},
-                {portion: 2},
-                {portion: 2},
-                {portion: 1},
-                {portion: 1},
-              ]},
-            ]
-          },
-          {
-            discipline: "DevSecOps Tools",
-            practices: [
-              {practice: "PCA in pipeline", description: "blah, blah", levels: [
-                {portion: 2},
-                {portion: 2},
-                {portion: 4},
-                {portion: 1},
-                {portion: 1},
-              ]},
-              {practice: "SCA in pipeline", description: "blah, blah", levels: [
-                {portion: 7},
-                {portion: 0},
-                {portion: 1},
-                {portion: 1},
-                {portion: 1},
-              ]},
-              {practice: "Working agreements", description: "blah, blah", levels: [
-                {portion: 2},
-                {portion: 2},
-                {portion: 1},
-                {portion: 3},
-                {portion: 0},
-              ]},
-            ]
-          },
-
-        ]
       }
     },
 

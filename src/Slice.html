@@ -1,6 +1,6 @@
 <svg>
   <!-- Label Arc -->
-  <Arc {startRadians} {endRadians} innerRadius={dataOuterRadius} {outerRadius} label={label} fontColor={fontColor} strokeWidth={strokeWidth} fill="none" stroke={stroke} />
+  <Arc {startRadians} {endRadians} innerRadius={dataOuterRadius} {outerRadius} {label} {fontColor} {fontSize} {strokeWidth} fill="none" {stroke} />
 
   <!-- Level Arcs -->
   {#each levelsAnnotated as level}
@@ -8,7 +8,7 @@
   {/each}
 
   <!-- Data Area Arc -->
-  <Arc {startRadians} {endRadians}  {innerRadius} outerRadius={dataOuterRadius} strokeWidth={strokeWidth} fill="none" stroke={stroke}/>
+  <Arc {startRadians} {endRadians} {innerRadius} outerRadius={dataOuterRadius} {strokeWidth} fill="none" {stroke} />
 
 </svg>
 
@@ -17,11 +17,6 @@
   export default {
     data() {
       return {
-        stroke: "#999999",
-        strokeWidth: 0.15,
-        baseColor: "#2E8468",
-        fontColor: "#22644E",
-        labelBandHeight: 5,
       }
     },
 

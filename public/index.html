@@ -7,6 +7,9 @@
 	<title>MatrX-Radar example</title>
 
 	<link rel='stylesheet' href='global.css'>
+
+	<base href="/" />
+	
 </head>
 
 <body>
@@ -15,8 +18,65 @@
 		var radar = new MatrxRadar({
 			target: document.body,
 			data: {
-				Slices: [
-					{startAngle: 0, endAngle: Math.Pi / 4}
+				disciplines: [
+					{
+						discipline: "Artisanship",
+						practices: [
+							{practice: "Yellow belt", description: "100% of group members... Yellow Belt training", levels: [
+								{portion: 4},
+								{portion: 2},
+								{portion: 2},
+								{portion: 1},
+								{portion: 1},
+							]},
+							{practice: "Green belt", description: "At least one Green Belt...", levels: [
+								{portion: 0},
+								{portion: 0},
+								{portion: 0},
+								{portion: 2},
+								{portion: 7},
+							]},
+						]
+					},
+					{
+						discipline: "Architecture & Design",
+						practices: [
+							{practice: "Threat modeling", description: "blah blah", levels: [
+								{portion: 4},
+								{portion: 2},
+								{portion: 2},
+								{portion: 1},
+								{portion: 1},
+							]},
+						]
+					},
+					{
+						discipline: "DevSecOps Tools",
+						practices: [
+							{practice: "PCA in pipeline", description: "blah, blah", levels: [
+								{portion: 2},
+								{portion: 2},
+								{portion: 4},
+								{portion: 1},
+								{portion: 1},
+							]},
+							{practice: "SCA in pipeline", description: "blah, blah", levels: [
+								{portion: 7},
+								{portion: 0},
+								{portion: 1},
+								{portion: 1},
+								{portion: 1},
+							]},
+							{practice: "Working agreements", description: "blah, blah", levels: [
+								{portion: 2},
+								{portion: 2},
+								{portion: 1},
+								{portion: 3},
+								{portion: 0},
+							]},
+						]
+					},
+
 				]
 			}
 		});
