@@ -1,6 +1,6 @@
 <svg>
   <defs>
-    {#if (startRadians > Math.PI / 2) && (endRadians < 3 * Math.PI / 2)}
+    {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
       <path
         id={id}
         d="

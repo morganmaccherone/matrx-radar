@@ -225,7 +225,7 @@ function create_main_fragment(component, ctx) {
 	var svg, defs, path, path_d_value, text, textPath, text_1, textPath_xlink_href_value;
 
 	function select_block_type(ctx) {
-		if ((ctx.startRadians > ctx.Math.PI / 2) && (ctx.endRadians < 3 * ctx.Math.PI / 2)) return create_if_block;
+		if ((ctx.startRadians >= ctx.Math.PI / 2) && (ctx.endRadians <= 3 * ctx.Math.PI / 2)) return create_if_block;
 		return create_if_block_1;
 	}
 
@@ -322,7 +322,7 @@ function create_main_fragment(component, ctx) {
 	};
 }
 
-// (3:4) {#if (startRadians > Math.PI / 2) && (endRadians < 3 * Math.PI / 2)}
+// (3:4) {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
 function create_if_block(component, ctx) {
 	var path, path_d_value;
 
@@ -768,6 +768,24 @@ function data$2() {
     outerRadius: 49,
     disciplineBandHeight: 7,
     practiceBandHeight: 5,
+    disciplines: [
+      {
+        discipline: "No data",
+        practices: [
+          {practice: "Instructions: https://github.com/morganmaccherone/matrx-radar/blob/master/README.md", levels: [
+            {portion: 1},
+          ]},
+        ]
+      },
+      {
+        discipline: "No data",
+        practices: [
+          {practice: "Editable example: TBD", levels: [
+            {portion: 1},
+          ]},
+        ]
+      },
+    ]
   }
 }
 function create_main_fragment$2(component, ctx) {
