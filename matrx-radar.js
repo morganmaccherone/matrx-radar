@@ -228,7 +228,7 @@
 	  }
 	}
 	function create_main_fragment(component, ctx) {
-		var svg, defs, path, path_d_value, text, textPath, text_1, textPath_xlink_href_value;
+		var g, defs, path, path_d_value, text, textPath, text_1, textPath_xlink_href_value;
 
 		function select_block_type(ctx) {
 			if ((ctx.startRadians >= ctx.Math.PI / 2) && (ctx.endRadians <= 3 * ctx.Math.PI / 2)) return create_if_block;
@@ -240,7 +240,7 @@
 
 		return {
 			c() {
-				svg = createSvgElement("svg");
+				g = createSvgElement("g");
 				defs = createSvgElement("defs");
 				if_block.c();
 				path = createSvgElement("path");
@@ -262,11 +262,11 @@
 			},
 
 			m(target, anchor) {
-				insertNode(svg, target, anchor);
-				appendNode(defs, svg);
+				insertNode(g, target, anchor);
+				appendNode(defs, g);
 				if_block.m(defs, null);
-				appendNode(path, svg);
-				appendNode(text, svg);
+				appendNode(path, g);
+				appendNode(text, g);
 				appendNode(textPath, text);
 				appendNode(text_1, textPath);
 			},
@@ -320,7 +320,7 @@
 
 			d(detach) {
 				if (detach) {
-					detachNode(svg);
+					detachNode(g);
 				}
 
 				if_block.d();
@@ -507,7 +507,7 @@
 	  }
 	}
 	function create_main_fragment$1(component, ctx) {
-		var svg, each_anchor;
+		var g, each_anchor;
 
 		var arc_initial_data = {
 		 	centerX: ctx.centerX,
@@ -554,7 +554,7 @@
 
 		return {
 			c() {
-				svg = createSvgElement("svg");
+				g = createSvgElement("g");
 				arc._fragment.c();
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
@@ -566,15 +566,15 @@
 			},
 
 			m(target, anchor) {
-				insertNode(svg, target, anchor);
-				arc._mount(svg, null);
+				insertNode(g, target, anchor);
+				arc._mount(g, null);
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].m(svg, null);
+					each_blocks[i].m(g, null);
 				}
 
-				appendNode(each_anchor, svg);
-				arc_1._mount(svg, null);
+				appendNode(each_anchor, g);
+				arc_1._mount(g, null);
 			},
 
 			p(changed, ctx) {
@@ -603,7 +603,7 @@
 						} else {
 							each_blocks[i] = create_each_block(component, child_ctx);
 							each_blocks[i].c();
-							each_blocks[i].m(svg, each_anchor);
+							each_blocks[i].m(g, each_anchor);
 						}
 					}
 
@@ -627,7 +627,7 @@
 
 			d(detach) {
 				if (detach) {
-					detachNode(svg);
+					detachNode(g);
 				}
 
 				arc.destroy();

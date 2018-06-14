@@ -1,4 +1,4 @@
-<svg>
+<g>
   <defs>
     {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
       <path
@@ -34,11 +34,14 @@
       {label}
     </textPath>
   </text>
-</svg>
+</g>
 
 <script>
 
   export default {
+
+    namespace: 'svg',
+
     data() {
       return {
         id: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

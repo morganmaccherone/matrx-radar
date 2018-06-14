@@ -1,4 +1,4 @@
-<svg>
+<g>
   <!-- Label Arc -->
   <Arc {centerX} {centerY} {startRadians} {endRadians} innerRadius={dataOuterRadius} {outerRadius} {label} {fontColor} {fontSize} {strokeWidth} fill="none" {stroke} />
 
@@ -10,11 +10,14 @@
   <!-- Data Area Arc -->
   <Arc {centerX} {centerY} {startRadians} {endRadians} {innerRadius} outerRadius={dataOuterRadius} {strokeWidth} fill="none" {stroke} />
 
-</svg>
+</g>
 
 <script>
 
   export default {
+
+    namespace: 'svg',
+
     data() {
       return {
       }
