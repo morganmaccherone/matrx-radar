@@ -5,35 +5,51 @@
     {#each discipline.practices as practice}
       <!-- Slices -->
       <Slice
+        {centerX}
+        {centerY}
         startRadians={practice.startRadians}
         endRadians={practice.endRadians}
         {innerRadius}
         outerRadius={outerRadius-disciplineBandHeight}
         levels={practice.levels}
         label={practice.practice}
-        {labelBandHeight}
+        labelBandHeight={practiceBandHeight}
         stroke={practiceStroke}
         {strokeWidth}
         {baseColor}
         {fontColor}
+        {fontSize}
       />
     {/each}
 
     <!-- Dicipline Label -->
     <Arc
+      {centerX}
+      {centerY}
       startRadians={discipline.startRadians}
       endRadians={discipline.endRadians}
       innerRadius={outerRadius-disciplineBandHeight}
       {outerRadius}
+      labelBandHeight={disciplineBandHeight}
       fill="none"
-      strokeWidth={strokeWidth*2}
+      strokeWidth={strokeWidth * 2}
       stroke={disciplineStroke}
       label={discipline.discipline}
       fontColor={diciplineFontColor}
+      {fontSize}
     />
 
     <!-- Dicipline Area Arc -->
-    <Arc startRadians={discipline.startRadians} endRadians={discipline.endRadians} {outerRadius} {innerRadius} fill="none" strokeWidth={strokeWidth*2} stroke={disciplineStroke}/>
+    <Arc
+      {centerX}
+      {centerY}
+      startRadians={discipline.startRadians}
+      endRadians={discipline.endRadians}
+      {outerRadius} {innerRadius}
+      fill="none"
+      strokeWidth={strokeWidth * 2}
+      stroke={disciplineStroke}
+    />
 
   {/each}
 
@@ -44,6 +60,8 @@
   export default {
     data() {
       return {
+        centerX: 50,
+        centerY: 50,
         practiceStroke: "#999999",
         disciplineStroke: "#555555",
         strokeWidth: 0.15,
@@ -54,13 +72,14 @@
         innerRadius: 10,
         outerRadius: 49,
         disciplineBandHeight: 7,
+        practiceBandHeight: 5,
       }
     },
 
     computed: {
-      // junk: (s) => {
-      //   console.log(s.disciplinesAnnotated)
-      // },
+      junk: (s) => {
+        console.log(s.diciplineFontColor)
+      },
       // For the actual arc area
       // p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),
       disciplinesAnnotated: ({disciplines}) => {

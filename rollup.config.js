@@ -9,8 +9,8 @@ const name = pkg.name
 export default {
 	input: 'src/Radar.html',
 	output: [
-		{ file: pkg.module, 'format': 'es' },
-		{ file: pkg.main, 'format': 'umd', name }
+		{ sourcemap: true, file: pkg.module, 'format': 'es' },
+		{ sourcemap: true, file: pkg.main, 'format': 'umd', name }
 	],
 	plugins: [
 		svelte({
