@@ -10,6 +10,10 @@
   <!-- Data Area Arc -->
   <Arc {centerX} {centerY} {startRadians} {endRadians} {innerRadius} outerRadius={dataOuterRadius} {strokeWidth} fill="none" {stroke} />
 
+  {#if goal}
+    <Goal {centerX} {centerY} {startRadians} {endRadians} {goalRadius} />
+  {/if}
+
 </g>
 
 <script>
@@ -25,11 +29,19 @@
 
     computed: {
       // junk: (s) => {
-      //   console.log(s.baseColor)
+      //   console.log(s.goal)
       // },
       // For the actual arc area
       // p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),
       dataOuterRadius: ({outerRadius, labelBandHeight}) => outerRadius - labelBandHeight,
+      goalRadius: ({innerRadius, dataOuterRadius, goal}) => {
+        // console.log(goal)
+        if (goal) {
+          return innerRadius + (dataOuterRadius - innerRadius) * goal.percentage
+        } else {
+          return dataOuterRadius
+        }
+      },
       levelsAnnotated: ({levels, innerRadius, dataOuterRadius}) => {
         let levelsAnnotated = []
         let total = 0
@@ -61,7 +73,8 @@
     },
 
     components: {
-      Arc: './Arc.html'
+      Arc: './Arc.html',
+      Goal: './Goal.html',
     },
 
   }

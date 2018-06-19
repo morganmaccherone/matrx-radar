@@ -13,6 +13,7 @@
         outerRadius={outerRadius-disciplineBandHeight}
         levels={practice.levels}
         label={practice.practice}
+        goal={practice.goal}
         labelBandHeight={practiceBandHeight}
         stroke={practiceStroke}
         {strokeWidth}
@@ -58,6 +59,9 @@
 <script>
 
   export default {
+
+    tag: 'matrx-radar',
+
     data() {
       return {
         centerX: 50,

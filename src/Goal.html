@@ -1,0 +1,79 @@
+<g>
+  <!-- <defs>
+    {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
+      <path
+        id={id}
+        d="
+          M {pMEndX} {pMEndY}
+          A {goalLabelRadius} {goalLabelRadius} 1 {arcSweep} 0 {pMStartX} {pMStartY}
+        "
+      />
+    {:else}
+      <path
+        id={id}
+        d="
+          M {pMStartX} {pMStartY}
+          A {goalLabelRadius} {goalLabelRadius} 0 {arcSweep} 1 {pMEndX} {pMEndY}
+        "
+      />
+    {/if}
+
+  </defs> -->
+
+  <path
+    fill="none" {opacity} stroke="darkorange" stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
+    d="
+      M {p1x} {p1y}
+      A {goalRadius} {goalRadius} 0 {arcSweep} 1 {p2x} {p2y}
+    "
+  />
+
+  <!-- <text font-size={fontSize}>
+    <textPath xlink:href="#{id}" alignment-baseline="middle" text-anchor="middle" startOffset="50%" fill={fontColor}>
+      {label}
+    </textPath>
+  </text> -->
+</g>
+
+<script>
+
+  export default {
+
+    namespace: 'svg',
+
+    data() {
+      return {
+        percentage: 1,
+        fromLevel: 0,
+        labelFontSize: 1.5,
+        label: "",
+      }
+    },
+
+    // helpers: {
+    //   translateX: (r, x, radians) => x + (r * Math.sin(radians)),
+    //   translateY: (r, y, radians) => y - (r * Math.cos(radians)),
+    // },
+
+    computed: {
+      // junk: (s) => {
+      //   console.log(s)
+      // },
+      // For the actual goal line
+      p1x: ({goalRadius, centerX, startRadians}) => centerX + (goalRadius * Math.sin(startRadians)),
+      p1y: ({goalRadius, centerY, startRadians}) => centerY - (goalRadius * Math.cos(startRadians)),
+      p2x: ({goalRadius, centerX, endRadians}) => centerX + (goalRadius * Math.sin(endRadians)),
+      p2y: ({goalRadius, centerY, endRadians}) => centerY - (goalRadius * Math.cos(endRadians)),
+
+      arcSweep: ({endRadians, startRadians}) => (endRadians - startRadians <= Math.PI) ? "0" : "1",
+
+      // For the line to draw the label
+      // goalLabelRadius: ({goalRadius}) => goalRadius - labelFontSize,
+      // pMStartX: ({goalLabelRadius, centerX, startRadians}) => centerX + (goalLabelRadius * Math.sin(startRadians)),
+      // pMStartY: ({goalLabelRadius, centerY, startRadians}) => centerY - (goalLabelRadius * Math.cos(startRadians)),
+      // pMEndX: ({goalLabelRadius, centerX, endRadians}) => centerX + (goalLabelRadius * Math.sin(endRadians)),
+      // pMEndY: ({goalLabelRadius, centerY, endRadians}) => centerY - (goalLabelRadius * Math.cos(endRadians)),
+
+    }
+  }
+</script>

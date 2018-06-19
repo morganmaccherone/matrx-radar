@@ -22,13 +22,23 @@
 					{
 						discipline: "Artisanship",
 						practices: [
-							{practice: "Yellow belt", description: "100% of group members... Yellow Belt training", levels: [
-								{portion: 4},
-								{portion: 2},
-								{portion: 2},
-								{portion: 1},
-								{portion: 1},
-							]},
+							{
+								goal: {
+									percentage: 0.8,
+									fromLevel: 1,
+									label: "by Q4-18",
+									labelFontSize: .5,
+								},
+								practice: "Yellow belt",
+								description: "100% of group members... Yellow Belt training",
+								levels: [
+									{portion: 4},
+									{portion: 2},
+									{portion: 2},
+									{portion: 1},
+									{portion: 1},
+								]
+							},
 							{practice: "Green belt", description: "At least one Green Belt...", levels: [
 								{portion: 0},
 								{portion: 0},
@@ -60,13 +70,18 @@
 								{portion: 1},
 								{portion: 1},
 							]},
-							{practice: "SCA in pipeline", description: "blah, blah", levels: [
-								{portion: 7},
-								{portion: 0},
-								{portion: 1},
-								{portion: 1},
-								{portion: 1},
-							]},
+							{
+								goal: {
+									percentage: 1,
+								},
+								practice: "SCA in pipeline", description: "blah, blah", levels: [
+									{portion: 7},
+									{portion: 0},
+									{portion: 1},
+									{portion: 1},
+									{portion: 1},
+								]
+							},
 							{practice: "Working agreements", description: "blah, blah", levels: [
 								{portion: 2},
 								{portion: 2},
