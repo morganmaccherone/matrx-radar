@@ -473,20 +473,20 @@
 	let translateX = (r, x, radians) => x + (r * Math.sin(radians));
 	let translateY = (r, y, radians) => y - (r * Math.cos(radians));
 
-	function p1x$1({goalRadius, centerX, startRadians}) {
-		return translateX(goalRadius, centerX, startRadians);
+	function p1x$1({goalAnnotated, centerX, startRadians}) {
+		return translateX(goalAnnotated.radius, centerX, startRadians);
 	}
 
-	function p1y$1({goalRadius, centerY, startRadians}) {
-		return translateY(goalRadius, centerY, startRadians);
+	function p1y$1({goalAnnotated, centerY, startRadians}) {
+		return translateY(goalAnnotated.radius, centerY, startRadians);
 	}
 
-	function p2x$1({goalRadius, centerX, endRadians}) {
-		return translateX(goalRadius, centerX, endRadians);
+	function p2x$1({goalAnnotated, centerX, endRadians}) {
+		return translateX(goalAnnotated.radius, centerX, endRadians);
 	}
 
-	function p2y$1({goalRadius, centerY, endRadians}) {
-		return translateY(goalRadius, centerY, endRadians);
+	function p2y$1({goalAnnotated, centerY, endRadians}) {
+		return translateY(goalAnnotated.radius, centerY, endRadians);
 	}
 
 	function arcSweep$1({endRadians, startRadians}) {
@@ -499,14 +499,10 @@
 	        var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8);
 	        return v.toString(16)
 	    }),
-	    percentage: 1,
-	    fromLevel: 0,
-	    labelFontSize: 1.5,
-	    label: "",
 	  }
 	}
 	function create_main_fragment$1(component, ctx) {
-		var g, defs, path, path_d_value, text, textPath, text_1_value = ctx.goal.label, text_1, textPath_xlink_href_value;
+		var g;
 
 		function select_block_type(ctx) {
 			if ((ctx.startRadians >= ctx.Math.PI / 2) && (ctx.endRadians <= 3 * ctx.Math.PI / 2)) return create_if_block$1;
@@ -519,36 +515,12 @@
 		return {
 			c() {
 				g = createSvgElement("g");
-				defs = createSvgElement("defs");
 				if_block.c();
-				path = createSvgElement("path");
-				text = createSvgElement("text");
-				textPath = createSvgElement("textPath");
-				text_1 = createText(text_1_value);
-				setAttribute(path, "fill", "none");
-				setAttribute(path, "opacity", ctx.opacity);
-				setAttribute(path, "stroke", "darkorange");
-				setAttribute(path, "stroke-width", .5);
-				setAttribute(path, "stroke-linecap", "butt");
-				setAttribute(path, "stroke-dasharray", "1, 0.5");
-				setAttribute(path, "d", path_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.goalRadius + " " + ctx.goalRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n    ");
-				setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value = "#" + ctx.id);
-				setAttribute(textPath, "alignment-baseline", "hanging");
-				setAttribute(textPath, "baseline-shift", "sub");
-				setAttribute(textPath, "text-anchor", "middle");
-				setAttribute(textPath, "startOffset", "50%");
-				setAttribute(textPath, "fill", "darkorange");
-				setAttribute(text, "font-size", ctx.labelFontSize);
 			},
 
 			m(target, anchor) {
 				insertNode(g, target, anchor);
-				appendNode(defs, g);
-				if_block.m(defs, null);
-				appendNode(path, g);
-				appendNode(text, g);
-				appendNode(textPath, text);
-				appendNode(text_1, textPath);
+				if_block.m(g, null);
 			},
 
 			p(changed, ctx) {
@@ -558,27 +530,7 @@
 					if_block.d(1);
 					if_block = current_block_type(component, ctx);
 					if_block.c();
-					if_block.m(defs, null);
-				}
-
-				if (changed.opacity) {
-					setAttribute(path, "opacity", ctx.opacity);
-				}
-
-				if ((changed.p1x || changed.p1y || changed.goalRadius || changed.arcSweep || changed.p2x || changed.p2y) && path_d_value !== (path_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.goalRadius + " " + ctx.goalRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n    ")) {
-					setAttribute(path, "d", path_d_value);
-				}
-
-				if ((changed.goal) && text_1_value !== (text_1_value = ctx.goal.label)) {
-					text_1.data = text_1_value;
-				}
-
-				if ((changed.id) && textPath_xlink_href_value !== (textPath_xlink_href_value = "#" + ctx.id)) {
-					setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value);
-				}
-
-				if (changed.labelFontSize) {
-					setAttribute(text, "font-size", ctx.labelFontSize);
+					if_block.m(g, null);
 				}
 			},
 
@@ -592,19 +544,37 @@
 		};
 	}
 
-	// (3:4) {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
+	// (2:2) {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
 	function create_if_block$1(component, ctx) {
-		var path, path_d_value;
+		var path, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, text_font_size_value;
 
 		return {
 			c() {
 				path = createSvgElement("path");
+				text = createSvgElement("text");
+				textPath = createSvgElement("textPath");
+				text_1 = createText(text_1_value);
 				setAttribute(path, "id", ctx.id);
-				setAttribute(path, "d", path_d_value = "\n          M " + ctx.p1x + " " + ctx.p1y + "\n          A " + ctx.goalRadius + " " + ctx.goalRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p2x + " " + ctx.p2y + "\n        ");
+				setAttribute(path, "fill", "none");
+				setAttribute(path, "opacity", ctx.opacity);
+				setAttribute(path, "stroke", "darkorange");
+				setAttribute(path, "stroke-width", .5);
+				setAttribute(path, "stroke-linecap", "butt");
+				setAttribute(path, "stroke-dasharray", "1, 0.5");
+				setAttribute(path, "d", path_d_value = "\n        M " + ctx.p2x + " " + ctx.p2y + "\n        A " + ctx.goalAnnotated.radius + " " + ctx.goalAnnotated.radius + " 1 " + ctx.arcSweep + " 0 " + ctx.p1x + " " + ctx.p1y + "\n      ");
+				setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value = "#" + ctx.id);
+				setAttribute(textPath, "baseline-shift", "50%");
+				setAttribute(textPath, "text-anchor", "middle");
+				setAttribute(textPath, "startOffset", "50%");
+				setAttribute(textPath, "fill", "darkorange");
+				setAttribute(text, "font-size", text_font_size_value = ctx.goalAnnotated.labelFontSize);
 			},
 
 			m(target, anchor) {
 				insertNode(path, target, anchor);
+				insertNode(text, target, anchor);
+				appendNode(textPath, text);
+				appendNode(text_1, textPath);
 			},
 
 			p(changed, ctx) {
@@ -612,32 +582,67 @@
 					setAttribute(path, "id", ctx.id);
 				}
 
-				if ((changed.p1x || changed.p1y || changed.goalRadius || changed.arcSweep || changed.p2x || changed.p2y) && path_d_value !== (path_d_value = "\n          M " + ctx.p1x + " " + ctx.p1y + "\n          A " + ctx.goalRadius + " " + ctx.goalRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p2x + " " + ctx.p2y + "\n        ")) {
+				if (changed.opacity) {
+					setAttribute(path, "opacity", ctx.opacity);
+				}
+
+				if ((changed.p2x || changed.p2y || changed.goalAnnotated || changed.arcSweep || changed.p1x || changed.p1y) && path_d_value !== (path_d_value = "\n        M " + ctx.p2x + " " + ctx.p2y + "\n        A " + ctx.goalAnnotated.radius + " " + ctx.goalAnnotated.radius + " 1 " + ctx.arcSweep + " 0 " + ctx.p1x + " " + ctx.p1y + "\n      ")) {
 					setAttribute(path, "d", path_d_value);
+				}
+
+				if ((changed.goalAnnotated) && text_1_value !== (text_1_value = ctx.goalAnnotated.label)) {
+					text_1.data = text_1_value;
+				}
+
+				if ((changed.id) && textPath_xlink_href_value !== (textPath_xlink_href_value = "#" + ctx.id)) {
+					setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value);
+				}
+
+				if ((changed.goalAnnotated) && text_font_size_value !== (text_font_size_value = ctx.goalAnnotated.labelFontSize)) {
+					setAttribute(text, "font-size", text_font_size_value);
 				}
 			},
 
 			d(detach) {
 				if (detach) {
 					detachNode(path);
+					detachNode(text);
 				}
 			}
 		};
 	}
 
-	// (11:4) {:else}
+	// (16:2) {:else}
 	function create_if_block_1$1(component, ctx) {
-		var path, path_d_value;
+		var path, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, text_font_size_value;
 
 		return {
 			c() {
 				path = createSvgElement("path");
+				text = createSvgElement("text");
+				textPath = createSvgElement("textPath");
+				text_1 = createText(text_1_value);
 				setAttribute(path, "id", ctx.id);
-				setAttribute(path, "d", path_d_value = "\n          M " + ctx.p1x + " " + ctx.p1y + "\n          A " + ctx.goalRadius + " " + ctx.goalRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n        ");
+				setAttribute(path, "fill", "none");
+				setAttribute(path, "opacity", ctx.opacity);
+				setAttribute(path, "stroke", "darkorange");
+				setAttribute(path, "stroke-width", .5);
+				setAttribute(path, "stroke-linecap", "butt");
+				setAttribute(path, "stroke-dasharray", "1, 0.5");
+				setAttribute(path, "d", path_d_value = "\n        M " + ctx.p1x + " " + ctx.p1y + "\n        A " + ctx.goalAnnotated.radius + " " + ctx.goalAnnotated.radius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      ");
+				setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value = "#" + ctx.id);
+				setAttribute(textPath, "baseline-shift", "-100%");
+				setAttribute(textPath, "text-anchor", "middle");
+				setAttribute(textPath, "startOffset", "50%");
+				setAttribute(textPath, "fill", "darkorange");
+				setAttribute(text, "font-size", text_font_size_value = ctx.goalAnnotated.labelFontSize);
 			},
 
 			m(target, anchor) {
 				insertNode(path, target, anchor);
+				insertNode(text, target, anchor);
+				appendNode(textPath, text);
+				appendNode(text_1, textPath);
 			},
 
 			p(changed, ctx) {
@@ -645,14 +650,31 @@
 					setAttribute(path, "id", ctx.id);
 				}
 
-				if ((changed.p1x || changed.p1y || changed.goalRadius || changed.arcSweep || changed.p2x || changed.p2y) && path_d_value !== (path_d_value = "\n          M " + ctx.p1x + " " + ctx.p1y + "\n          A " + ctx.goalRadius + " " + ctx.goalRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n        ")) {
+				if (changed.opacity) {
+					setAttribute(path, "opacity", ctx.opacity);
+				}
+
+				if ((changed.p1x || changed.p1y || changed.goalAnnotated || changed.arcSweep || changed.p2x || changed.p2y) && path_d_value !== (path_d_value = "\n        M " + ctx.p1x + " " + ctx.p1y + "\n        A " + ctx.goalAnnotated.radius + " " + ctx.goalAnnotated.radius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      ")) {
 					setAttribute(path, "d", path_d_value);
+				}
+
+				if ((changed.goalAnnotated) && text_1_value !== (text_1_value = ctx.goalAnnotated.label)) {
+					text_1.data = text_1_value;
+				}
+
+				if ((changed.id) && textPath_xlink_href_value !== (textPath_xlink_href_value = "#" + ctx.id)) {
+					setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value);
+				}
+
+				if ((changed.goalAnnotated) && text_font_size_value !== (text_font_size_value = ctx.goalAnnotated.labelFontSize)) {
+					setAttribute(text, "font-size", text_font_size_value);
 				}
 			},
 
 			d(detach) {
 				if (detach) {
 					detachNode(path);
+					detachNode(text);
 				}
 			}
 		};
@@ -661,7 +683,7 @@
 	function Goal(options) {
 		init(this, options);
 		this._state = assign(assign({ Math : Math }, data$1()), options.data);
-		this._recompute({ goalRadius: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1 }, this._state);
+		this._recompute({ goalAnnotated: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1 }, this._state);
 		this._intro = true;
 
 		this._fragment = create_main_fragment$1(this, this._state);
@@ -675,19 +697,19 @@
 	assign(Goal.prototype, proto);
 
 	Goal.prototype._recompute = function _recompute(changed, state) {
-		if (changed.goalRadius || changed.centerX || changed.startRadians) {
+		if (changed.goalAnnotated || changed.centerX || changed.startRadians) {
 			if (this._differs(state.p1x, (state.p1x = p1x$1(state)))) changed.p1x = true;
 		}
 
-		if (changed.goalRadius || changed.centerY || changed.startRadians) {
+		if (changed.goalAnnotated || changed.centerY || changed.startRadians) {
 			if (this._differs(state.p1y, (state.p1y = p1y$1(state)))) changed.p1y = true;
 		}
 
-		if (changed.goalRadius || changed.centerX || changed.endRadians) {
+		if (changed.goalAnnotated || changed.centerX || changed.endRadians) {
 			if (this._differs(state.p2x, (state.p2x = p2x$1(state)))) changed.p2x = true;
 		}
 
-		if (changed.goalRadius || changed.centerY || changed.endRadians) {
+		if (changed.goalAnnotated || changed.centerY || changed.endRadians) {
 			if (this._differs(state.p2y, (state.p2y = p2y$1(state)))) changed.p2y = true;
 		}
 
@@ -702,13 +724,22 @@
 		return outerRadius - labelBandHeight;
 	}
 
-	function goalRadius({innerRadius, dataOuterRadius, goal}) {
-	  // console.log(goal)
+	function goalAnnotated({goal, innerRadius, dataOuterRadius}) {
+	  let goalAnnotated = goal;
 	  if (goal) {
-	    return innerRadius + (dataOuterRadius - innerRadius) * goal.percentage
-	  } else {
-	    return dataOuterRadius
+	    if (goal.percentage) {
+	      goalAnnotated.radius = innerRadius + (dataOuterRadius - innerRadius) * goal.percentage;
+	    } else {
+	      goalAnnotated.radius = dataOuterRadius;
+	    }
+	    if (! goal.label) {
+	      goalAnnotated.label = "";
+	    }
+	    if (! goal.labelFontSize) {
+	      goalAnnotated.labelFontSize = 1.5;
+	    }
 	  }
+	  return goalAnnotated
 	}
 
 	function levelsAnnotated({levels, innerRadius, dataOuterRadius}) {
@@ -949,9 +980,7 @@
 		 	centerY: ctx.centerY,
 		 	startRadians: ctx.startRadians,
 		 	endRadians: ctx.endRadians,
-		 	goalRadius: ctx.goalRadius,
-		 	levelsAnnotated: ctx.levelsAnnotated,
-		 	goal: ctx.goal
+		 	goalAnnotated: ctx.goalAnnotated
 		 };
 		var goal = new Goal({
 			root: component.root,
@@ -973,9 +1002,7 @@
 				if (changed.centerY) goal_changes.centerY = ctx.centerY;
 				if (changed.startRadians) goal_changes.startRadians = ctx.startRadians;
 				if (changed.endRadians) goal_changes.endRadians = ctx.endRadians;
-				if (changed.goalRadius) goal_changes.goalRadius = ctx.goalRadius;
-				if (changed.levelsAnnotated) goal_changes.levelsAnnotated = ctx.levelsAnnotated;
-				if (changed.goal) goal_changes.goal = ctx.goal;
+				if (changed.goalAnnotated) goal_changes.goalAnnotated = ctx.goalAnnotated;
 				goal._set(goal_changes);
 			},
 
@@ -996,7 +1023,7 @@
 	function Slice(options) {
 		init(this, options);
 		this._state = assign(data$2(), options.data);
-		this._recompute({ outerRadius: 1, labelBandHeight: 1, innerRadius: 1, dataOuterRadius: 1, goal: 1, levels: 1 }, this._state);
+		this._recompute({ outerRadius: 1, labelBandHeight: 1, goal: 1, innerRadius: 1, dataOuterRadius: 1, levels: 1 }, this._state);
 		this._intro = true;
 
 		if (!options.root) {
@@ -1026,8 +1053,8 @@
 			if (this._differs(state.dataOuterRadius, (state.dataOuterRadius = dataOuterRadius(state)))) changed.dataOuterRadius = true;
 		}
 
-		if (changed.innerRadius || changed.dataOuterRadius || changed.goal) {
-			if (this._differs(state.goalRadius, (state.goalRadius = goalRadius(state)))) changed.goalRadius = true;
+		if (changed.goal || changed.innerRadius || changed.dataOuterRadius) {
+			if (this._differs(state.goalAnnotated, (state.goalAnnotated = goalAnnotated(state)))) changed.goalAnnotated = true;
 		}
 
 		if (changed.levels || changed.innerRadius || changed.dataOuterRadius) {

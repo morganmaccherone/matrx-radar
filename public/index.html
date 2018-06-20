@@ -23,12 +23,6 @@
 						discipline: "Artisanship",
 						practices: [
 							{
-								goal: {
-									percentage: 0.8,
-									fromLevel: 1,
-									label: "by Q4-18",
-									labelFontSize: .5,
-								},
 								practice: "Yellow belt",
 								description: "100% of group members... Yellow Belt training",
 								levels: [
@@ -37,7 +31,12 @@
 									{portion: 2},
 									{portion: 1},
 									{portion: 1},
-								]
+								],
+								goal: {
+									percentage: 0.8,
+									label: "by Q4-18",
+									labelFontSize: 1.5,
+								},
 							},
 							{practice: "Green belt", description: "At least one Green Belt...", levels: [
 								{portion: 0},
@@ -51,13 +50,21 @@
 					{
 						discipline: "Architecture & Design",
 						practices: [
-							{practice: "Threat modeling", description: "blah blah", levels: [
-								{portion: 4},
-								{portion: 2},
-								{portion: 2},
-								{portion: 1},
-								{portion: 1},
-							]},
+							{
+								practice: "Threat modeling",
+								description: "blah blah",
+								levels: [
+									{portion: 4},
+									{portion: 2},
+									{portion: 2},
+									{portion: 1},
+									{portion: 1},
+								],
+								goal: {
+									label: "by Q2-19",
+									labelFontSize: 1.5,
+								}
+							},
 						]
 					},
 					{
@@ -73,6 +80,7 @@
 							{
 								goal: {
 									percentage: 1,
+									label: "by Q2-19"
 								},
 								practice: "SCA in pipeline", description: "blah, blah", levels: [
 									{portion: 7},
