@@ -11,7 +11,7 @@
   <Arc {centerX} {centerY} {startRadians} {endRadians} {innerRadius} outerRadius={dataOuterRadius} {strokeWidth} fill="none" {stroke} />
 
   {#if goal}
-    <Goal {centerX} {centerY} {startRadians} {endRadians} {goalRadius} />
+    <Goal {centerX} {centerY} {startRadians} {endRadians} {goalRadius} {levelsAnnotated} {goal}/>
   {/if}
 
 </g>
@@ -69,7 +69,6 @@
         }
         return levelsAnnotated
       },
-
     },
 
     components: {

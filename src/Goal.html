@@ -1,24 +1,24 @@
 <g>
-  <!-- <defs>
+  <defs>
     {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
       <path
         id={id}
         d="
-          M {pMEndX} {pMEndY}
-          A {goalLabelRadius} {goalLabelRadius} 1 {arcSweep} 0 {pMStartX} {pMStartY}
+          M {p1x} {p1y}
+          A {goalRadius} {goalRadius} 1 {arcSweep} 0 {p2x} {p2y}
         "
       />
     {:else}
       <path
         id={id}
         d="
-          M {pMStartX} {pMStartY}
-          A {goalLabelRadius} {goalLabelRadius} 0 {arcSweep} 1 {pMEndX} {pMEndY}
+          M {p1x} {p1y}
+          A {goalRadius} {goalRadius} 0 {arcSweep} 1 {p2x} {p2y}
         "
       />
     {/if}
 
-  </defs> -->
+  </defs>
 
   <path
     fill="none" {opacity} stroke="darkorange" stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
@@ -28,14 +28,17 @@
     "
   />
 
-  <!-- <text font-size={fontSize}>
-    <textPath xlink:href="#{id}" alignment-baseline="middle" text-anchor="middle" startOffset="50%" fill={fontColor}>
-      {label}
+  <text font-size={labelFontSize}>
+    <textPath xlink:href="#{id}" alignment-baseline="hanging" baseline-shift="sub" text-anchor="middle" startOffset="50%" fill="darkorange">
+      {goal.label}
     </textPath>
-  </text> -->
+  </text>
 </g>
 
 <script>
+
+  let translateX = (r, x, radians) => x + (r * Math.sin(radians))
+  let translateY = (r, y, radians) => y - (r * Math.cos(radians))
 
   export default {
 
@@ -43,6 +46,10 @@
 
     data() {
       return {
+        id: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8)
+            return v.toString(16)
+        }),
         percentage: 1,
         fromLevel: 0,
         labelFontSize: 1.5,
@@ -50,20 +57,15 @@
       }
     },
 
-    // helpers: {
-    //   translateX: (r, x, radians) => x + (r * Math.sin(radians)),
-    //   translateY: (r, y, radians) => y - (r * Math.cos(radians)),
-    // },
-
     computed: {
       // junk: (s) => {
       //   console.log(s)
       // },
       // For the actual goal line
-      p1x: ({goalRadius, centerX, startRadians}) => centerX + (goalRadius * Math.sin(startRadians)),
-      p1y: ({goalRadius, centerY, startRadians}) => centerY - (goalRadius * Math.cos(startRadians)),
-      p2x: ({goalRadius, centerX, endRadians}) => centerX + (goalRadius * Math.sin(endRadians)),
-      p2y: ({goalRadius, centerY, endRadians}) => centerY - (goalRadius * Math.cos(endRadians)),
+      p1x: ({goalRadius, centerX, startRadians}) => translateX(goalRadius, centerX, startRadians),
+      p1y: ({goalRadius, centerY, startRadians}) => translateY(goalRadius, centerY, startRadians),
+      p2x: ({goalRadius, centerX, endRadians}) => translateX(goalRadius, centerX, endRadians),
+      p2y: ({goalRadius, centerY, endRadians}) => translateY(goalRadius, centerY, endRadians),
 
       arcSweep: ({endRadians, startRadians}) => (endRadians - startRadians <= Math.PI) ? "0" : "1",
 
