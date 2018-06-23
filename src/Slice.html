@@ -4,7 +4,7 @@
 
   <!-- Level Arcs -->
   {#each levelsAnnotated as level}
-    <Arc {centerX} {centerY} {startRadians} {endRadians} innerRadius={level.innerRadius} outerRadius={level.outerRadius} fill={baseColor} opacity={level.opacity} stroke="none" />
+    <Arc {centerX} {centerY} {startRadians} {endRadians} innerRadius={level.innerRadius} outerRadius={level.outerRadius} fill={level.color} opacity={level.opacity} stroke="none" />
   {/each}
 
   <!-- Data Area Arc -->
@@ -30,7 +30,7 @@
     computed: {
 
       // junk: (s) => {
-      //   console.log(s.goalAnnotated)
+      //   console.log(s.levelConfigAnnotated)
       // },
 
       dataOuterRadius: ({outerRadius, labelBandHeight}) => outerRadius - labelBandHeight,
@@ -53,12 +53,10 @@
         return goalAnnotated
       },
 
-      levelsAnnotated: ({levels, innerRadius, dataOuterRadius}) => {
+      levelsAnnotated: ({levels, innerRadius, dataOuterRadius, levelConfigAnnotated}) => {
         let levelsAnnotated = []
         let total = 0
-        let count = 0
         for (let level of levels) {
-          count++
           total += level.portion
         }
         let dataRangeRadius = dataOuterRadius - innerRadius
@@ -66,12 +64,12 @@
         let i = 0
         for (let level of levels) {
           let currentAnnotatedLevel = {}
+          currentAnnotatedLevel.color = levelConfigAnnotated[i].color
+          currentAnnotatedLevel.opacity = levelConfigAnnotated[i].opacity
           if (lastAnnotatedLevel) {
             currentAnnotatedLevel.innerRadius = lastAnnotatedLevel.outerRadius
-            currentAnnotatedLevel.opacity = (count - i - 1) / (count - 1)
           } else {
             currentAnnotatedLevel.innerRadius = innerRadius
-            currentAnnotatedLevel.opacity = 1
           }
           currentAnnotatedLevel.outerRadius = currentAnnotatedLevel.innerRadius + dataRangeRadius * (level.portion / total)
           levelsAnnotated.push(currentAnnotatedLevel)

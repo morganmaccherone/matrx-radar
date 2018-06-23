@@ -20,6 +20,7 @@
         {baseColor}
         {fontColor}
         {fontSize}
+        {levelConfigAnnotated}
       />
     {/each}
 
@@ -99,11 +100,11 @@
     },
 
     computed: {
+
       // junk: (s) => {
-      //   console.log(s.diciplineFontColor)
+      //   console.log(s.levelConfigAnnotated)
       // },
-      // For the actual arc area
-      // p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),
+
       disciplinesAnnotated: ({disciplines}) => {
         let disciplinesAnnotated = disciplines
         let practiceCount = 0
@@ -127,6 +128,31 @@
         }
 
         return disciplinesAnnotated
+      },
+
+      levelConfigAnnotated: ({levelConfig, baseColor}) => {
+        let levelConfigAnnotated = []
+        let baseColorCount = 0
+        for (let level of levelConfig) {
+          if (! level.color)
+            baseColorCount++
+        }
+        for (let level of levelConfig) {
+          if (! level.color)
+            baseColorCount++
+        }
+        let i = 0
+        for (let level of levelConfig) {
+          if (! level.color) {
+            level.color = baseColor
+            level.opacity = (baseColorCount - i - 1) / (baseColorCount - 1)
+          } else {
+            level.opacity = 1
+          }
+          levelConfigAnnotated.push(level)
+          i++
+        }
+        return levelConfigAnnotated
       },
 
     },

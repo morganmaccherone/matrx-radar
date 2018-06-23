@@ -742,12 +742,10 @@
 	  return goalAnnotated
 	}
 
-	function levelsAnnotated({levels, innerRadius, dataOuterRadius}) {
+	function levelsAnnotated({levels, innerRadius, dataOuterRadius, levelConfigAnnotated}) {
 	  let levelsAnnotated = [];
 	  let total = 0;
-	  let count = 0;
 	  for (let level of levels) {
-	    count++;
 	    total += level.portion;
 	  }
 	  let dataRangeRadius = dataOuterRadius - innerRadius;
@@ -755,12 +753,12 @@
 	  let i = 0;
 	  for (let level of levels) {
 	    let currentAnnotatedLevel = {};
+	    currentAnnotatedLevel.color = levelConfigAnnotated[i].color;
+	    currentAnnotatedLevel.opacity = levelConfigAnnotated[i].opacity;
 	    if (lastAnnotatedLevel) {
 	      currentAnnotatedLevel.innerRadius = lastAnnotatedLevel.outerRadius;
-	      currentAnnotatedLevel.opacity = (count - i - 1) / (count - 1);
 	    } else {
 	      currentAnnotatedLevel.innerRadius = innerRadius;
-	      currentAnnotatedLevel.opacity = 1;
 	    }
 	    currentAnnotatedLevel.outerRadius = currentAnnotatedLevel.innerRadius + dataRangeRadius * (level.portion / total);
 	    levelsAnnotated.push(currentAnnotatedLevel);
@@ -864,7 +862,7 @@
 				if (changed.stroke) arc_changes.stroke = ctx.stroke;
 				arc._set(arc_changes);
 
-				if (changed.centerX || changed.centerY || changed.startRadians || changed.endRadians || changed.levelsAnnotated || changed.baseColor) {
+				if (changed.centerX || changed.centerY || changed.startRadians || changed.endRadians || changed.levelsAnnotated) {
 					each_value = ctx.levelsAnnotated;
 
 					for (var i = 0; i < each_value.length; i += 1) {
@@ -935,7 +933,7 @@
 		 	endRadians: ctx.endRadians,
 		 	innerRadius: ctx.level.innerRadius,
 		 	outerRadius: ctx.level.outerRadius,
-		 	fill: ctx.baseColor,
+		 	fill: ctx.level.color,
 		 	opacity: ctx.level.opacity,
 		 	stroke: "none"
 		 };
@@ -961,7 +959,7 @@
 				if (changed.endRadians) arc_changes.endRadians = ctx.endRadians;
 				if (changed.levelsAnnotated) arc_changes.innerRadius = ctx.level.innerRadius;
 				if (changed.levelsAnnotated) arc_changes.outerRadius = ctx.level.outerRadius;
-				if (changed.baseColor) arc_changes.fill = ctx.baseColor;
+				if (changed.levelsAnnotated) arc_changes.fill = ctx.level.color;
 				if (changed.levelsAnnotated) arc_changes.opacity = ctx.level.opacity;
 				arc._set(arc_changes);
 			},
@@ -1023,7 +1021,7 @@
 	function Slice(options) {
 		init(this, options);
 		this._state = assign(data$2(), options.data);
-		this._recompute({ outerRadius: 1, labelBandHeight: 1, goal: 1, innerRadius: 1, dataOuterRadius: 1, levels: 1 }, this._state);
+		this._recompute({ outerRadius: 1, labelBandHeight: 1, goal: 1, innerRadius: 1, dataOuterRadius: 1, levels: 1, levelConfigAnnotated: 1 }, this._state);
 		this._intro = true;
 
 		if (!options.root) {
@@ -1057,7 +1055,7 @@
 			if (this._differs(state.goalAnnotated, (state.goalAnnotated = goalAnnotated(state)))) changed.goalAnnotated = true;
 		}
 
-		if (changed.levels || changed.innerRadius || changed.dataOuterRadius) {
+		if (changed.levels || changed.innerRadius || changed.dataOuterRadius || changed.levelConfigAnnotated) {
 			if (this._differs(state.levelsAnnotated, (state.levelsAnnotated = levelsAnnotated(state)))) changed.levelsAnnotated = true;
 		}
 	};
@@ -1087,6 +1085,31 @@
 	  }
 
 	  return disciplinesAnnotated
+	}
+
+	function levelConfigAnnotated({levelConfig, baseColor}) {
+	  let levelConfigAnnotated = [];
+	  let baseColorCount = 0;
+	  for (let level of levelConfig) {
+	    if (! level.color)
+	      baseColorCount++;
+	  }
+	  for (let level of levelConfig) {
+	    if (! level.color)
+	      baseColorCount++;
+	  }
+	  let i = 0;
+	  for (let level of levelConfig) {
+	    if (! level.color) {
+	      level.color = baseColor;
+	      level.opacity = (baseColorCount - i - 1) / (baseColorCount - 1);
+	    } else {
+	      level.opacity = 1;
+	    }
+	    levelConfigAnnotated.push(level);
+	    i++;
+	  }
+	  return levelConfigAnnotated
 	}
 
 	function data$3() {
@@ -1156,7 +1179,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.disciplinesAnnotated || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.fontSize || changed.disciplineStroke || changed.diciplineFontColor) {
+				if (changed.disciplinesAnnotated || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.fontSize || changed.levelConfigAnnotated || changed.disciplineStroke || changed.diciplineFontColor) {
 					each_value = ctx.disciplinesAnnotated;
 
 					for (var i = 0; i < each_value.length; i += 1) {
@@ -1258,7 +1281,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.centerX || changed.centerY || changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.fontSize) {
+				if (changed.centerX || changed.centerY || changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.fontSize || changed.levelConfigAnnotated) {
 					each_value_1 = ctx.discipline.practices;
 
 					for (var i = 0; i < each_value_1.length; i += 1) {
@@ -1337,7 +1360,8 @@
 		 	strokeWidth: ctx.strokeWidth,
 		 	baseColor: ctx.baseColor,
 		 	fontColor: ctx.fontColor,
-		 	fontSize: ctx.fontSize
+		 	fontSize: ctx.fontSize,
+		 	levelConfigAnnotated: ctx.levelConfigAnnotated
 		 };
 		var slice = new Slice({
 			root: component.root,
@@ -1370,6 +1394,7 @@
 				if (changed.baseColor) slice_changes.baseColor = ctx.baseColor;
 				if (changed.fontColor) slice_changes.fontColor = ctx.fontColor;
 				if (changed.fontSize) slice_changes.fontSize = ctx.fontSize;
+				if (changed.levelConfigAnnotated) slice_changes.levelConfigAnnotated = ctx.levelConfigAnnotated;
 				slice._set(slice_changes);
 			},
 
@@ -1398,7 +1423,7 @@
 	function Radar(options) {
 		init(this, options);
 		this._state = assign(data$3(), options.data);
-		this._recompute({ disciplines: 1 }, this._state);
+		this._recompute({ disciplines: 1, levelConfig: 1, baseColor: 1 }, this._state);
 		this._intro = true;
 
 		if (!options.root) {
@@ -1426,6 +1451,10 @@
 	Radar.prototype._recompute = function _recompute(changed, state) {
 		if (changed.disciplines) {
 			if (this._differs(state.disciplinesAnnotated, (state.disciplinesAnnotated = disciplinesAnnotated(state)))) changed.disciplinesAnnotated = true;
+		}
+
+		if (changed.levelConfig || changed.baseColor) {
+			if (this._differs(state.levelConfigAnnotated, (state.levelConfigAnnotated = levelConfigAnnotated(state)))) changed.levelConfigAnnotated = true;
 		}
 	};
 
