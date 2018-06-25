@@ -20,11 +20,11 @@
 			data: {
 				// baseColor: "#AA0000",
 				levelConfig: [
-					{label: "Culture"},
+					{label: "Culture"},  // index 0 is closest to center and darkest
 					{label: "Actions"},
 					{label: "Words"},
-					{label: "Thoughts"},
-					{label: "Trade-off", color: "#CCCCCC"},
+					{label: "Thoughts"},  // The last index without a color will be white
+					{label: "Trade-off", color: "#CCCCCC"},  // any level without a color will use a gradient of the baseColor
 				],
 				disciplines: [
 					{

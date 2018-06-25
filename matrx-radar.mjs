@@ -1088,10 +1088,6 @@ function levelConfigAnnotated({levelConfig, baseColor}) {
     if (! level.color)
       baseColorCount++;
   }
-  for (let level of levelConfig) {
-    if (! level.color)
-      baseColorCount++;
-  }
   let i = 0;
   for (let level of levelConfig) {
     if (! level.color) {
