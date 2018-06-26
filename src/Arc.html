@@ -54,9 +54,11 @@
     },
 
     computed: {
+      
       // junk: (s) => {
       //   console.log(s.fontColor)
       // },
+
       // For the actual arc area
       p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),
       p1y: ({innerRadius, centerY, startRadians}) => centerY - (innerRadius * Math.cos(startRadians)),

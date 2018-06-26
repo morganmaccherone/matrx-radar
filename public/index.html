@@ -18,13 +18,17 @@
 		var radar = new MatrxRadar({
 			target: document.body,
 			data: {
-				// baseColor: "#AA0000",
+				// baseColor: "#AA0000",  // Default is MatrX green
 				levelConfig: [
-					{label: "Culture"},  // index 0 is closest to center and darkest
+					// levelConfig[0]  is the "best" level, closest to center, and baseColor
+					{label: "Culture", description: ""},
+					// Other levels without a color will be a gradient of the baseColor
 					{label: "Actions"},
 					{label: "Words"},
-					{label: "Thoughts"},  // The last index without a color will be white
-					{label: "Trade-off", color: "#CCCCCC"},  // any level without a color will use a gradient of the baseColor
+					// The last index without a color will be white
+					{label: "Thoughts"},
+					// You can specify a color for any of the levels, useful for NA or the like
+					{label: "Trade-off", color: "#CCCCCC"},
 				],
 				disciplines: [
 					{
@@ -34,7 +38,7 @@
 								practice: "Yellow belt",
 								description: "100% of group members... Yellow Belt training",
 								levels: [
-									{portion: 4},
+									{portion: 4},  // Lines up with levelConfig[0] - "Culture"
 									{portion: 2},
 									{portion: 2},
 									{portion: 1},

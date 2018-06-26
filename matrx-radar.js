@@ -1175,7 +1175,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.disciplinesAnnotated || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.fontSize || changed.levelConfigAnnotated || changed.disciplineStroke || changed.diciplineFontColor) {
+				if (changed.disciplinesAnnotated || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.fontColor || changed.fontSize || changed.levelConfigAnnotated || changed.disciplineStroke || changed.diciplineFontColor) {
 					each_value = ctx.disciplinesAnnotated;
 
 					for (var i = 0; i < each_value.length; i += 1) {
@@ -1277,7 +1277,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.centerX || changed.centerY || changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.baseColor || changed.fontColor || changed.fontSize || changed.levelConfigAnnotated) {
+				if (changed.centerX || changed.centerY || changed.disciplinesAnnotated || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.fontColor || changed.fontSize || changed.levelConfigAnnotated) {
 					each_value_1 = ctx.discipline.practices;
 
 					for (var i = 0; i < each_value_1.length; i += 1) {
@@ -1354,7 +1354,6 @@
 		 	labelBandHeight: ctx.practiceBandHeight,
 		 	stroke: ctx.practiceStroke,
 		 	strokeWidth: ctx.strokeWidth,
-		 	baseColor: ctx.baseColor,
 		 	fontColor: ctx.fontColor,
 		 	fontSize: ctx.fontSize,
 		 	levelConfigAnnotated: ctx.levelConfigAnnotated
@@ -1387,7 +1386,6 @@
 				if (changed.practiceBandHeight) slice_changes.labelBandHeight = ctx.practiceBandHeight;
 				if (changed.practiceStroke) slice_changes.stroke = ctx.practiceStroke;
 				if (changed.strokeWidth) slice_changes.strokeWidth = ctx.strokeWidth;
-				if (changed.baseColor) slice_changes.baseColor = ctx.baseColor;
 				if (changed.fontColor) slice_changes.fontColor = ctx.fontColor;
 				if (changed.fontSize) slice_changes.fontSize = ctx.fontSize;
 				if (changed.levelConfigAnnotated) slice_changes.levelConfigAnnotated = ctx.levelConfigAnnotated;
