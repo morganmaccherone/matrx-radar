@@ -1072,22 +1072,14 @@ function data$3() {
   }
 }
 function oncreate() {
-  console.log('got here');
-  this.set({firstWord: "again"});
   let width=40, height=20;  // TODO: DRY
 
   let textNode = document.getElementById("ourText");
   let bb = textNode.getBBox();
   let widthScale = width / bb.width;
   let heightScale = height / bb.height;
+  console.log(widthScale);
   this.set({scale: Math.min(widthScale, heightScale)});
-
-  this.setState({ scale });
-  // var widthTransform = width / bb.width;
-  // var heightTransform = height / bb.height;
-  // var value = widthTransform < heightTransform ? widthTransform : heightTransform;
-  // textNode.setAttribute("transform", "matrix("+value+", 0, 0, "+value+", 0,0)");
-
 }
 function create_main_fragment$3(component, ctx) {
 	var g, rect, text, tspan, text_1;
