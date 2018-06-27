@@ -1,0 +1,63 @@
+<g>
+  <rect x="105" y="40" width="40" height="20" fill="red"></rect>
+  <text id="ourText" x="125" y="50" font-size={scale} alignment-baseline="middle" text-anchor="middle" fill="Blue">
+    <tspan>Hello</tspan>
+  </text>
+</g>
+
+<script>
+
+  let translateX = (r, x, radians) => x + (r * Math.sin(radians))
+  let translateY = (r, y, radians) => y - (r * Math.cos(radians))
+
+  export default {
+
+    namespace: 'svg',
+
+    data() {
+      return {
+        dirty: true,
+        scale: 1,
+        // id: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        //     var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8)
+        //     return v.toString(16)
+        // }),
+      }
+    },
+
+    oncreate() {
+      console.log('got here')
+      this.set({firstWord: "again"})
+      let width=40, height=20  // TODO: DRY
+
+      let textNode = document.getElementById("ourText")
+      let bb = textNode.getBBox()
+      let widthScale = width / bb.width
+      let heightScale = height / bb.height
+      this.set({scale: Math.min(widthScale, heightScale)})
+
+      this.setState({ scale })
+      // var widthTransform = width / bb.width;
+      // var heightTransform = height / bb.height;
+      // var value = widthTransform < heightTransform ? widthTransform : heightTransform;
+      // textNode.setAttribute("transform", "matrix("+value+", 0, 0, "+value+", 0,0)");
+
+    },
+
+    computed: {
+
+      // junk: (s) => {
+      //   console.log(s)
+      // },
+
+      // For the goal line
+      // p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),
+      // p1y: ({goalAnnotated, centerY, startRadians}) => translateY(goalAnnotated.radius, centerY, startRadians),
+      // p2x: ({goalAnnotated, centerX, endRadians}) => translateX(goalAnnotated.radius, centerX, endRadians),
+      // p2y: ({goalAnnotated, centerY, endRadians}) => translateY(goalAnnotated.radius, centerY, endRadians),
+      //
+      // arcSweep: ({endRadians, startRadians}) => (endRadians - startRadians <= Math.PI) ? "0" : "1",
+
+    }
+  }
+</script>

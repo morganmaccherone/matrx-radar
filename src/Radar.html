@@ -1,4 +1,4 @@
-<svg version="1.1" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin meet">
+<svg version="1.1" viewBox="0 0 150 100" preserveAspectRatio="xMinYMin meet">
 
   {#each disciplinesAnnotated as discipline}
 
@@ -53,6 +53,8 @@
     />
 
   {/each}
+
+  <Legend />
 
 </svg>
 
@@ -155,6 +157,7 @@
     components: {
       Slice: './Slice.html',
       Arc: './Arc.html',
+      Legend: './Legend.html',
     },
 
   }
