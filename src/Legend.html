@@ -1,8 +1,10 @@
 <g>
-  <rect x="105" y="40" width="40" height="20" fill="red"></rect>
-  <text id="ourText" x="125" y="50" font-size={scale} alignment-baseline="middle" text-anchor="middle" fill="Blue">
-    <tspan>Hello</tspan>
-  </text>
+  {#each levelConfigAnnotated as level, i}
+    <rect x={105+margin} y={startY+i*2*scale+2*margin} height={scale-2*margin} width={scale-2*margin} fill={level.color} opacity={level.opacity} />
+    <text id={level.id} x={105+2*scale} y={startY+i*2*scale+scale} font-size={scale} alignment-baseline="middle" text-anchor="left" fill="Blue">
+      <tspan>{level.label}</tspan>
+    </text>
+  {/each}
 </g>
 
 <script>
@@ -18,29 +20,29 @@
       return {
         dirty: true,
         scale: 1,
-        // id: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        //     var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8)
-        //     return v.toString(16)
-        // }),
+
       }
     },
 
-    oncreate() {
-      let width=40, height=20  // TODO: DRY
-
-      let textNode = document.getElementById("ourText")
-      let bb = textNode.getBBox()
-      let widthScale = width / bb.width
-      let heightScale = height / bb.height
-      console.log(widthScale)
-      this.set({scale: Math.min(widthScale, heightScale)})
-    },
+    // oncreate() {
+    //   let width=40, height=20  // TODO: DRY
+    //
+    //   let textNode = document.getElementById("ourText")
+    //   let bb = textNode.getBBox()
+    //   let widthScale = width / bb.width
+    //   let heightScale = height / bb.height
+    //   this.set({scale: Math.min(widthScale, heightScale)})
+    // },
 
     computed: {
 
-      // junk: (s) => {
-      //   console.log(s)
-      // },
+      junk: (s) => {
+        console.log(s.startY)
+      },
+
+      margin: ({scale}) => scale / 8,
+
+      startY: ({levelConfigAnnotated, scale}) => (100 - (2 * scale * levelConfigAnnotated.length)) / 2,
 
       // For the goal line
       // p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),
