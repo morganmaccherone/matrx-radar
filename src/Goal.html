@@ -2,28 +2,28 @@
   {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
     <path
       id={id}
-      fill="none" {opacity} stroke="darkorange" stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
+      fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
       d="
         M {p2x} {p2y}
         A {goalAnnotated.radius} {goalAnnotated.radius} 1 {arcSweep} 0 {p1x} {p1y}
       "
     />
     <text font-size={goalAnnotated.labelFontSize}>
-      <textPath xlink:href="#{id}" baseline-shift="50%" text-anchor="middle" startOffset="50%" fill="darkorange">
+      <textPath xlink:href="#{id}" baseline-shift="50%" text-anchor="middle" startOffset="50%" fill={goalAnnotated.goalColor}>
         {goalAnnotated.label}
       </textPath>
     </text>
   {:else}
     <path
       id={id}
-      fill="none" {opacity} stroke="darkorange" stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
+      fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
       d="
         M {p1x} {p1y}
         A {goalAnnotated.radius} {goalAnnotated.radius} 0 {arcSweep} 1 {p2x} {p2y}
       "
     />
     <text font-size={goalAnnotated.labelFontSize}>
-      <textPath xlink:href="#{id}" baseline-shift="-100%" text-anchor="middle" startOffset="50%" fill="darkorange">
+      <textPath xlink:href="#{id}" baseline-shift="-100%" text-anchor="middle" startOffset="50%" fill={goalAnnotated.goalColor}>
         {goalAnnotated.label}
       </textPath>
     </text>
@@ -49,7 +49,7 @@
     },
 
     computed: {
-      
+
       // junk: (s) => {
       //   console.log(s)
       // },

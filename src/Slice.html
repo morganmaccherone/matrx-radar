@@ -44,10 +44,16 @@
             goalAnnotated.radius = dataOuterRadius
           }
           if (! goal.label) {
+            //default label
             goalAnnotated.label = ""
           }
+          if (! goal.goalColor) {
+            //default color for goal line and text
+            goalAnnotated.goalColor = "blue"
+          }
           if (! goal.labelFontSize) {
-            goalAnnotated.labelFontSize = 1.5
+            //default labelFontSize
+            goalAnnotated.labelFontSize = 2
           }
         }
         return goalAnnotated
