@@ -546,7 +546,7 @@
 
 	// (2:2) {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
 	function create_if_block$1(component, ctx) {
-		var path, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, text_font_size_value;
+		var path, path_stroke_value, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, textPath_fill_value, text_font_size_value;
 
 		return {
 			c() {
@@ -557,7 +557,7 @@
 				setAttribute(path, "id", ctx.id);
 				setAttribute(path, "fill", "none");
 				setAttribute(path, "opacity", ctx.opacity);
-				setAttribute(path, "stroke", "darkorange");
+				setAttribute(path, "stroke", path_stroke_value = ctx.goalAnnotated.goalColor);
 				setAttribute(path, "stroke-width", .5);
 				setAttribute(path, "stroke-linecap", "butt");
 				setAttribute(path, "stroke-dasharray", "1, 0.5");
@@ -566,7 +566,7 @@
 				setAttribute(textPath, "baseline-shift", "50%");
 				setAttribute(textPath, "text-anchor", "middle");
 				setAttribute(textPath, "startOffset", "50%");
-				setAttribute(textPath, "fill", "darkorange");
+				setAttribute(textPath, "fill", textPath_fill_value = ctx.goalAnnotated.goalColor);
 				setAttribute(text, "font-size", text_font_size_value = ctx.goalAnnotated.labelFontSize);
 			},
 
@@ -586,6 +586,10 @@
 					setAttribute(path, "opacity", ctx.opacity);
 				}
 
+				if ((changed.goalAnnotated) && path_stroke_value !== (path_stroke_value = ctx.goalAnnotated.goalColor)) {
+					setAttribute(path, "stroke", path_stroke_value);
+				}
+
 				if ((changed.p2x || changed.p2y || changed.goalAnnotated || changed.arcSweep || changed.p1x || changed.p1y) && path_d_value !== (path_d_value = "\n        M " + ctx.p2x + " " + ctx.p2y + "\n        A " + ctx.goalAnnotated.radius + " " + ctx.goalAnnotated.radius + " 1 " + ctx.arcSweep + " 0 " + ctx.p1x + " " + ctx.p1y + "\n      ")) {
 					setAttribute(path, "d", path_d_value);
 				}
@@ -596,6 +600,10 @@
 
 				if ((changed.id) && textPath_xlink_href_value !== (textPath_xlink_href_value = "#" + ctx.id)) {
 					setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value);
+				}
+
+				if ((changed.goalAnnotated) && textPath_fill_value !== (textPath_fill_value = ctx.goalAnnotated.goalColor)) {
+					setAttribute(textPath, "fill", textPath_fill_value);
 				}
 
 				if ((changed.goalAnnotated) && text_font_size_value !== (text_font_size_value = ctx.goalAnnotated.labelFontSize)) {
@@ -614,7 +622,7 @@
 
 	// (16:2) {:else}
 	function create_if_block_1$1(component, ctx) {
-		var path, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, text_font_size_value;
+		var path, path_stroke_value, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, textPath_fill_value, text_font_size_value;
 
 		return {
 			c() {
@@ -625,7 +633,7 @@
 				setAttribute(path, "id", ctx.id);
 				setAttribute(path, "fill", "none");
 				setAttribute(path, "opacity", ctx.opacity);
-				setAttribute(path, "stroke", "darkorange");
+				setAttribute(path, "stroke", path_stroke_value = ctx.goalAnnotated.goalColor);
 				setAttribute(path, "stroke-width", .5);
 				setAttribute(path, "stroke-linecap", "butt");
 				setAttribute(path, "stroke-dasharray", "1, 0.5");
@@ -634,7 +642,7 @@
 				setAttribute(textPath, "baseline-shift", "-100%");
 				setAttribute(textPath, "text-anchor", "middle");
 				setAttribute(textPath, "startOffset", "50%");
-				setAttribute(textPath, "fill", "darkorange");
+				setAttribute(textPath, "fill", textPath_fill_value = ctx.goalAnnotated.goalColor);
 				setAttribute(text, "font-size", text_font_size_value = ctx.goalAnnotated.labelFontSize);
 			},
 
@@ -654,6 +662,10 @@
 					setAttribute(path, "opacity", ctx.opacity);
 				}
 
+				if ((changed.goalAnnotated) && path_stroke_value !== (path_stroke_value = ctx.goalAnnotated.goalColor)) {
+					setAttribute(path, "stroke", path_stroke_value);
+				}
+
 				if ((changed.p1x || changed.p1y || changed.goalAnnotated || changed.arcSweep || changed.p2x || changed.p2y) && path_d_value !== (path_d_value = "\n        M " + ctx.p1x + " " + ctx.p1y + "\n        A " + ctx.goalAnnotated.radius + " " + ctx.goalAnnotated.radius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      ")) {
 					setAttribute(path, "d", path_d_value);
 				}
@@ -664,6 +676,10 @@
 
 				if ((changed.id) && textPath_xlink_href_value !== (textPath_xlink_href_value = "#" + ctx.id)) {
 					setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value);
+				}
+
+				if ((changed.goalAnnotated) && textPath_fill_value !== (textPath_fill_value = ctx.goalAnnotated.goalColor)) {
+					setAttribute(textPath, "fill", textPath_fill_value);
 				}
 
 				if ((changed.goalAnnotated) && text_font_size_value !== (text_font_size_value = ctx.goalAnnotated.labelFontSize)) {
@@ -733,10 +749,16 @@
 	      goalAnnotated.radius = dataOuterRadius;
 	    }
 	    if (! goal.label) {
+	      //default label
 	      goalAnnotated.label = "";
 	    }
+	    if (! goal.goalColor) {
+	      //default color for goal line and text
+	      goalAnnotated.goalColor = "blue";
+	    }
 	    if (! goal.labelFontSize) {
-	      goalAnnotated.labelFontSize = 1.5;
+	      //default labelFontSize
+	      goalAnnotated.labelFontSize = 2;
 	    }
 	  }
 	  return goalAnnotated
