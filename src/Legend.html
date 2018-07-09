@@ -1,8 +1,11 @@
 <g>
   {#each levelConfigAnnotated as level, i}
-    <rect x={105+margin} y={startY+i*2*scale+2*margin} height={scale-2*margin} width={scale-2*margin} fill={level.color} opacity={level.opacity} />
-    <text id={level.id} x={105+2*scale} y={startY+i*2*scale+scale} font-size={scale} alignment-baseline="middle" text-anchor="left" fill="Blue">
-      <tspan>{level.label}</tspan>
+    <rect x={legendStartX+0.25*scale} y={startY+i*2*scale+0.25*scale} height={keySize} width={keySize} fill={level.color} fill-opacity={level.opacity} stroke={practiceStroke} stroke-width={strokeWidth} />
+    <text id={level.labelID} x={labelStartX} y={startY+i*2*scale+scale} font-size={scale} text-anchor="left" fill="Blue">
+      {level.label}
+    </text>
+    <text id={level.descriptionID} x={descriptionStartX} y={startY+i*2*scale+scale} font-size={scale} text-anchor="left" fill="Blue">
+      {level.description}
     </text>
   {/each}
 </g>
@@ -18,29 +21,50 @@
 
     data() {
       return {
+        legendStartX: 102,
         dirty: true,
         scale: 1,
+        margin: 1.0 / 2,
+        labelDescriptionRatio: 1.0 / 4,
 
       }
     },
 
-    // oncreate() {
-    //   let width=40, height=20  // TODO: DRY
-    //
-    //   let textNode = document.getElementById("ourText")
-    //   let bb = textNode.getBBox()
-    //   let widthScale = width / bb.width
-    //   let heightScale = height / bb.height
-    //   this.set({scale: Math.min(widthScale, heightScale)})
-    // },
+    oncreate() {
+      let textWidth = 147 - this.get().legendStartX - this.get().keySize
+      let levelConfigAnnotated = this.get().levelConfigAnnotated
+
+      let maxLabelWidth = 0
+      let maxDescriptionWidth = 0
+      for (var level of levelConfigAnnotated) {
+        level.labelWidth = document.getElementById(level.labelID).getBBox().width
+        level.descriptionWidth = document.getElementById(level.descriptionID).getBBox().width
+        if (level.labelWidth > maxLabelWidth) {
+          maxLabelWidth = level.labelWidth
+        }
+        if (level.descriptionWidth > maxDescriptionWidth) {
+          maxDescriptionWidth = level.descriptionWidth
+        }
+      }
+
+      let scale = textWidth / (maxLabelWidth + maxDescriptionWidth)
+      if (scale > this.get().fontSize) {
+        scale = this.get().fontSize
+      }
+
+      this.set({scale, textWidth, labelDescriptionRatio: maxLabelWidth / maxDescriptionWidth})
+    },
 
     computed: {
 
-      junk: (s) => {
-        console.log(s.startY)
-      },
+      // junk: (s) => {
+      //   console.log(s.startY)
+      // },
 
-      margin: ({scale}) => scale / 8,
+      // margin: ({scale}) => scale / 8,
+      keySize: ({scale}) => scale * 0.8,
+      labelStartX: ({scale, legendStartX, keySize}) => legendStartX + keySize + scale,
+      descriptionStartX: ({labelStartX, labelDescriptionRatio, textWidth}) => labelStartX + labelDescriptionRatio * textWidth,
 
       startY: ({levelConfigAnnotated, scale}) => (100 - (2 * scale * levelConfigAnnotated.length)) / 2,
 

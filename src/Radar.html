@@ -54,9 +54,7 @@
 
   {/each}
 
-  <Legend
-  {levelConfigAnnotated} 
-  />
+  <Legend {levelConfigAnnotated} {fontSize} {strokeWidth} {practiceStroke}/>
 
 </svg>
 
@@ -154,7 +152,11 @@
           } else {
             level.opacity = 1
           }
-          level.id = getID()
+          if (! level.description) {
+            level.description = ""
+          }
+          level.labelID = getID()
+          level.descriptionID = getID()
           levelConfigAnnotated.push(level)
           i++
         }
