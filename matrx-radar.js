@@ -1099,6 +1099,10 @@
 		return legendStartX + keySize + scale;
 	}
 
+	function textWidth({labelStartX}) {
+		return 149 - labelStartX;
+	}
+
 	function descriptionStartX({labelStartX, labelDescriptionRatio, textWidth}) {
 		return labelStartX + labelDescriptionRatio * textWidth;
 	}
@@ -1118,7 +1122,6 @@
 	  }
 	}
 	function oncreate() {
-	  let textWidth = 147 - this.get().legendStartX - this.get().fontSize;
 	  let levelConfigAnnotated = this.get().levelConfigAnnotated;
 
 	  let maxLabelWidth = 0;
@@ -1134,12 +1137,12 @@
 	    }
 	  }
 
-	  let scale = textWidth / (maxLabelWidth + maxDescriptionWidth);
+	  let scale = this.get().textWidth / (maxLabelWidth + maxDescriptionWidth);
 	  if (scale > this.get().fontSize) {
 	    scale = this.get().fontSize;
 	  }
 
-	  this.set({scale, textWidth, labelDescriptionRatio: maxLabelWidth / maxDescriptionWidth});
+	  this.set({scale, labelDescriptionRatio: maxLabelWidth / maxDescriptionWidth});
 	}
 	function create_main_fragment$3(component, ctx) {
 		var g;
@@ -1366,6 +1369,10 @@
 
 		if (changed.scale || changed.legendStartX || changed.keySize) {
 			if (this._differs(state.labelStartX, (state.labelStartX = labelStartX(state)))) changed.labelStartX = true;
+		}
+
+		if (changed.labelStartX) {
+			if (this._differs(state.textWidth, (state.textWidth = textWidth(state)))) changed.textWidth = true;
 		}
 
 		if (changed.labelStartX || changed.labelDescriptionRatio || changed.textWidth) {

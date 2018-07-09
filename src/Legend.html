@@ -31,7 +31,6 @@
     },
 
     oncreate() {
-      let textWidth = 147 - this.get().legendStartX - this.get().fontSize
       let levelConfigAnnotated = this.get().levelConfigAnnotated
 
       let maxLabelWidth = 0
@@ -47,12 +46,12 @@
         }
       }
 
-      let scale = textWidth / (maxLabelWidth + maxDescriptionWidth)
+      let scale = this.get().textWidth / (maxLabelWidth + maxDescriptionWidth)
       if (scale > this.get().fontSize) {
         scale = this.get().fontSize
       }
 
-      this.set({scale, textWidth, labelDescriptionRatio: maxLabelWidth / maxDescriptionWidth})
+      this.set({scale, labelDescriptionRatio: maxLabelWidth / maxDescriptionWidth})
     },
 
     computed: {
@@ -64,6 +63,7 @@
       // margin: ({scale}) => scale / 8,
       keySize: ({scale}) => scale * 0.8,
       labelStartX: ({scale, legendStartX, keySize}) => legendStartX + keySize + scale,
+      textWidth: ({labelStartX}) => 149 - labelStartX,
       descriptionStartX: ({labelStartX, labelDescriptionRatio, textWidth}) => labelStartX + labelDescriptionRatio * textWidth,
 
       startY: ({levelConfigAnnotated, scale}) => (100 - (2 * scale * levelConfigAnnotated.length)) / 2,
