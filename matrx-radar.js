@@ -1100,7 +1100,7 @@
 	}
 
 	function textWidth({labelStartX}) {
-		return 149 - labelStartX;
+		return 148 - labelStartX;
 	}
 
 	function descriptionStartX({labelStartX, labelDescriptionRatio, textWidth}) {

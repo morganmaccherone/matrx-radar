@@ -63,7 +63,7 @@
       // margin: ({scale}) => scale / 8,
       keySize: ({scale}) => scale * 0.8,
       labelStartX: ({scale, legendStartX, keySize}) => legendStartX + keySize + scale,
-      textWidth: ({labelStartX}) => 149 - labelStartX,
+      textWidth: ({labelStartX}) => 148 - labelStartX,
       descriptionStartX: ({labelStartX, labelDescriptionRatio, textWidth}) => labelStartX + labelDescriptionRatio * textWidth,
 
       startY: ({levelConfigAnnotated, scale}) => (100 - (2 * scale * levelConfigAnnotated.length)) / 2,
