@@ -1112,7 +1112,7 @@ function data$3() {
   }
 }
 function oncreate() {
-  let textWidth = 147 - this.get().legendStartX - this.get().keySize;
+  let textWidth = 147 - this.get().legendStartX - this.get().fontSize;
   let levelConfigAnnotated = this.get().levelConfigAnnotated;
 
   let maxLabelWidth = 0;
