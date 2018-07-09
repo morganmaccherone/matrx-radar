@@ -30,7 +30,8 @@
     "
   />
   <text font-size={fontSize}>
-    <textPath xlink:href="#{id}" alignment-baseline="middle" text-anchor="middle" startOffset="50%" fill={fontColor}>
+    <!-- <textPath xlink:href="#{id}" alignment-baseline="middle" text-anchor="middle" startOffset="50%" fill={fontColor}> -->
+    <textPath xlink:href="#{id}" text-anchor="middle" startOffset="50%" fill={fontColor}>
       {label}
     </textPath>
   </text>
@@ -50,11 +51,12 @@
         }),
         opacity: 1,
         label: "",
+        fontSize: 0,
       }
     },
 
     computed: {
-      
+
       // junk: (s) => {
       //   console.log(s.fontColor)
       // },
@@ -71,7 +73,13 @@
       arcSweep: ({endRadians, startRadians}) => (endRadians - startRadians <= Math.PI) ? "0" : "1",
 
       // For the line to draw the Label
-      pMRadius: ({innerRadius, outerRadius}) => (innerRadius + outerRadius) / 2,
+      pMRadius: ({innerRadius, outerRadius, startRadians, endRadians, fontSize}) => {
+        if ((startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)) {
+          return innerRadius + (outerRadius - innerRadius - fontSize ) / 2 + 3 * fontSize / 4  // TODO: once we know the scale, replace fontSize with scale
+        } else {
+          return innerRadius + (outerRadius - innerRadius - fontSize) / 2 + fontSize / 4  // TODO: once we know the scale, replace fontSize with scale
+        }
+      },
       pMStartX: ({pMRadius, centerX, startRadians}) => centerX + (pMRadius * Math.sin(startRadians)),
       pMStartY: ({pMRadius, centerY, startRadians}) => centerY - (pMRadius * Math.cos(startRadians)),
       pMEndX: ({pMRadius, centerX, endRadians}) => centerX + (pMRadius * Math.sin(endRadians)),

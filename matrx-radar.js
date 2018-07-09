@@ -202,8 +202,12 @@
 		return (endRadians - startRadians <= Math.PI) ? "0" : "1";
 	}
 
-	function pMRadius({innerRadius, outerRadius}) {
-		return (innerRadius + outerRadius) / 2;
+	function pMRadius({innerRadius, outerRadius, startRadians, endRadians, fontSize}) {
+	  if ((startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)) {
+	    return innerRadius + (outerRadius - innerRadius - fontSize ) / 2 + 3 * fontSize / 4  // TODO: once we know the scale, replace fontSize with scale
+	  } else {
+	    return innerRadius + (outerRadius - innerRadius - fontSize) / 2 + fontSize / 4  // TODO: once we know the scale, replace fontSize with scale
+	  }
 	}
 
 	function pMStartX({pMRadius, centerX, startRadians}) {
@@ -230,6 +234,7 @@
 	    }),
 	    opacity: 1,
 	    label: "",
+	    fontSize: 0,
 	  }
 	}
 	function create_main_fragment(component, ctx) {
@@ -259,7 +264,6 @@
 				setAttribute(path, "stroke-linecap", "square");
 				setAttribute(path, "d", path_d_value = "\n      M " + ctx.p1x + " " + ctx.p1y + "\n      A " + ctx.innerRadius + " " + ctx.innerRadius + " 0 " + ctx.arcSweep + " 1 " + ctx.p2x + " " + ctx.p2y + "\n      L " + ctx.p3x + " " + ctx.p3y + "\n      A " + ctx.outerRadius + " " + ctx.outerRadius + " 1 " + ctx.arcSweep + " 0 " + ctx.p4x + " " + ctx.p4y + "\n      L " + ctx.p1x + " " + ctx.p1y + "\n    ");
 				setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value = "#" + ctx.id);
-				setAttribute(textPath, "alignment-baseline", "middle");
 				setAttribute(textPath, "text-anchor", "middle");
 				setAttribute(textPath, "startOffset", "50%");
 				setAttribute(textPath, "fill", ctx.fontColor);
@@ -402,7 +406,7 @@
 	function Arc(options) {
 		init(this, options);
 		this._state = assign(assign({ Math : Math }, data()), options.data);
-		this._recompute({ innerRadius: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, outerRadius: 1, pMRadius: 1 }, this._state);
+		this._recompute({ innerRadius: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, outerRadius: 1, fontSize: 1, pMRadius: 1 }, this._state);
 		this._intro = true;
 
 		this._fragment = create_main_fragment(this, this._state);
@@ -452,7 +456,7 @@
 			if (this._differs(state.arcSweep, (state.arcSweep = arcSweep(state)))) changed.arcSweep = true;
 		}
 
-		if (changed.innerRadius || changed.outerRadius) {
+		if (changed.innerRadius || changed.outerRadius || changed.startRadians || changed.endRadians || changed.fontSize) {
 			if (this._differs(state.pMRadius, (state.pMRadius = pMRadius(state)))) changed.pMRadius = true;
 		}
 
