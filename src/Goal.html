@@ -1,39 +1,57 @@
 <g>
-  {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}
-    <path
-      id={id}
-      fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
-      d="
-        M {p2x} {p2y}
-        A {goalAnnotated.radius} {goalAnnotated.radius} 1 {arcSweep} 0 {p1x} {p1y}
-      "
-    />
-    <text font-size={goalAnnotated.labelFontSize}>
-      <textPath xlink:href="#{id}" baseline-shift="40%" dominant-baseline="baseline"  text-anchor="middle" startOffset="50%" fill={goalAnnotated.goalColor}>
-        {goalAnnotated.label}
-      </textPath>
-    </text>
-  {:else}
-    <path
-      id={id}
-      fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
-      d="
-        M {p1x} {p1y}
-        A {goalAnnotated.radius} {goalAnnotated.radius} 0 {arcSweep} 1 {p2x} {p2y}
-      "
-    />
-    <text font-size={goalAnnotated.labelFontSize}>
-      <textPath xlink:href="#{id}" baseline-shift="-40%" dominant-baseline="hanging" text-anchor="middle" startOffset="50%" fill={goalAnnotated.goalColor}>
-        {goalAnnotated.label}
-      </textPath>
-    </text>
+  <!-- the actual dashed goal line -->
+  <path
+    fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
+    d="
+      M {p1x} {p1y}
+      A {goalAnnotated.radius} {goalAnnotated.radius} 0 {arcSweep} 1 {p2x} {p2y}
+    "
+  />
+
+  <!-- the line for the label -->
+  {#if (startRadians >= Math.PI / 2) && (endRadians <= 3 * Math.PI / 2)}  <!-- the bottom of the circle -->
+    <defs>
+      <path
+        id={id}
+        d="
+          M {labelArcEnds.p2x} {labelArcEnds.p2y}
+          A {goalAnnotated.radius} {goalAnnotated.radius} 1 {arcSweep} 0 {labelArcEnds.p1x} {labelArcEnds.p1y}
+        "
+      />
+    </defs>
+  {:else}  <!-- the top of the circle -->
+    <defs>
+      <path
+        id={id}
+        fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
+        d="
+          M {labelArcEnds.p1x} {labelArcEnds.p1y}
+          A {goalAnnotated.radius} {goalAnnotated.radius} 0 {arcSweep} 1 {labelArcEnds.p2x} {labelArcEnds.p2y}
+        "
+      />
+    </defs>
   {/if}
+
+  <!-- the label -->
+  <text font-size={goalAnnotated.labelFontSize}>
+    <textPath xlink:href="#{id}" dominant-baseline="middle" text-anchor="middle" startOffset="50%" fill={goalAnnotated.goalColor}>
+      {goalAnnotated.label}
+    </textPath>
+  </text>
+
 </g>
 
 <script>
 
-  let translateX = (r, x, radians) => x + (r * Math.sin(radians))
-  let translateY = (r, y, radians) => y - (r * Math.cos(radians))
+  let translateX = (r, centerX, radians) => centerX + (r * Math.sin(radians))
+  let translateY = (r, centerY, radians) => centerY - (r * Math.cos(radians))
+  let getArcEnds = (r, centerX, centerY, startRadians, endRadians) => {
+    let p1x = translateX(r, centerX, startRadians)
+    let p1y = translateY(r, centerY, startRadians)
+    let p2x = translateX(r, centerX, endRadians)
+    let p2y = translateY(r, centerY, endRadians)
+    return {p1x, p1y, p2x, p2y}
+  }
 
   export default {
 
@@ -45,14 +63,17 @@
             var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8)
             return v.toString(16)
         }),
+        // scale: 1,
       }
     },
 
     computed: {
 
       // junk: (s) => {
-      //   console.log(s)
+      //   console.log(s.labelArcEnds)
       // },
+
+      scale: ({goalAnnotated}) => goalAnnotated.labelFontSize,
 
       // For the goal line
       p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),
@@ -61,6 +82,15 @@
       p2y: ({goalAnnotated, centerY, endRadians}) => translateY(goalAnnotated.radius, centerY, endRadians),
 
       arcSweep: ({endRadians, startRadians}) => (endRadians - startRadians <= Math.PI) ? "0" : "1",
+
+      // The path for the label
+      // pl1x: ({goalAnnotated, centerX, startRadians, scale}) => translateX(goalAnnotated.radius - scale, centerX, startRadians),
+      // pl1y: ({goalAnnotated, centerY, startRadians, scale}) => translateY(goalAnnotated.radius - scale, centerY, startRadians),
+      // pl2x: ({goalAnnotated, centerX, endRadians, scale}) => translateX(goalAnnotated.radius - scale, centerX, endRadians),
+      // pl2y: ({goalAnnotated, centerY, endRadians, scale}) => translateY(goalAnnotated.radius - scale, centerY, endRadians),
+      labelArcEnds: ({goalAnnotated, centerX, centerY, startRadians, endRadians, scale}) => {
+        return getArcEnds(goalAnnotated.radius - scale, centerX, centerY, startRadians, endRadians)
+      }
 
     }
   }
