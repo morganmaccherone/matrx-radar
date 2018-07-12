@@ -18,7 +18,7 @@
         stroke={practiceStroke}
         {strokeWidth}
         {fontColor}
-        {fontSize}
+        fontSize={practiceFontSize}
         {levelConfigAnnotated}
       />
     {/each}
@@ -37,7 +37,7 @@
       stroke={disciplineStroke}
       label={discipline.discipline}
       fontColor={diciplineFontColor}
-      {fontSize}
+      fontSize={disciplineFontSize}
     />
 
     <!-- Dicipline Area Arc -->
@@ -54,7 +54,7 @@
 
   {/each}
 
-  <Legend {levelConfigAnnotated} {fontSize} {strokeWidth} {practiceStroke}/>
+  <Legend {levelConfigAnnotated} fontSize={disciplineFontSize} {strokeWidth} {practiceStroke}/>
 
 </svg>
 
@@ -81,7 +81,9 @@
         strokeWidth: 0.15,
         baseColor: "#2E8468",
         fontColor: "#22644E",
-        fontSize: 3,
+        practiceFontSize: 1,
+        disciplineFontSize: 1,
+        goalFontSize: 1,
         diciplineFontColor: "#184738",
         innerRadius: 10,
         outerRadius: 49,
@@ -114,7 +116,7 @@
       //   console.log(s.levelConfigAnnotated)
       // },
 
-      disciplinesAnnotated: ({disciplines}) => {
+      disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight}) => {
         let disciplinesAnnotated = disciplines
         let practiceCount = 0
         for (let discipline of disciplines) {
@@ -124,6 +126,12 @@
         }
 
         let sliceWidth = Math.PI * 2 / practiceCount
+        let disciplineMaxWidth = 0.9 * (outerRadius - disciplineBandHeight / 2)
+        let practiceMaxWidth = 0.9 * (outerRadius - disciplineBandHeight - practiceBandHeight / 2)
+        let displineMaxHeight = 0.9 * disciplineBandHeight
+        let practiceMaxHeight = 0.9 * practiceBandHeight
+        console.log(disciplineMaxWidth)
+
 
         let currentAngle = 0
         for (let discipline of disciplines) {

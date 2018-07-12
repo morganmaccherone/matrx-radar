@@ -23,7 +23,6 @@
     <defs>
       <path
         id={id}
-        fill="none" {opacity} stroke={goalAnnotated.goalColor} stroke-width={.5} stroke-linecap="butt" stroke-dasharray="1, 0.5"
         d="
           M {labelArcEnds.p1x} {labelArcEnds.p1y}
           A {goalAnnotated.radius} {goalAnnotated.radius} 0 {arcSweep} 1 {labelArcEnds.p2x} {labelArcEnds.p2y}
@@ -43,6 +42,7 @@
 
 <script>
 
+  // TODO: Need to move this to import helpers.mjs so we can share this across components
   let translateX = (r, centerX, radians) => centerX + (r * Math.sin(radians))
   let translateY = (r, centerY, radians) => centerY - (r * Math.cos(radians))
   let getArcEnds = (r, centerX, centerY, startRadians, endRadians) => {
@@ -76,7 +76,7 @@
       scale: ({goalAnnotated}) => goalAnnotated.labelFontSize,
 
       // For the goal line
-      p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),
+      p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),  // TODO: Need to convert to use getArcEnds
       p1y: ({goalAnnotated, centerY, startRadians}) => translateY(goalAnnotated.radius, centerY, startRadians),
       p2x: ({goalAnnotated, centerX, endRadians}) => translateX(goalAnnotated.radius, centerX, endRadians),
       p2y: ({goalAnnotated, centerY, endRadians}) => translateY(goalAnnotated.radius, centerY, endRadians),
