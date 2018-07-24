@@ -1,10 +1,10 @@
 <g>
   {#each levelConfigAnnotated as level, i}
     <rect x={legendStartX+0.25*scale} y={startY+i*2*scale+0.25*scale} height={keySize} width={keySize} fill={level.color} fill-opacity={level.opacity} stroke={practiceStroke} stroke-width={strokeWidth} />
-    <text id={level.labelID} x={labelStartX} y={startY+i*2*scale+scale} font-size={scale} text-anchor="left" fill="Blue">
+    <text id={level.labelID} x={labelStartX} y={startY+i*2*scale+scale} font-size={scale} text-anchor="left" fill="#006de0">
       {level.label}
     </text>
-    <text id={level.descriptionID} x={descriptionStartX} y={startY+i*2*scale+scale} font-size={scale} text-anchor="left" fill="Blue">
+    <text id={level.descriptionID} x={descriptionStartX} y={startY+i*2*scale+scale} font-size={scale} text-anchor="left" fill="#006de0">
       {level.description}
     </text>
   {/each}

@@ -765,7 +765,7 @@
 	    }
 	    if (! goal.goalColor) {
 	      //default color for goal line and text
-	      goalAnnotated.goalColor = "blue";
+	      goalAnnotated.goalColor = "#006de0";
 	    }
 	    if (! goal.labelFontSize) {
 	      //default labelFontSize
@@ -1233,13 +1233,13 @@
 				setAttribute(text, "y", text_y_value = ctx.startY+ctx.i*2*ctx.scale+ctx.scale);
 				setAttribute(text, "font-size", ctx.scale);
 				setAttribute(text, "text-anchor", "left");
-				setAttribute(text, "fill", "Blue");
+				setAttribute(text, "fill", "#006de0");
 				setAttribute(text_2, "id", text_2_id_value = ctx.level.descriptionID);
 				setAttribute(text_2, "x", ctx.descriptionStartX);
 				setAttribute(text_2, "y", text_2_y_value = ctx.startY+ctx.i*2*ctx.scale+ctx.scale);
 				setAttribute(text_2, "font-size", ctx.scale);
 				setAttribute(text_2, "text-anchor", "left");
-				setAttribute(text_2, "fill", "Blue");
+				setAttribute(text_2, "fill", "#006de0");
 			},
 
 			m(target, anchor) {
