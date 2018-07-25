@@ -3,6 +3,11 @@
   {#each disciplinesAnnotated as discipline}
 
     {#each discipline.practices as practice}
+      <!-- Practice labels for measuring scale -->
+      <text id={practice.id} font-size={fontSize}>
+        {practice.practice}
+      </text>
+
       <!-- Slices -->
       <Slice
         {centerX}
@@ -112,31 +117,36 @@
 
     computed: {
 
-      // junk: (s) => {
-      //   console.log(s.levelConfigAnnotated)
-      // },
+      junk: (s) => {
+        console.log(s.disciplinesAnnotated)
+      },
 
-      disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight}) => {
-        let disciplinesAnnotated = disciplines
+      practiceCount: ({disciplines}) => {
         let practiceCount = 0
         for (let discipline of disciplines) {
           for (let practice of discipline.practices) {
             practiceCount++
           }
         }
+        return practiceCount
+      },
 
-        let sliceWidth = Math.PI * 2 / practiceCount
-        let disciplineMaxWidth = 0.9 * (outerRadius - disciplineBandHeight / 2)
-        let practiceMaxWidth = 0.9 * (outerRadius - disciplineBandHeight - practiceBandHeight / 2)
-        let displineMaxHeight = 0.9 * disciplineBandHeight
-        let practiceMaxHeight = 0.9 * practiceBandHeight
-        console.log(disciplineMaxWidth)
+      sliceWidth: ({practiceCount}) => Math.PI * 2 / practiceCount,
 
+      disciplineMaxWidth: ({outerRadius, disciplineBandHeight}) => 0.9 * (outerRadius - disciplineBandHeight / 2),
+      practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight}) => 0.9 * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
+      displineMaxHeight: ({disciplineBandHeight}) => 0.9 * disciplineBandHeight,
+      practiceMaxHeight: ({practiceBandHeight}) => 0.9 * practiceBandHeight,
+
+      disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) => {
+        let disciplinesAnnotated = disciplines
 
         let currentAngle = 0
         for (let discipline of disciplines) {
+          discipline.id = getID()
           discipline.startRadians = currentAngle
           for (let practice of discipline.practices) {
+            practice.id = getID()
             practice.startRadians = currentAngle
             currentAngle += sliceWidth
             practice.endRadians = currentAngle
