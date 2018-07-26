@@ -26,6 +26,7 @@
         scale: 1,
         margin: 1.0 / 2,
         labelDescriptionRatio: 1.0 / 4,
+        fontSize: 1,
 
       }
     },
@@ -47,18 +48,18 @@
       }
 
       let scale = this.get().textWidth / (maxLabelWidth + maxDescriptionWidth)
-      if (scale > this.get().fontSize) {
-        scale = this.get().fontSize
-      }
+      // if (scale > this.get().fontSize) {
+      //   scale = this.get().fontSize
+      // }
 
       this.set({scale, labelDescriptionRatio: maxLabelWidth / maxDescriptionWidth})
     },
 
     computed: {
 
-      // junk: (s) => {
-      //   console.log(s.startY)
-      // },
+      junk: (s) => {
+        // console.log(s.fontSize)
+      },
 
       // margin: ({scale}) => scale / 8,
       keySize: ({scale}) => scale * 0.8,

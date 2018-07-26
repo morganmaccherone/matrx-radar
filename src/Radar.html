@@ -1,10 +1,14 @@
 <svg version="1.1" viewBox="0 0 150 100" preserveAspectRatio="xMinYMin meet">
 
   {#each disciplinesAnnotated as discipline}
+    <!-- Practice labels for measuring scale -->
+    <text dy="-100" id={discipline.id} font-size={disciplineFontSize}>
+      {discipline.discipline}
+    </text>
 
     {#each discipline.practices as practice}
       <!-- Practice labels for measuring scale -->
-      <text id={practice.id} font-size={fontSize}>
+      <text dy="-100" id={practice.id} font-size={practiceFontSize}>
         {practice.practice}
       </text>
 
@@ -115,11 +119,41 @@
       }
     },
 
+    oncreate() {
+      let disciplinesAnnotated = this.get().disciplinesAnnotated
+
+      let maxPracticeWidth = 0
+      let maxPracticeHeight = 0
+      let maxDisciplineWidth = 0
+      let maxDisciplineHeight = 0
+      let maxGoalWidth = 0
+      let maxGoalHeight = 0
+
+      for (let discipline of disciplinesAnnotated) {
+        maxDisciplineWidth = Math.max(maxDisciplineWidth, document.getElementById(discipline.id).getBBox().width)
+        maxDisciplineHeight = Math.max(maxDisciplineHeight, document.getElementById(discipline.id).getBBox().height)
+        for (let practice of discipline.practices) {
+          maxPracticeWidth = Math.max(maxPracticeWidth, document.getElementById(practice.id).getBBox().width)
+          maxPracticeHeight = Math.max(maxPracticeHeight, document.getElementById(practice.id).getBBox().height)
+        }
+      }
+
+      let practiceFontSize = Math.min(this.get().practiceMaxWidth / maxPracticeWidth, this.get().practiceMaxHeight / maxPracticeHeight)
+      let disciplineFontSize = Math.min(this.get().disciplineMaxWidth / maxDisciplineWidth, this.get().disciplineMaxHeight / maxDisciplineHeight)
+
+      if (practiceFontSize > disciplineFontSize) {
+        practiceFontSize = disciplineFontSize
+      }
+
+      this.set({disciplineFontSize, practiceFontSize})
+
+    },
+
     computed: {
 
-      junk: (s) => {
-        console.log(s.disciplinesAnnotated)
-      },
+      // junk: (s) => {
+      //   console.log(s.disciplineMaxWidth, s.practiceMaxWidth)
+      // },
 
       practiceCount: ({disciplines}) => {
         let practiceCount = 0
@@ -133,10 +167,10 @@
 
       sliceWidth: ({practiceCount}) => Math.PI * 2 / practiceCount,
 
-      disciplineMaxWidth: ({outerRadius, disciplineBandHeight}) => 0.9 * (outerRadius - disciplineBandHeight / 2),
-      practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight}) => 0.9 * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
-      displineMaxHeight: ({disciplineBandHeight}) => 0.9 * disciplineBandHeight,
-      practiceMaxHeight: ({practiceBandHeight}) => 0.9 * practiceBandHeight,
+      disciplineMaxWidth: ({outerRadius, disciplineBandHeight, sliceWidth}) => 0.75 * sliceWidth * (outerRadius - disciplineBandHeight / 2),
+      practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight, sliceWidth}) => 0.75 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
+      disciplineMaxHeight: ({disciplineBandHeight}) => 0.75 * disciplineBandHeight,
+      practiceMaxHeight: ({practiceBandHeight}) => 0.75 * practiceBandHeight,
 
       disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) => {
         let disciplinesAnnotated = disciplines
