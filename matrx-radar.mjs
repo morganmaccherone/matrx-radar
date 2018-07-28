@@ -259,6 +259,7 @@ function create_main_fragment(component, ctx) {
 			setAttribute(textPath, "startOffset", "50%");
 			setAttribute(textPath, "fill", ctx.fontColor);
 			setAttribute(text, "font-size", ctx.fontSize);
+			setAttribute(text, "font-family", "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"");
 		},
 
 		m(target, anchor) {
@@ -546,6 +547,7 @@ function create_main_fragment$1(component, ctx) {
 			setAttribute(textPath, "startOffset", "50%");
 			setAttribute(textPath, "fill", textPath_fill_value = ctx.goalAnnotated.goalColor);
 			setAttribute(text, "font-size", ctx.goalFontSize);
+			setAttribute(text, "font-family", "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"");
 		},
 
 		m(target, anchor) {
@@ -1116,7 +1118,6 @@ function oncreate() {
       maxDescriptionWidth = level.descriptionWidth;
     }
   }
-
   let scale = this.get().textWidth / (maxLabelWidth + maxDescriptionWidth + 1);
   // if (scale > this.get().fontSize) {
   //   scale = this.get().fontSize
@@ -1211,6 +1212,7 @@ function create_each_block$1(component, ctx) {
 			setAttribute(text, "text-anchor", "left");
 			setAttribute(text, "fill", ctx.legendFontColor);
 			setAttribute(text, "text-rendering", "geometricPrecision");
+			setAttribute(text, "font-family", "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"");
 			setAttribute(text_2, "id", text_2_id_value = ctx.level.descriptionID);
 			setAttribute(text_2, "x", ctx.descriptionStartX);
 			setAttribute(text_2, "y", text_2_y_value = ctx.startY+ctx.i*2*ctx.scale+ctx.scale);
@@ -1218,6 +1220,7 @@ function create_each_block$1(component, ctx) {
 			setAttribute(text_2, "text-anchor", "left");
 			setAttribute(text_2, "fill", ctx.legendFontColor);
 			setAttribute(text_2, "text-rendering", "geometricPrecision");
+			setAttribute(text_2, "font-family", "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"");
 		},
 
 		m(target, anchor) {
