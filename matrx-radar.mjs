@@ -1117,7 +1117,7 @@ function oncreate() {
     }
   }
 
-  let scale = this.get().textWidth / (maxLabelWidth + maxDescriptionWidth);
+  let scale = this.get().textWidth / (maxLabelWidth + maxDescriptionWidth + 1);
   // if (scale > this.get().fontSize) {
   //   scale = this.get().fontSize
   // }
@@ -1210,12 +1210,14 @@ function create_each_block$1(component, ctx) {
 			setAttribute(text, "font-size", ctx.scale);
 			setAttribute(text, "text-anchor", "left");
 			setAttribute(text, "fill", ctx.legendFontColor);
+			setAttribute(text, "text-rendering", "geometricPrecision");
 			setAttribute(text_2, "id", text_2_id_value = ctx.level.descriptionID);
 			setAttribute(text_2, "x", ctx.descriptionStartX);
 			setAttribute(text_2, "y", text_2_y_value = ctx.startY+ctx.i*2*ctx.scale+ctx.scale);
 			setAttribute(text_2, "font-size", ctx.scale);
 			setAttribute(text_2, "text-anchor", "left");
 			setAttribute(text_2, "fill", ctx.legendFontColor);
+			setAttribute(text_2, "text-rendering", "geometricPrecision");
 		},
 
 		m(target, anchor) {
