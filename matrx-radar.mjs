@@ -1153,7 +1153,7 @@ function create_main_fragment$3(component, ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.legendStartX || changed.scale || changed.startY || changed.keySize || changed.levelConfigAnnotated || changed.practiceStroke || changed.strokeWidth || changed.labelStartX || changed.descriptionStartX) {
+			if (changed.legendStartX || changed.scale || changed.startY || changed.keySize || changed.levelConfigAnnotated || changed.practiceStroke || changed.strokeWidth || changed.labelStartX || changed.legendFontColor || changed.descriptionStartX) {
 				each_value = ctx.levelConfigAnnotated;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -1209,13 +1209,13 @@ function create_each_block$1(component, ctx) {
 			setAttribute(text, "y", text_y_value = ctx.startY+ctx.i*2*ctx.scale+ctx.scale);
 			setAttribute(text, "font-size", ctx.scale);
 			setAttribute(text, "text-anchor", "left");
-			setAttribute(text, "fill", "#006de0");
+			setAttribute(text, "fill", ctx.legendFontColor);
 			setAttribute(text_2, "id", text_2_id_value = ctx.level.descriptionID);
 			setAttribute(text_2, "x", ctx.descriptionStartX);
 			setAttribute(text_2, "y", text_2_y_value = ctx.startY+ctx.i*2*ctx.scale+ctx.scale);
 			setAttribute(text_2, "font-size", ctx.scale);
 			setAttribute(text_2, "text-anchor", "left");
-			setAttribute(text_2, "fill", "#006de0");
+			setAttribute(text_2, "fill", ctx.legendFontColor);
 		},
 
 		m(target, anchor) {
@@ -1276,6 +1276,10 @@ function create_each_block$1(component, ctx) {
 				setAttribute(text, "font-size", ctx.scale);
 			}
 
+			if (changed.legendFontColor) {
+				setAttribute(text, "fill", ctx.legendFontColor);
+			}
+
 			if ((changed.levelConfigAnnotated) && text_3_value !== (text_3_value = ctx.level.description)) {
 				text_3.data = text_3_value;
 			}
@@ -1294,6 +1298,10 @@ function create_each_block$1(component, ctx) {
 
 			if (changed.scale) {
 				setAttribute(text_2, "font-size", ctx.scale);
+			}
+
+			if (changed.legendFontColor) {
+				setAttribute(text_2, "fill", ctx.legendFontColor);
 			}
 		},
 
@@ -1473,7 +1481,7 @@ function data$4() {
     disciplineFontSize: 1,
     goalFontSize: 1,
     goalColor: "#006de0",
-    legendFontColor: "#005500",
+    legendFontColor: "#006de0",
     diciplineFontColor: "#184738",
     innerRadius: 10,
     outerRadius: 49,
