@@ -32,7 +32,7 @@
   {/if}
 
   <!-- the label -->
-  <text font-size={goalAnnotated.labelFontSize}>
+  <text font-size={goalFontSize}>
     <textPath xlink:href="#{id}" dominant-baseline="middle" text-anchor="middle" startOffset="50%" fill={goalAnnotated.goalColor}>
       {goalAnnotated.label}
     </textPath>
@@ -70,10 +70,8 @@
     computed: {
 
       // junk: (s) => {
-      //   console.log(s.labelArcEnds)
+      //   console.log(s.goalFontSize)
       // },
-
-      scale: ({goalAnnotated}) => goalAnnotated.labelFontSize,
 
       // For the goal line
       p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),  // TODO: Need to convert to use getArcEnds
@@ -88,8 +86,8 @@
       // pl1y: ({goalAnnotated, centerY, startRadians, scale}) => translateY(goalAnnotated.radius - scale, centerY, startRadians),
       // pl2x: ({goalAnnotated, centerX, endRadians, scale}) => translateX(goalAnnotated.radius - scale, centerX, endRadians),
       // pl2y: ({goalAnnotated, centerY, endRadians, scale}) => translateY(goalAnnotated.radius - scale, centerY, endRadians),
-      labelArcEnds: ({goalAnnotated, centerX, centerY, startRadians, endRadians, scale}) => {
-        return getArcEnds(goalAnnotated.radius - .75 * scale, centerX, centerY, startRadians, endRadians)
+      labelArcEnds: ({goalAnnotated, centerX, centerY, startRadians, endRadians, goalFontSize}) => {
+        return getArcEnds(goalAnnotated.radius - .75 * goalFontSize, centerX, centerY, startRadians, endRadians)
       }
 
     }

@@ -19,6 +19,8 @@
 			target: document.body,
 			data: {
 				// baseColor: "#AA0000",  // Default is MatrX green
+				// goalColor: "#AA0000",  // Can be overwritten for a particular goal in disciplines[].practices[].goal.goalColor or if not provided this will default to a nice blue
+				// legendFontColor: "#AA0000",  // Defaults to a nice blue
 				levelConfig: [
 					// levelConfig[0]  is the "best" level, closest to center, and baseColor
 					{label: "Culture", description: "Something something something"},
@@ -47,8 +49,7 @@
 								goal: {
 									goalColor: "darkorange", //specifies color of goal line and label text
 									percentage: 0.8,
-									label: "by Q4-18",
-									labelFontSize: 3,
+									label: "A",
 								},
 							},
 							{practice: "Green belt", description: "At least one Green Belt...", levels: [
@@ -74,8 +75,7 @@
 									{portion: 1},
 								],
 								goal: {
-									label: "by Q2-19",
-									labelFontSize: 1.5,
+									label: "A",
 								}
 							},
 						]
@@ -93,7 +93,7 @@
 							{
 								goal: {
 									percentage: 1,
-									label: "by Q2-19"
+									label: "A"
 								},
 								practice: "SCA in pipeline", description: "blah, blah", levels: [
 									{portion: 7},

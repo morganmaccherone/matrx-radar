@@ -487,10 +487,6 @@
 	  return {p1x, p1y, p2x, p2y}
 	};
 
-	function scale({goalAnnotated}) {
-		return goalAnnotated.labelFontSize;
-	}
-
 	function p1x$1({goalAnnotated, centerX, startRadians}) {
 		return translateX(goalAnnotated.radius, centerX, startRadians);
 	}
@@ -511,8 +507,8 @@
 		return (endRadians - startRadians <= Math.PI) ? "0" : "1";
 	}
 
-	function labelArcEnds({goalAnnotated, centerX, centerY, startRadians, endRadians, scale}) {
-	  return getArcEnds(goalAnnotated.radius - .75 * scale, centerX, centerY, startRadians, endRadians)
+	function labelArcEnds({goalAnnotated, centerX, centerY, startRadians, endRadians, goalFontSize}) {
+	  return getArcEnds(goalAnnotated.radius - .75 * goalFontSize, centerX, centerY, startRadians, endRadians)
 	}
 
 	function data$1() {
@@ -525,7 +521,7 @@
 	  }
 	}
 	function create_main_fragment$1(component, ctx) {
-		var g, path, path_stroke_value, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, textPath_fill_value, text_font_size_value;
+		var g, path, path_stroke_value, path_d_value, text, textPath, text_1_value = ctx.goalAnnotated.label, text_1, textPath_xlink_href_value, textPath_fill_value;
 
 		function select_block_type(ctx) {
 			if ((ctx.startRadians >= ctx.Math.PI / 2) && (ctx.endRadians <= 3 * ctx.Math.PI / 2)) return create_if_block$1;
@@ -555,7 +551,7 @@
 				setAttribute(textPath, "text-anchor", "middle");
 				setAttribute(textPath, "startOffset", "50%");
 				setAttribute(textPath, "fill", textPath_fill_value = ctx.goalAnnotated.goalColor);
-				setAttribute(text, "font-size", text_font_size_value = ctx.goalAnnotated.labelFontSize);
+				setAttribute(text, "font-size", ctx.goalFontSize);
 			},
 
 			m(target, anchor) {
@@ -601,8 +597,8 @@
 					setAttribute(textPath, "fill", textPath_fill_value);
 				}
 
-				if ((changed.goalAnnotated) && text_font_size_value !== (text_font_size_value = ctx.goalAnnotated.labelFontSize)) {
-					setAttribute(text, "font-size", text_font_size_value);
+				if (changed.goalFontSize) {
+					setAttribute(text, "font-size", ctx.goalFontSize);
 				}
 			},
 
@@ -689,7 +685,7 @@
 	function Goal(options) {
 		init(this, options);
 		this._state = assign(assign({ Math : Math }, data$1()), options.data);
-		this._recompute({ goalAnnotated: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, scale: 1 }, this._state);
+		this._recompute({ goalAnnotated: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, goalFontSize: 1 }, this._state);
 		this._intro = true;
 
 		this._fragment = create_main_fragment$1(this, this._state);
@@ -703,10 +699,6 @@
 	assign(Goal.prototype, proto);
 
 	Goal.prototype._recompute = function _recompute(changed, state) {
-		if (changed.goalAnnotated) {
-			if (this._differs(state.scale, (state.scale = scale(state)))) changed.scale = true;
-		}
-
 		if (changed.goalAnnotated || changed.centerX || changed.startRadians) {
 			if (this._differs(state.p1x, (state.p1x = p1x$1(state)))) changed.p1x = true;
 		}
@@ -727,7 +719,7 @@
 			if (this._differs(state.arcSweep, (state.arcSweep = arcSweep$1(state)))) changed.arcSweep = true;
 		}
 
-		if (changed.goalAnnotated || changed.centerX || changed.centerY || changed.startRadians || changed.endRadians || changed.scale) {
+		if (changed.goalAnnotated || changed.centerX || changed.centerY || changed.startRadians || changed.endRadians || changed.goalFontSize) {
 			if (this._differs(state.labelArcEnds, (state.labelArcEnds = labelArcEnds(state)))) changed.labelArcEnds = true;
 		}
 	};
@@ -738,7 +730,7 @@
 		return outerRadius - labelBandHeight;
 	}
 
-	function goalAnnotated({goal, innerRadius, dataOuterRadius}) {
+	function goalAnnotated({goal, goalColor, innerRadius, dataOuterRadius}) {
 	  let goalAnnotated = goal;
 	  if (goal) {
 	    if (goal.percentage) {
@@ -752,11 +744,7 @@
 	    }
 	    if (! goal.goalColor) {
 	      //default color for goal line and text
-	      goalAnnotated.goalColor = "#006de0";
-	    }
-	    if (! goal.labelFontSize) {
-	      //default labelFontSize
-	      goalAnnotated.labelFontSize = 2;
+	      goalAnnotated.goalColor = goalColor;
 	    }
 	  }
 	  return goalAnnotated
@@ -998,7 +986,8 @@
 		 	centerY: ctx.centerY,
 		 	startRadians: ctx.startRadians,
 		 	endRadians: ctx.endRadians,
-		 	goalAnnotated: ctx.goalAnnotated
+		 	goalAnnotated: ctx.goalAnnotated,
+		 	goalFontSize: ctx.goalFontSize
 		 };
 		var goal = new Goal({
 			root: component.root,
@@ -1021,6 +1010,7 @@
 				if (changed.startRadians) goal_changes.startRadians = ctx.startRadians;
 				if (changed.endRadians) goal_changes.endRadians = ctx.endRadians;
 				if (changed.goalAnnotated) goal_changes.goalAnnotated = ctx.goalAnnotated;
+				if (changed.goalFontSize) goal_changes.goalFontSize = ctx.goalFontSize;
 				goal._set(goal_changes);
 			},
 
@@ -1041,7 +1031,7 @@
 	function Slice(options) {
 		init(this, options);
 		this._state = assign(data$2(), options.data);
-		this._recompute({ outerRadius: 1, labelBandHeight: 1, goal: 1, innerRadius: 1, dataOuterRadius: 1, levels: 1, levelConfigAnnotated: 1 }, this._state);
+		this._recompute({ outerRadius: 1, labelBandHeight: 1, goal: 1, goalColor: 1, innerRadius: 1, dataOuterRadius: 1, levels: 1, levelConfigAnnotated: 1 }, this._state);
 		this._intro = true;
 
 		if (!options.root) {
@@ -1071,7 +1061,7 @@
 			if (this._differs(state.dataOuterRadius, (state.dataOuterRadius = dataOuterRadius(state)))) changed.dataOuterRadius = true;
 		}
 
-		if (changed.goal || changed.innerRadius || changed.dataOuterRadius) {
+		if (changed.goal || changed.goalColor || changed.innerRadius || changed.dataOuterRadius) {
 			if (this._differs(state.goalAnnotated, (state.goalAnnotated = goalAnnotated(state)))) changed.goalAnnotated = true;
 		}
 
@@ -1412,12 +1402,20 @@
 		return 0.75 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2);
 	}
 
+	function goalMaxWidth({practiceMaxWidth}) {
+		return 0.75 * practiceMaxWidth;
+	}
+
 	function disciplineMaxHeight({disciplineBandHeight}) {
 		return 0.75 * disciplineBandHeight;
 	}
 
 	function practiceMaxHeight({practiceBandHeight}) {
 		return 0.75 * practiceBandHeight;
+	}
+
+	function goalMaxHeight({practiceMaxHeight}) {
+		return practiceMaxHeight;
 	}
 
 	function disciplinesAnnotated({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) {
@@ -1430,6 +1428,9 @@
 	    for (let practice of discipline.practices) {
 	      practice.id = getID();
 	      practice.startRadians = currentAngle;
+	      if (practice.goal) {
+	        practice.goal.id = getID();
+	      }
 	      currentAngle += sliceWidth;
 	      practice.endRadians = currentAngle;
 	    }
@@ -1477,6 +1478,8 @@
 	    practiceFontSize: 1,
 	    disciplineFontSize: 1,
 	    goalFontSize: 1,
+	    goalColor: "#006de0",
+	    legendFontColor: "#005500",
 	    diciplineFontColor: "#184738",
 	    innerRadius: 10,
 	    outerRadius: 49,
@@ -1509,6 +1512,8 @@
 	  let maxPracticeHeight = 0;
 	  let maxDisciplineWidth = 0;
 	  let maxDisciplineHeight = 0;
+	  let maxGoalWidth = 0;
+	  let maxGoalHeight = 0;
 
 	  for (let discipline of disciplinesAnnotated) {
 	    maxDisciplineWidth = Math.max(maxDisciplineWidth, document.getElementById(discipline.id).getBBox().width);
@@ -1516,17 +1521,26 @@
 	    for (let practice of discipline.practices) {
 	      maxPracticeWidth = Math.max(maxPracticeWidth, document.getElementById(practice.id).getBBox().width);
 	      maxPracticeHeight = Math.max(maxPracticeHeight, document.getElementById(practice.id).getBBox().height);
+	      if (practice.goal) {
+	        maxGoalWidth = Math.max(maxGoalWidth, document.getElementById(practice.goal.id).getBBox().width);
+	        maxGoalHeight = Math.max(maxGoalHeight, document.getElementById(practice.goal.id).getBBox().height);
+	      }
 	    }
 	  }
 
 	  let practiceFontSize = Math.min(this.get().practiceMaxWidth / maxPracticeWidth, this.get().practiceMaxHeight / maxPracticeHeight);
 	  let disciplineFontSize = Math.min(this.get().disciplineMaxWidth / maxDisciplineWidth, this.get().disciplineMaxHeight / maxDisciplineHeight);
+	  let goalFontSize = Math.min(this.get().goalMaxWidth / maxGoalWidth, this.get().goalMaxHeight / maxGoalHeight);
 
 	  if (practiceFontSize > disciplineFontSize) {
 	    practiceFontSize = disciplineFontSize;
 	  }
 
-	  this.set({disciplineFontSize, practiceFontSize});
+	  if (goalFontSize > practiceFontSize) {
+	    goalFontSize = practiceFontSize;
+	  }
+
+	  this.set({disciplineFontSize, practiceFontSize, goalFontSize});
 
 	}
 	function create_main_fragment$4(component, ctx) {
@@ -1544,7 +1558,8 @@
 		 	levelConfigAnnotated: ctx.levelConfigAnnotated,
 		 	fontSize: ctx.disciplineFontSize,
 		 	strokeWidth: ctx.strokeWidth,
-		 	practiceStroke: ctx.practiceStroke
+		 	practiceStroke: ctx.practiceStroke,
+		 	legendFontColor: ctx.legendFontColor
 		 };
 		var legend = new Legend({
 			root: component.root,
@@ -1578,7 +1593,7 @@
 			},
 
 			p(changed, ctx) {
-				if (changed.disciplinesAnnotated || changed.disciplineFontSize || changed.practiceFontSize || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.fontColor || changed.levelConfigAnnotated || changed.disciplineStroke || changed.diciplineFontColor) {
+				if (changed.disciplinesAnnotated || changed.disciplineFontSize || changed.practiceFontSize || changed.goalFontSize || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.goalColor || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.fontColor || changed.levelConfigAnnotated || changed.disciplineStroke || changed.diciplineFontColor) {
 					each_value = ctx.disciplinesAnnotated;
 
 					for (var i = 0; i < each_value.length; i += 1) {
@@ -1604,6 +1619,7 @@
 				if (changed.disciplineFontSize) legend_changes.fontSize = ctx.disciplineFontSize;
 				if (changed.strokeWidth) legend_changes.strokeWidth = ctx.strokeWidth;
 				if (changed.practiceStroke) legend_changes.practiceStroke = ctx.practiceStroke;
+				if (changed.legendFontColor) legend_changes.legendFontColor = ctx.legendFontColor;
 				legend._set(legend_changes);
 			},
 
@@ -1710,7 +1726,7 @@
 					setAttribute(text, "font-size", ctx.disciplineFontSize);
 				}
 
-				if (changed.disciplinesAnnotated || changed.practiceFontSize || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.fontColor || changed.levelConfigAnnotated) {
+				if (changed.disciplinesAnnotated || changed.practiceFontSize || changed.goalFontSize || changed.centerX || changed.centerY || changed.innerRadius || changed.outerRadius || changed.disciplineBandHeight || changed.goalColor || changed.practiceBandHeight || changed.practiceStroke || changed.strokeWidth || changed.fontColor || changed.levelConfigAnnotated) {
 					each_value_1 = ctx.discipline.practices;
 
 					for (var i = 0; i < each_value_1.length; i += 1) {
@@ -1777,7 +1793,9 @@
 
 	// (9:4) {#each discipline.practices as practice}
 	function create_each_block_1(component, ctx) {
-		var text, text_1_value = ctx.practice.practice, text_1, text_id_value;
+		var text, text_1_value = ctx.practice.practice, text_1, text_id_value, if_block_anchor;
+
+		var if_block = (ctx.practice.goal) && create_if_block$3(component, ctx);
 
 		var slice_initial_data = {
 		 	centerX: ctx.centerX,
@@ -1789,6 +1807,8 @@
 		 	levels: ctx.practice.levels,
 		 	label: ctx.practice.practice,
 		 	goal: ctx.practice.goal,
+		 	goalFontSize: ctx.goalFontSize,
+		 	goalColor: ctx.goalColor,
 		 	labelBandHeight: ctx.practiceBandHeight,
 		 	stroke: ctx.practiceStroke,
 		 	strokeWidth: ctx.strokeWidth,
@@ -1805,6 +1825,8 @@
 			c() {
 				text = createSvgElement("text");
 				text_1 = createText(text_1_value);
+				if (if_block) if_block.c();
+				if_block_anchor = createComment();
 				slice._fragment.c();
 				setAttribute(text, "dy", "-100");
 				setAttribute(text, "id", text_id_value = ctx.practice.id);
@@ -1814,6 +1836,8 @@
 			m(target, anchor) {
 				insertNode(text, target, anchor);
 				appendNode(text_1, text);
+				if (if_block) if_block.m(target, anchor);
+				insertNode(if_block_anchor, target, anchor);
 				slice._mount(target, anchor);
 			},
 
@@ -1830,6 +1854,19 @@
 					setAttribute(text, "font-size", ctx.practiceFontSize);
 				}
 
+				if (ctx.practice.goal) {
+					if (if_block) {
+						if_block.p(changed, ctx);
+					} else {
+						if_block = create_if_block$3(component, ctx);
+						if_block.c();
+						if_block.m(if_block_anchor.parentNode, if_block_anchor);
+					}
+				} else if (if_block) {
+					if_block.d(1);
+					if_block = null;
+				}
+
 				var slice_changes = {};
 				if (changed.centerX) slice_changes.centerX = ctx.centerX;
 				if (changed.centerY) slice_changes.centerY = ctx.centerY;
@@ -1840,6 +1877,8 @@
 				if (changed.disciplinesAnnotated) slice_changes.levels = ctx.practice.levels;
 				if (changed.disciplinesAnnotated) slice_changes.label = ctx.practice.practice;
 				if (changed.disciplinesAnnotated) slice_changes.goal = ctx.practice.goal;
+				if (changed.goalFontSize) slice_changes.goalFontSize = ctx.goalFontSize;
+				if (changed.goalColor) slice_changes.goalColor = ctx.goalColor;
 				if (changed.practiceBandHeight) slice_changes.labelBandHeight = ctx.practiceBandHeight;
 				if (changed.practiceStroke) slice_changes.stroke = ctx.practiceStroke;
 				if (changed.strokeWidth) slice_changes.strokeWidth = ctx.strokeWidth;
@@ -1854,7 +1893,52 @@
 					detachNode(text);
 				}
 
+				if (if_block) if_block.d(detach);
+				if (detach) {
+					detachNode(if_block_anchor);
+				}
+
 				slice.destroy(detach);
+			}
+		};
+	}
+
+	// (16:6) {#if practice.goal}
+	function create_if_block$3(component, ctx) {
+		var text, text_1_value = ctx.practice.goal.label, text_1, text_id_value;
+
+		return {
+			c() {
+				text = createSvgElement("text");
+				text_1 = createText(text_1_value);
+				setAttribute(text, "dy", "-100");
+				setAttribute(text, "id", text_id_value = ctx.practice.goal.id);
+				setAttribute(text, "font-size", ctx.goalFontSize);
+			},
+
+			m(target, anchor) {
+				insertNode(text, target, anchor);
+				appendNode(text_1, text);
+			},
+
+			p(changed, ctx) {
+				if ((changed.disciplinesAnnotated) && text_1_value !== (text_1_value = ctx.practice.goal.label)) {
+					text_1.data = text_1_value;
+				}
+
+				if ((changed.disciplinesAnnotated) && text_id_value !== (text_id_value = ctx.practice.goal.id)) {
+					setAttribute(text, "id", text_id_value);
+				}
+
+				if (changed.goalFontSize) {
+					setAttribute(text, "font-size", ctx.goalFontSize);
+				}
+			},
+
+			d(detach) {
+				if (detach) {
+					detachNode(text);
+				}
 			}
 		};
 	}
@@ -1878,7 +1962,7 @@
 	function Radar(options) {
 		init(this, options);
 		this._state = assign(data$4(), options.data);
-		this._recompute({ disciplines: 1, practiceCount: 1, outerRadius: 1, disciplineBandHeight: 1, sliceWidth: 1, practiceBandHeight: 1, levelConfig: 1, baseColor: 1 }, this._state);
+		this._recompute({ disciplines: 1, practiceCount: 1, outerRadius: 1, disciplineBandHeight: 1, sliceWidth: 1, practiceBandHeight: 1, practiceMaxWidth: 1, practiceMaxHeight: 1, levelConfig: 1, baseColor: 1 }, this._state);
 		this._intro = true;
 
 		if (!options.root) {
@@ -1925,12 +2009,20 @@
 			if (this._differs(state.practiceMaxWidth, (state.practiceMaxWidth = practiceMaxWidth(state)))) changed.practiceMaxWidth = true;
 		}
 
+		if (changed.practiceMaxWidth) {
+			if (this._differs(state.goalMaxWidth, (state.goalMaxWidth = goalMaxWidth(state)))) changed.goalMaxWidth = true;
+		}
+
 		if (changed.disciplineBandHeight) {
 			if (this._differs(state.disciplineMaxHeight, (state.disciplineMaxHeight = disciplineMaxHeight(state)))) changed.disciplineMaxHeight = true;
 		}
 
 		if (changed.practiceBandHeight) {
 			if (this._differs(state.practiceMaxHeight, (state.practiceMaxHeight = practiceMaxHeight(state)))) changed.practiceMaxHeight = true;
+		}
+
+		if (changed.practiceMaxHeight) {
+			if (this._differs(state.goalMaxHeight, (state.goalMaxHeight = goalMaxHeight(state)))) changed.goalMaxHeight = true;
 		}
 
 		if (changed.disciplines || changed.outerRadius || changed.disciplineBandHeight || changed.sliceWidth) {

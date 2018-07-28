@@ -11,7 +11,7 @@
   <Arc {centerX} {centerY} {startRadians} {endRadians} {innerRadius} outerRadius={dataOuterRadius} {strokeWidth} fill="none" {stroke} />
 
   {#if goal}
-    <Goal {centerX} {centerY} {startRadians} {endRadians} {goalAnnotated}/>
+    <Goal {centerX} {centerY} {startRadians} {endRadians} {goalAnnotated} {goalFontSize} />
   {/if}
 
 </g>
@@ -30,12 +30,12 @@
     computed: {
 
       // junk: (s) => {
-      //   console.log(s.levelConfigAnnotated)
+      //   console.log(s.goalFontSize)
       // },
 
       dataOuterRadius: ({outerRadius, labelBandHeight}) => outerRadius - labelBandHeight,
 
-      goalAnnotated: ({goal, innerRadius, dataOuterRadius}) => {
+      goalAnnotated: ({goal, goalColor, innerRadius, dataOuterRadius}) => {
         let goalAnnotated = goal
         if (goal) {
           if (goal.percentage) {
@@ -49,11 +49,7 @@
           }
           if (! goal.goalColor) {
             //default color for goal line and text
-            goalAnnotated.goalColor = "#006de0"
-          }
-          if (! goal.labelFontSize) {
-            //default labelFontSize
-            goalAnnotated.labelFontSize = 2
+            goalAnnotated.goalColor = goalColor
           }
         }
         return goalAnnotated

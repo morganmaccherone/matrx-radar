@@ -12,6 +12,14 @@
         {practice.practice}
       </text>
 
+      <!-- Goal labels for measuring scale -->
+      {#if practice.goal}
+        <text dy="-100" id={practice.goal.id} font-size={goalFontSize}>
+          {practice.goal.label}
+        </text>
+      {/if}
+
+
       <!-- Slices -->
       <Slice
         {centerX}
@@ -23,6 +31,8 @@
         levels={practice.levels}
         label={practice.practice}
         goal={practice.goal}
+        {goalFontSize}
+        {goalColor}
         labelBandHeight={practiceBandHeight}
         stroke={practiceStroke}
         {strokeWidth}
@@ -63,7 +73,7 @@
 
   {/each}
 
-  <Legend {levelConfigAnnotated} fontSize={disciplineFontSize} {strokeWidth} {practiceStroke}/>
+  <Legend {levelConfigAnnotated} fontSize={disciplineFontSize} {strokeWidth} {practiceStroke} {legendFontColor} />
 
 </svg>
 
@@ -93,6 +103,8 @@
         practiceFontSize: 1,
         disciplineFontSize: 1,
         goalFontSize: 1,
+        goalColor: "#006de0",
+        legendFontColor: "#005500",
         diciplineFontColor: "#184738",
         innerRadius: 10,
         outerRadius: 49,
@@ -135,17 +147,26 @@
         for (let practice of discipline.practices) {
           maxPracticeWidth = Math.max(maxPracticeWidth, document.getElementById(practice.id).getBBox().width)
           maxPracticeHeight = Math.max(maxPracticeHeight, document.getElementById(practice.id).getBBox().height)
+          if (practice.goal) {
+            maxGoalWidth = Math.max(maxGoalWidth, document.getElementById(practice.goal.id).getBBox().width)
+            maxGoalHeight = Math.max(maxGoalHeight, document.getElementById(practice.goal.id).getBBox().height)
+          }
         }
       }
 
       let practiceFontSize = Math.min(this.get().practiceMaxWidth / maxPracticeWidth, this.get().practiceMaxHeight / maxPracticeHeight)
       let disciplineFontSize = Math.min(this.get().disciplineMaxWidth / maxDisciplineWidth, this.get().disciplineMaxHeight / maxDisciplineHeight)
+      let goalFontSize = Math.min(this.get().goalMaxWidth / maxGoalWidth, this.get().goalMaxHeight / maxGoalHeight)
 
       if (practiceFontSize > disciplineFontSize) {
         practiceFontSize = disciplineFontSize
       }
 
-      this.set({disciplineFontSize, practiceFontSize})
+      if (goalFontSize > practiceFontSize) {
+        goalFontSize = practiceFontSize
+      }
+
+      this.set({disciplineFontSize, practiceFontSize, goalFontSize})
 
     },
 
@@ -169,8 +190,10 @@
 
       disciplineMaxWidth: ({outerRadius, disciplineBandHeight, sliceWidth}) => 0.75 * sliceWidth * (outerRadius - disciplineBandHeight / 2),
       practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight, sliceWidth}) => 0.75 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
+      goalMaxWidth: ({practiceMaxWidth}) => 0.75 * practiceMaxWidth,  // TODO: Should actually calculate this
       disciplineMaxHeight: ({disciplineBandHeight}) => 0.75 * disciplineBandHeight,
       practiceMaxHeight: ({practiceBandHeight}) => 0.75 * practiceBandHeight,
+      goalMaxHeight: ({practiceMaxHeight}) => practiceMaxHeight,  // TODO: Should actually calculate this
 
       disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) => {
         let disciplinesAnnotated = disciplines
@@ -182,6 +205,9 @@
           for (let practice of discipline.practices) {
             practice.id = getID()
             practice.startRadians = currentAngle
+            if (practice.goal) {
+              practice.goal.id = getID()
+            }
             currentAngle += sliceWidth
             practice.endRadians = currentAngle
           }
