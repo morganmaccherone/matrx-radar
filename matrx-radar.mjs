@@ -1402,11 +1402,11 @@ function sliceWidth({practiceCount}) {
 }
 
 function disciplineMaxWidth({outerRadius, disciplineBandHeight, sliceWidth}) {
-	return 0.75 * sliceWidth * (outerRadius - disciplineBandHeight / 2);
+	return 0.80 * sliceWidth * (outerRadius - disciplineBandHeight / 2);
 }
 
 function practiceMaxWidth({outerRadius, disciplineBandHeight, practiceBandHeight, sliceWidth}) {
-	return 0.75 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2);
+	return 0.80 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2);
 }
 
 function goalMaxWidth({practiceMaxWidth}) {
@@ -1427,7 +1427,6 @@ function goalMaxHeight({practiceMaxHeight}) {
 
 function disciplinesAnnotated({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) {
   let disciplinesAnnotated = disciplines;
-
   let currentAngle = 0;
   for (let discipline of disciplines) {
     discipline.id = getID();
@@ -1443,7 +1442,6 @@ function disciplinesAnnotated({disciplines, outerRadius, disciplineBandHeight, s
     }
     discipline.endRadians = currentAngle;
   }
-
   return disciplinesAnnotated
 }
 

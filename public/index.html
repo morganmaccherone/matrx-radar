@@ -15,106 +15,141 @@
 <body>
 	<script src='../matrx-radar.js'></script>
 	<script>
-		var radar = new MatrxRadar({
-			target: document.body,
-			data: {
-				// baseColor: "#AA0000",  // Default is MatrX green
-				// goalColor: "#AA0000",  // Can be overwritten for a particular goal in disciplines[].practices[].goal.goalColor or if not provided this will default to a nice blue
-				// legendFontColor: "#AA0000",  // Defaults to a nice blue
-				levelConfig: [
-					// levelConfig[0]  is the "best" level, closest to center, and baseColor
-					{label: "Culture", description: "Something something something"},
-					// Other levels without a color will be a gradient of the baseColor
-					{label: "Actions"},
-					{label: "Words"},
-					// The last index without a color will be white
-					{label: "Thoughts", description: "Something something something longer"},
-					// You can specify a color for any of the levels, useful for NA or the like
-					{label: "Trade-off", color: "#CCCCCC"},
-				],
-				disciplines: [
-					{
-						discipline: "Artisanship",
-						practices: [
-							{
-								practice: "Yellow belt",
-								description: "100% of group members... Yellow Belt training",
-								levels: [
-									{portion: 4},  // Lines up with levelConfig[0] - "Culture"
-									{portion: 2},
-									{portion: 2},
-									{portion: 1},
-									{portion: 1},
-								],
-								goal: {
-									goalColor: "darkorange", //specifies color of goal line and label text
-									percentage: 0.8,
-									label: "A",
-								},
+	var radar = new MatrxRadar({
+		target: document.body,
+		data: {
+			// baseColor: "#AA0000",  // Default is MatrX green
+			levelConfig: [
+				// levelConfig[0]  is the "best" level, closest to center, and baseColor
+				{label: "Culture", description: "We have fully adopted this practice"},
+				// Other levels without a color will be a gradient of the baseColor
+				{label: "Actions", description: "We’re in the process of adopting this practice"},
+				{label: "Words", description: "We’re making plans to adopt this practice"},
+				// The last index without a color will be white
+				{label: "Thoughts", description: "We have not thought about this practice"},
+				// You can specify a color for any of the levels, useful for NA or the like
+				{label: "Unknown", description: "Unassessed or Needs follow up", color: "#A0C5DA"},
+				{label: "Trade-off", description: "This practice is not worth it in this context", color: "#CCCCCC"},
+			],
+			disciplines: [
+				{
+					discipline: "Artisanship",
+					practices: [
+						{
+							practice: "Yellow Belt",
+							description: "100% of group members... Yellow Belt training",
+							levels: [
+								{portion: 3},  // Lines up with levelConfig[0] - "Culture" (see above)
+								{portion: 1},  // Lines up with levelConfig[1] - "Actions"
+								{portion: 0},  // Lines up with levelConfig[2] - "Words"
+								{portion: 0},  // Lines up with levelConfig[3] - "Thoughts"
+								{portion: 2},  // Lines up with LevelConfig[4] - "Unkown"
+								{portion: 0},  // Lines up with levelConfig[5] - "Trade-off"
+							],
+							goal: {
+								percentage: 1,
+								label: "by Q1-18",
 							},
-							{practice: "Green belt", description: "At least one Green Belt...", levels: [
+						},
+					]
+				},
+				{
+					discipline: "Independent Security Assessment",
+					practices: [
+						{
+							practice: "Pen Testing",
+							description: "blah blah",
+							levels: [
 								{portion: 0},
-								{portion: 0},
-								{portion: 0},
-								{portion: 2},
-								{portion: 7},
-							]},
-						]
-					},
-					{
-						discipline: "Architecture & Design",
-						practices: [
-							{
-								practice: "Threat modeling",
-								description: "blah blah",
-								levels: [
-									{portion: 4},
-									{portion: 2},
-									{portion: 2},
-									{portion: 1},
-									{portion: 1},
-								],
-								goal: {
-									label: "A",
-								}
-							},
-						]
-					},
-					{
-						discipline: "DevSecOps Tools",
-						practices: [
-							{practice: "PCA in pipeline", description: "blah, blah", levels: [
-								{portion: 2},
-								{portion: 2},
-								{portion: 4},
 								{portion: 1},
 								{portion: 1},
-							]},
-							{
-								goal: {
-									percentage: 1,
-									label: "A"
-								},
-								practice: "SCA in pipeline", description: "blah, blah", levels: [
-									{portion: 7},
-									{portion: 0},
-									{portion: 1},
-									{portion: 1},
-									{portion: 1},
-								]
-							},
-							{practice: "Working agreements", description: "blah, blah", levels: [
 								{portion: 2},
+								{portion: 2},
+								{portion: 0},
+							],
+							goal: {
+								label: "by Q4-18",
+							}
+						},
+					]
+				},
+				{
+					discipline: "Architecture & Design",
+					practices: [
+						{
+							practice: "Threat Modeling",
+							description: "blah blah",
+							levels: [
+								{portion: 1},
+								{portion: 2},
+								{portion: 0},
+								{portion: 1},
+								{portion: 2},
+								{portion: 0},
+							],
+							goal: {
+								label: "by Q4-18",
+							}
+						},
+					]
+				},
+				{
+					discipline: "DevSecOps Tools",
+					practices: [
+						{
+							practice: "Analysis for Code Imported",
+							description: "blah, blah",
+							levels: [
+								{portion: 2},
+								{portion: 0},
+								{portion: 0},
+								{portion: 1},
 								{portion: 2},
 								{portion: 1},
-								{portion: 3},
+							],
+							goal: {
+								label: "by Q4-18",
+								percentage: 0.8333,
+							}
+						},
+						{
+							practice: "Analysis for Code Written",
+							description: "blah, blah",
+							levels: [
+								{portion: 2},
 								{portion: 0},
-							]},
-						]
-					},
-				]
-			}
-		});
-	</script>
+								{portion: 0},
+								{portion: 1},
+								{portion: 2},
+								{portion: 1},
+							],
+							goal: {
+								label: "by Q2-19",
+								percentage: 0.8333,
+							},
+						},
+						{
+							practice: "Working Agreements",
+							description: "blah, blah",
+							levels: [
+								{portion: 2},
+								{portion: 0},
+								{portion: 0},
+								{portion: 1},
+								{portion: 2},
+								{portion: 1},
+							],
+							goal: {
+								label: "by Q2-19",
+								percentage: 0.8333,
+							},
+						},
+					]
+				},
+			]
+		}
+	});
+
+</script>
 </body>
 </html>

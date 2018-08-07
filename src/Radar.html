@@ -188,8 +188,8 @@
 
       sliceWidth: ({practiceCount}) => Math.PI * 2 / practiceCount,
 
-      disciplineMaxWidth: ({outerRadius, disciplineBandHeight, sliceWidth}) => 0.75 * sliceWidth * (outerRadius - disciplineBandHeight / 2),
-      practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight, sliceWidth}) => 0.75 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
+      disciplineMaxWidth: ({outerRadius, disciplineBandHeight, sliceWidth}) => 0.80 * sliceWidth * (outerRadius - disciplineBandHeight / 2),
+      practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight, sliceWidth}) => 0.80 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
       goalMaxWidth: ({practiceMaxWidth}) => 0.75 * practiceMaxWidth,  // TODO: Should actually calculate this
       disciplineMaxHeight: ({disciplineBandHeight}) => 0.75 * disciplineBandHeight,
       practiceMaxHeight: ({practiceBandHeight}) => 0.75 * practiceBandHeight,
@@ -197,7 +197,6 @@
 
       disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) => {
         let disciplinesAnnotated = disciplines
-
         let currentAngle = 0
         for (let discipline of disciplines) {
           discipline.id = getID()
@@ -213,7 +212,6 @@
           }
           discipline.endRadians = currentAngle
         }
-
         return disciplinesAnnotated
       },
 
