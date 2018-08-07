@@ -3,13 +3,13 @@
   {#each disciplinesAnnotated as discipline}
     <!-- Practice labels for measuring scale -->
     <text dy="-100" id={discipline.id} font-size={disciplineFontSize}>
-      {discipline.discipline}
+      {discipline.label}
     </text>
 
     {#each discipline.practices as practice}
       <!-- Practice labels for measuring scale -->
       <text dy="-100" id={practice.id} font-size={practiceFontSize}>
-        {practice.practice}
+        {practice.label}
       </text>
 
       <!-- Goal labels for measuring scale -->
@@ -29,7 +29,7 @@
         {innerRadius}
         outerRadius={outerRadius-disciplineBandHeight}
         levels={practice.levels}
-        label={practice.practice}
+        label={practice.label}
         goal={practice.goal}
         {goalFontSize}
         {goalColor}
@@ -42,7 +42,7 @@
       />
     {/each}
 
-    <!-- Dicipline Label -->
+    <!-- Discipline Label -->
     <Arc
       {centerX}
       {centerY}
@@ -54,7 +54,7 @@
       fill="none"
       strokeWidth={strokeWidth * 2}
       stroke={disciplineStroke}
-      label={discipline.discipline}
+      label={discipline.label}
       fontColor={diciplineFontColor}
       fontSize={disciplineFontSize}
     />

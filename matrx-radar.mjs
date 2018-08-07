@@ -1642,7 +1642,7 @@ function create_main_fragment$4(component, ctx) {
 
 // (3:2) {#each disciplinesAnnotated as discipline}
 function create_each_block$2(component, ctx) {
-	var text, text_1_value = ctx.discipline.discipline, text_1, text_id_value, each_anchor;
+	var text, text_1_value = ctx.discipline.label, text_1, text_id_value, each_anchor;
 
 	var each_value_1 = ctx.discipline.practices;
 
@@ -1663,7 +1663,7 @@ function create_each_block$2(component, ctx) {
 	 	fill: "none",
 	 	strokeWidth: ctx.strokeWidth * 2,
 	 	stroke: ctx.disciplineStroke,
-	 	label: ctx.discipline.discipline,
+	 	label: ctx.discipline.label,
 	 	fontColor: ctx.diciplineFontColor,
 	 	fontSize: ctx.disciplineFontSize
 	 };
@@ -1719,7 +1719,7 @@ function create_each_block$2(component, ctx) {
 		},
 
 		p(changed, ctx) {
-			if ((changed.disciplinesAnnotated) && text_1_value !== (text_1_value = ctx.discipline.discipline)) {
+			if ((changed.disciplinesAnnotated) && text_1_value !== (text_1_value = ctx.discipline.label)) {
 				text_1.data = text_1_value;
 			}
 
@@ -1762,7 +1762,7 @@ function create_each_block$2(component, ctx) {
 			if (changed.disciplineBandHeight) arc_changes.labelBandHeight = ctx.disciplineBandHeight;
 			if (changed.strokeWidth) arc_changes.strokeWidth = ctx.strokeWidth * 2;
 			if (changed.disciplineStroke) arc_changes.stroke = ctx.disciplineStroke;
-			if (changed.disciplinesAnnotated) arc_changes.label = ctx.discipline.discipline;
+			if (changed.disciplinesAnnotated) arc_changes.label = ctx.discipline.label;
 			if (changed.diciplineFontColor) arc_changes.fontColor = ctx.diciplineFontColor;
 			if (changed.disciplineFontSize) arc_changes.fontSize = ctx.disciplineFontSize;
 			arc._set(arc_changes);
@@ -1798,7 +1798,7 @@ function create_each_block$2(component, ctx) {
 
 // (9:4) {#each discipline.practices as practice}
 function create_each_block_1(component, ctx) {
-	var text, text_1_value = ctx.practice.practice, text_1, text_id_value, if_block_anchor;
+	var text, text_1_value = ctx.practice.label, text_1, text_id_value, if_block_anchor;
 
 	var if_block = (ctx.practice.goal) && create_if_block$3(component, ctx);
 
@@ -1810,7 +1810,7 @@ function create_each_block_1(component, ctx) {
 	 	innerRadius: ctx.innerRadius,
 	 	outerRadius: ctx.outerRadius-ctx.disciplineBandHeight,
 	 	levels: ctx.practice.levels,
-	 	label: ctx.practice.practice,
+	 	label: ctx.practice.label,
 	 	goal: ctx.practice.goal,
 	 	goalFontSize: ctx.goalFontSize,
 	 	goalColor: ctx.goalColor,
@@ -1847,7 +1847,7 @@ function create_each_block_1(component, ctx) {
 		},
 
 		p(changed, ctx) {
-			if ((changed.disciplinesAnnotated) && text_1_value !== (text_1_value = ctx.practice.practice)) {
+			if ((changed.disciplinesAnnotated) && text_1_value !== (text_1_value = ctx.practice.label)) {
 				text_1.data = text_1_value;
 			}
 
@@ -1880,7 +1880,7 @@ function create_each_block_1(component, ctx) {
 			if (changed.innerRadius) slice_changes.innerRadius = ctx.innerRadius;
 			if (changed.outerRadius || changed.disciplineBandHeight) slice_changes.outerRadius = ctx.outerRadius-ctx.disciplineBandHeight;
 			if (changed.disciplinesAnnotated) slice_changes.levels = ctx.practice.levels;
-			if (changed.disciplinesAnnotated) slice_changes.label = ctx.practice.practice;
+			if (changed.disciplinesAnnotated) slice_changes.label = ctx.practice.label;
 			if (changed.disciplinesAnnotated) slice_changes.goal = ctx.practice.goal;
 			if (changed.goalFontSize) slice_changes.goalFontSize = ctx.goalFontSize;
 			if (changed.goalColor) slice_changes.goalColor = ctx.goalColor;
