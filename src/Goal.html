@@ -42,7 +42,7 @@
 
 <script>
 
-  // TODO: Need to move this to import helpers.mjs so we can share this across components
+  // TODO: Need to move this to import helpers.js so we can share this across components
   let translateX = (r, centerX, radians) => centerX + (r * Math.sin(radians))
   let translateY = (r, centerY, radians) => centerY - (r * Math.cos(radians))
   let getArcEnds = (r, centerX, centerY, startRadians, endRadians) => {
@@ -73,7 +73,7 @@
       //   console.log(s.goalFontSize)
       // },
 
-      // For the goal line
+      // For the goal line  TODO: Need to switch this to use getArcEnds()
       p1x: ({goalAnnotated, centerX, startRadians}) => translateX(goalAnnotated.radius, centerX, startRadians),  // TODO: Need to convert to use getArcEnds
       p1y: ({goalAnnotated, centerY, startRadians}) => translateY(goalAnnotated.radius, centerY, startRadians),
       p2x: ({goalAnnotated, centerX, endRadians}) => translateX(goalAnnotated.radius, centerX, endRadians),

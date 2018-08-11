@@ -103,7 +103,6 @@
         practiceFontSize: 1,
         disciplineFontSize: 1,
         goalFontSize: 1,
-        goalColor: "#006de0",
         legendFontColor: "#006de0",
         diciplineFontColor: "#184738",
         innerRadius: 10,
@@ -239,6 +238,12 @@
           i++
         }
         return levelConfigAnnotated
+      },
+
+      goalColor: ({goalColor, levelConfigAnnotated}) => {
+        if (! goalColor) {
+          return levelConfigAnnotated[0].color
+        }
       },
 
     },
