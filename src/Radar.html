@@ -1,7 +1,7 @@
 <svg version="1.1" viewBox="0 0 150 100" preserveAspectRatio="xMinYMin meet">
 
   {#each disciplinesAnnotated as discipline}
-    <!-- Practice labels for measuring scale -->
+    <!-- Discipline labels for measuring scale -->
     <text dy="-100" id={discipline.id} font-size={disciplineFontSize}>
       {discipline.label}
     </text>
@@ -19,6 +19,35 @@
         </text>
       {/if}
 
+      <!-- Dicipline Area Arc -->
+      <Arc
+        {centerX}
+        {centerY}
+        startRadians={discipline.startRadians}
+        endRadians={discipline.endRadians}
+        {outerRadius} {innerRadius}
+        fill="none"
+        strokeWidth={strokeWidth * 2}
+        stroke={disciplineStroke}
+      />
+
+      <!-- Discipline Label -->
+      <Arc
+        {centerX}
+        {centerY}
+        startRadians={discipline.startRadians}
+        endRadians={discipline.endRadians}
+        innerRadius={outerRadius-disciplineBandHeight}
+        {outerRadius}
+        labelBandHeight={disciplineBandHeight}
+        fill="none"
+        strokeWidth={strokeWidth * 2}
+        stroke={disciplineStroke}
+        label={discipline.label}
+        description={discipline.description}
+        fontColor={diciplineFontColor}
+        fontSize={disciplineFontSize}
+      />
 
       <!-- Slices -->
       <Slice
@@ -42,35 +71,6 @@
       />
     {/each}
 
-    <!-- Discipline Label -->
-    <Arc
-      {centerX}
-      {centerY}
-      startRadians={discipline.startRadians}
-      endRadians={discipline.endRadians}
-      innerRadius={outerRadius-disciplineBandHeight}
-      {outerRadius}
-      labelBandHeight={disciplineBandHeight}
-      fill="none"
-      strokeWidth={strokeWidth * 2}
-      stroke={disciplineStroke}
-      label={discipline.label}
-      fontColor={diciplineFontColor}
-      fontSize={disciplineFontSize}
-    />
-
-    <!-- Dicipline Area Arc -->
-    <Arc
-      {centerX}
-      {centerY}
-      startRadians={discipline.startRadians}
-      endRadians={discipline.endRadians}
-      {outerRadius} {innerRadius}
-      fill="none"
-      strokeWidth={strokeWidth * 2}
-      stroke={disciplineStroke}
-    />
-
   {/each}
 
   <Legend {levelConfigAnnotated} fontSize={disciplineFontSize} {strokeWidth} {practiceStroke} {legendFontColor} />
@@ -79,11 +79,13 @@
 
 <script>
 
- let getID = () =>
-   'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  function getID() {
+    const id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = crypto.getRandomValues(new Uint8Array(1))[0]%16|0, v = c == 'x' ? r : (r&0x3|0x8)
       return v.toString(16)
     })
+    return id
+  }
 
   export default {
 
@@ -189,10 +191,10 @@
 
       disciplineMaxWidth: ({outerRadius, disciplineBandHeight, sliceWidth}) => 0.80 * sliceWidth * (outerRadius - disciplineBandHeight / 2),
       practiceMaxWidth: ({outerRadius, disciplineBandHeight, practiceBandHeight, sliceWidth}) => 0.80 * sliceWidth * (outerRadius - disciplineBandHeight - practiceBandHeight / 2),
-      goalMaxWidth: ({practiceMaxWidth}) => 0.75 * practiceMaxWidth,  // TODO: Should actually calculate this
+      goalMaxWidth: ({practiceMaxWidth}) => 0.75 * practiceMaxWidth,
       disciplineMaxHeight: ({disciplineBandHeight}) => 0.75 * disciplineBandHeight,
       practiceMaxHeight: ({practiceBandHeight}) => 0.75 * practiceBandHeight,
-      goalMaxHeight: ({practiceMaxHeight}) => practiceMaxHeight,  // TODO: Should actually calculate this
+      goalMaxHeight: ({practiceMaxHeight}) => practiceMaxHeight,
 
       disciplinesAnnotated: ({disciplines, outerRadius, disciplineBandHeight, sliceWidth}) => {
         let disciplinesAnnotated = disciplines
