@@ -40,14 +40,6 @@ function createComment() {
 	return document.createComment('');
 }
 
-function addListener(node, event, handler) {
-	node.addEventListener(event, handler, false);
-}
-
-function removeListener(node, event, handler) {
-	node.removeEventListener(event, handler, false);
-}
-
 function setAttribute(node, attribute, value) {
 	node.setAttribute(attribute, value);
 }
@@ -176,10 +168,6 @@ function getID() {
   return id
 }
 
-function junk(s) {
-  console.log(s.description);
-}
-
 function p1x({innerRadius, centerX, startRadians}) {
 	return centerX + (innerRadius * Math.sin(startRadians));
 }
@@ -236,26 +224,6 @@ function pMEndY({pMRadius, centerY, endRadians}) {
 	return centerY - (pMRadius * Math.cos(endRadians));
 }
 
-function middleRadians({startRadians, endRadians}) {
-	return (startRadians + endRadians) / 2;
-}
-
-function middleX({pMRadius, centerX, middleRadians}) {
-	return centerX + (pMRadius * Math.sin(middleRadians));
-}
-
-function middleY({pMRadius, centerY, middleRadians}) {
-	return centerY - (pMRadius * Math.cos(middleRadians));
-}
-
-function descriptionX({middleX}) {
-	return middleX + 3;
-}
-
-function descriptionY({middleY}) {
-	return middleY - 3;
-}
-
 function data() {
   return {
     id: getID(),
@@ -263,7 +231,6 @@ function data() {
     opacity: 1,
     label: "",
     fontSize: 1,
-    displayDescription: false,
   }
 }
 function create_main_fragment(component, ctx) {
@@ -277,26 +244,18 @@ function create_main_fragment(component, ctx) {
 	var current_block_type = select_block_type(ctx);
 	var if_block = current_block_type(component, ctx);
 
-	var if_block_1 = ((ctx.description && ctx.displayDescription)) && create_if_block_2(component, ctx);
-
-	function mouseenter_handler(event) {
-		component.set({displayDescription: true});
-	}
-
-	function mouseleave_handler(event) {
-		component.set({displayDescription: false});
-	}
+	var if_block_1 = ((ctx.description)) && create_if_block_2(component, ctx);
 
 	return {
 		c() {
 			g = createSvgElement("g");
 			defs = createSvgElement("defs");
 			if_block.c();
-			if (if_block_1) if_block_1.c();
 			text = createSvgElement("text");
 			textPath = createSvgElement("textPath");
 			text_1 = createText(ctx.label);
 			path = createSvgElement("path");
+			if (if_block_1) if_block_1.c();
 			setXlinkAttribute(textPath, "xlink:href", textPath_xlink_href_value = "#" + ctx.id);
 			setAttribute(textPath, "dominant-baseline", "middle");
 			setAttribute(textPath, "text-anchor", "middle");
@@ -304,9 +263,6 @@ function create_main_fragment(component, ctx) {
 			setAttribute(textPath, "fill", ctx.fontColor);
 			setAttribute(text, "font-size", ctx.fontSize);
 			setAttribute(text, "font-family", "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"");
-			addListener(path, "mouseenter", mouseenter_handler);
-			addListener(path, "mouseleave", mouseleave_handler);
-			setAttribute(path, "id", ctx.arcPathID);
 			setAttribute(path, "pointer-events", "all");
 			setAttribute(path, "fill", ctx.fill);
 			setAttribute(path, "opacity", ctx.opacity);
@@ -320,11 +276,11 @@ function create_main_fragment(component, ctx) {
 			insertNode(g, target, anchor);
 			appendNode(defs, g);
 			if_block.m(defs, null);
-			if (if_block_1) if_block_1.m(g, null);
 			appendNode(text, g);
 			appendNode(textPath, text);
 			appendNode(text_1, textPath);
 			appendNode(path, g);
+			if (if_block_1) if_block_1.m(path, null);
 		},
 
 		p(changed, ctx) {
@@ -335,19 +291,6 @@ function create_main_fragment(component, ctx) {
 				if_block = current_block_type(component, ctx);
 				if_block.c();
 				if_block.m(defs, null);
-			}
-
-			if ((ctx.description && ctx.displayDescription)) {
-				if (if_block_1) {
-					if_block_1.p(changed, ctx);
-				} else {
-					if_block_1 = create_if_block_2(component, ctx);
-					if_block_1.c();
-					if_block_1.m(g, text);
-				}
-			} else if (if_block_1) {
-				if_block_1.d(1);
-				if_block_1 = null;
 			}
 
 			if (changed.label) {
@@ -366,8 +309,17 @@ function create_main_fragment(component, ctx) {
 				setAttribute(text, "font-size", ctx.fontSize);
 			}
 
-			if (changed.arcPathID) {
-				setAttribute(path, "id", ctx.arcPathID);
+			if ((ctx.description)) {
+				if (if_block_1) {
+					if_block_1.p(changed, ctx);
+				} else {
+					if_block_1 = create_if_block_2(component, ctx);
+					if_block_1.c();
+					if_block_1.m(path, null);
+				}
+			} else if (if_block_1) {
+				if_block_1.d(1);
+				if_block_1 = null;
 			}
 
 			if (changed.fill) {
@@ -398,8 +350,6 @@ function create_main_fragment(component, ctx) {
 
 			if_block.d();
 			if (if_block_1) if_block_1.d();
-			removeListener(path, "mouseenter", mouseenter_handler);
-			removeListener(path, "mouseleave", mouseleave_handler);
 		}
 	};
 }
@@ -470,51 +420,30 @@ function create_if_block_1(component, ctx) {
 	};
 }
 
-// (23:2) {#if (description && displayDescription)}
+// (42:4) {#if (description)}
 function create_if_block_2(component, ctx) {
-	var text, text_1, text_font_size_value;
+	var title, text;
 
 	return {
 		c() {
-			text = createSvgElement("text");
-			text_1 = createText(ctx.description);
-			setAttribute(text, "x", ctx.descriptionX);
-			setAttribute(text, "y", ctx.descriptionY);
-			setAttribute(text, "font-size", text_font_size_value = ctx.fontSize/2);
-			setAttribute(text, "fill", ctx.fontColor);
-			setAttribute(text, "font-family", "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"");
+			title = createSvgElement("title");
+			text = createText(ctx.description);
 		},
 
 		m(target, anchor) {
-			insertNode(text, target, anchor);
-			appendNode(text_1, text);
+			insertNode(title, target, anchor);
+			appendNode(text, title);
 		},
 
 		p(changed, ctx) {
 			if (changed.description) {
-				text_1.data = ctx.description;
-			}
-
-			if (changed.descriptionX) {
-				setAttribute(text, "x", ctx.descriptionX);
-			}
-
-			if (changed.descriptionY) {
-				setAttribute(text, "y", ctx.descriptionY);
-			}
-
-			if ((changed.fontSize) && text_font_size_value !== (text_font_size_value = ctx.fontSize/2)) {
-				setAttribute(text, "font-size", text_font_size_value);
-			}
-
-			if (changed.fontColor) {
-				setAttribute(text, "fill", ctx.fontColor);
+				text.data = ctx.description;
 			}
 		},
 
 		d(detach) {
 			if (detach) {
-				detachNode(text);
+				detachNode(title);
 			}
 		}
 	};
@@ -523,7 +452,7 @@ function create_if_block_2(component, ctx) {
 function Arc(options) {
 	init(this, options);
 	this._state = assign(assign({ Math : Math }, data()), options.data);
-	this._recompute({ innerRadius: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, outerRadius: 1, pMRadius: 1, middleRadians: 1, middleX: 1, middleY: 1 }, this._state);
+	this._recompute({ innerRadius: 1, centerX: 1, startRadians: 1, centerY: 1, endRadians: 1, outerRadius: 1, pMRadius: 1 }, this._state);
 	this._intro = true;
 
 	this._fragment = create_main_fragment(this, this._state);
@@ -592,28 +521,6 @@ Arc.prototype._recompute = function _recompute(changed, state) {
 	if (changed.pMRadius || changed.centerY || changed.endRadians) {
 		if (this._differs(state.pMEndY, (state.pMEndY = pMEndY(state)))) changed.pMEndY = true;
 	}
-
-	if (changed.startRadians || changed.endRadians) {
-		if (this._differs(state.middleRadians, (state.middleRadians = middleRadians(state)))) changed.middleRadians = true;
-	}
-
-	if (changed.pMRadius || changed.centerX || changed.middleRadians) {
-		if (this._differs(state.middleX, (state.middleX = middleX(state)))) changed.middleX = true;
-	}
-
-	if (changed.pMRadius || changed.centerY || changed.middleRadians) {
-		if (this._differs(state.middleY, (state.middleY = middleY(state)))) changed.middleY = true;
-	}
-
-	if (changed.middleX) {
-		if (this._differs(state.descriptionX, (state.descriptionX = descriptionX(state)))) changed.descriptionX = true;
-	}
-
-	if (changed.middleY) {
-		if (this._differs(state.descriptionY, (state.descriptionY = descriptionY(state)))) changed.descriptionY = true;
-	}
-
-	if (this._differs(state.junk, (state.junk = junk(state)))) changed.junk = true;
 };
 
 /* src/Goal.html generated by Svelte v2.7.2 */
@@ -931,6 +838,7 @@ function create_main_fragment$2(component, ctx) {
 	 	centerY: ctx.centerY,
 	 	startRadians: ctx.startRadians,
 	 	endRadians: ctx.endRadians,
+	 	description: ctx.description,
 	 	innerRadius: ctx.dataOuterRadius,
 	 	outerRadius: ctx.outerRadius,
 	 	label: ctx.label,
@@ -1004,6 +912,7 @@ function create_main_fragment$2(component, ctx) {
 			if (changed.centerY) arc_changes.centerY = ctx.centerY;
 			if (changed.startRadians) arc_changes.startRadians = ctx.startRadians;
 			if (changed.endRadians) arc_changes.endRadians = ctx.endRadians;
+			if (changed.description) arc_changes.description = ctx.description;
 			if (changed.dataOuterRadius) arc_changes.innerRadius = ctx.dataOuterRadius;
 			if (changed.outerRadius) arc_changes.outerRadius = ctx.outerRadius;
 			if (changed.label) arc_changes.label = ctx.label;
@@ -1215,7 +1124,7 @@ Slice.prototype._recompute = function _recompute(changed, state) {
 
 /* src/Legend.html generated by Svelte v2.7.2 */
 
-function junk$1(s) {
+function junk(s) {
   // console.log(s.fontSize)
 }
 
@@ -1523,7 +1432,7 @@ Legend.prototype._recompute = function _recompute(changed, state) {
 		if (this._differs(state.startY, (state.startY = startY(state)))) changed.startY = true;
 	}
 
-	if (this._differs(state.junk, (state.junk = junk$1(state)))) changed.junk = true;
+	if (this._differs(state.junk, (state.junk = junk(state)))) changed.junk = true;
 };
 
 /* src/Radar.html generated by Svelte v2.7.2 */
@@ -1933,6 +1842,7 @@ function create_each_block_1(component, ctx) {
 	 	outerRadius: ctx.outerRadius-ctx.disciplineBandHeight,
 	 	levels: ctx.practice.levels,
 	 	label: ctx.practice.label,
+	 	description: ctx.practice.description,
 	 	goal: ctx.practice.goal,
 	 	goalFontSize: ctx.goalFontSize,
 	 	goalColor: ctx.goalColor,
@@ -2034,6 +1944,7 @@ function create_each_block_1(component, ctx) {
 			if (changed.outerRadius || changed.disciplineBandHeight) slice_changes.outerRadius = ctx.outerRadius-ctx.disciplineBandHeight;
 			if (changed.disciplinesAnnotated) slice_changes.levels = ctx.practice.levels;
 			if (changed.disciplinesAnnotated) slice_changes.label = ctx.practice.label;
+			if (changed.disciplinesAnnotated) slice_changes.description = ctx.practice.description;
 			if (changed.disciplinesAnnotated) slice_changes.goal = ctx.practice.goal;
 			if (changed.goalFontSize) slice_changes.goalFontSize = ctx.goalFontSize;
 			if (changed.goalColor) slice_changes.goalColor = ctx.goalColor;

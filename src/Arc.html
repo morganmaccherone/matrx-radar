@@ -20,15 +20,6 @@
 
   </defs>
 
-  {#if (description && displayDescription)}
-    <text
-      x={descriptionX} y={descriptionY} font-size={fontSize/2} fill={fontColor}
-      font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-    >
-      {description}
-    </text>
-  {/if}
-
   <text
     font-size={fontSize} font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'>
     <textPath xlink:href="#{id}" dominant-baseline="middle" text-anchor="middle" startOffset="50%" fill={fontColor}>
@@ -37,9 +28,6 @@
   </text>
 
   <path
-    id={arcPathID}
-    on:mouseenter="set({displayDescription: true})"
-    on:mouseleave="set({displayDescription: false})"
     pointer-events="all"
     {fill} {opacity}
     {stroke} stroke-width={strokeWidth} stroke-linecap="square"
@@ -51,6 +39,9 @@
       Z
     "
   >
+    {#if (description)}
+      <title>{description}</title>
+    {/if}
   </path>
 </g>
 
@@ -75,15 +66,14 @@
         opacity: 1,
         label: "",
         fontSize: 1,
-        displayDescription: false,
       }
     },
 
     computed: {
 
-      junk: (s) => {
-        console.log(s.description)
-      },
+      // junk: (s) => {
+      //   console.log(s.p1x, s.innerRadius, s.centerX, s.startRadians)
+      // },
 
       // For the actual arc area
       p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),
@@ -102,13 +92,6 @@
       pMStartY: ({pMRadius, centerY, startRadians}) => centerY - (pMRadius * Math.cos(startRadians)),
       pMEndX: ({pMRadius, centerX, endRadians}) => centerX + (pMRadius * Math.sin(endRadians)),
       pMEndY: ({pMRadius, centerY, endRadians}) => centerY - (pMRadius * Math.cos(endRadians)),
-
-      middleRadians: ({startRadians, endRadians}) => (startRadians + endRadians) / 2,
-      middleX: ({pMRadius, centerX, middleRadians}) => centerX + (pMRadius * Math.sin(middleRadians)),
-      middleY: ({pMRadius, centerY, middleRadians}) => centerY - (pMRadius * Math.cos(middleRadians)),
-      descriptionX: ({middleX}) => middleX + 3,
-      descriptionY: ({middleY}) => middleY - 3,
-
 
     }
   }
