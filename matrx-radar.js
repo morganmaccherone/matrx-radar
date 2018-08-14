@@ -1538,6 +1538,8 @@
 	function goalColor({goalColor, levelConfigAnnotated}) {
 	  if (! goalColor) {
 	    return levelConfigAnnotated[0].color
+	  } else {
+	    return goalColor
 	  }
 	}
 
