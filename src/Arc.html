@@ -28,7 +28,7 @@
   </text>
 
   <path
-    pointer-events="all"
+    pointer-events={pointerEvents}
     {fill} {opacity}
     {stroke} stroke-width={strokeWidth} stroke-linecap="square"
     d="
@@ -43,6 +43,7 @@
       <title>{description}</title>
     {/if}
   </path>
+
 </g>
 
 <script>
@@ -71,9 +72,11 @@
 
     computed: {
 
-      // junk: (s) => {
-      //   console.log(s.p1x, s.innerRadius, s.centerX, s.startRadians)
-      // },
+      junk: (s) => {
+        console.log(s.pointerEvents)
+      },
+
+      pointerEvents: ({description}) => description ? "all" : "none",
 
       // For the actual arc area
       p1x: ({innerRadius, centerX, startRadians}) => centerX + (innerRadius * Math.sin(startRadians)),

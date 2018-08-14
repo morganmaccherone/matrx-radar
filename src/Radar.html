@@ -19,36 +19,6 @@
         </text>
       {/if}
 
-      <!-- Dicipline Area Arc -->
-      <Arc
-        {centerX}
-        {centerY}
-        startRadians={discipline.startRadians}
-        endRadians={discipline.endRadians}
-        {outerRadius} {innerRadius}
-        fill="none"
-        strokeWidth={strokeWidth * 2}
-        stroke={disciplineStroke}
-      />
-
-      <!-- Discipline Label -->
-      <Arc
-        {centerX}
-        {centerY}
-        startRadians={discipline.startRadians}
-        endRadians={discipline.endRadians}
-        innerRadius={outerRadius-disciplineBandHeight}
-        {outerRadius}
-        labelBandHeight={disciplineBandHeight}
-        fill="none"
-        strokeWidth={strokeWidth * 2}
-        stroke={disciplineStroke}
-        label={discipline.label}
-        description={discipline.description}
-        fontColor={diciplineFontColor}
-        fontSize={disciplineFontSize}
-      />
-
       <!-- Slices -->
       <Slice
         {centerX}
@@ -71,6 +41,36 @@
         {levelConfigAnnotated}
       />
     {/each}
+
+    <!-- Discipline Label -->
+    <Arc
+      {centerX}
+      {centerY}
+      startRadians={discipline.startRadians}
+      endRadians={discipline.endRadians}
+      innerRadius={outerRadius-disciplineBandHeight}
+      {outerRadius}
+      labelBandHeight={disciplineBandHeight}
+      fill="none"
+      strokeWidth={strokeWidth * 2}
+      stroke={disciplineStroke}
+      label={discipline.label}
+      description={discipline.description}
+      fontColor={diciplineFontColor}
+      fontSize={disciplineFontSize}
+    />
+
+    <!-- Dicipline Area Arc -->
+    <Arc
+      {centerX}
+      {centerY}
+      startRadians={discipline.startRadians}
+      endRadians={discipline.endRadians}
+      {outerRadius} {innerRadius}
+      fill="none"
+      strokeWidth={strokeWidth * 2}
+      stroke={disciplineStroke}
+    />
 
   {/each}
 
